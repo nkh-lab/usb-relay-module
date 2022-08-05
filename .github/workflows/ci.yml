@@ -29,12 +29,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: microsoft/setup-msbuild@v1.1
       - name: Build
         run: |
           mkdir build && cd build
-          cmake -G "Visual Studio 17 2022" -A x64 -Dnrelay_BUILD_CTESTS=on .. 
+          cmake -G "Visual Studio 17 2022" -A Win32 -Dnrelay_BUILD_CTESTS=on .. 
           cmake --build . --config Release
       - name: Run 
         run: |
-          ./build/src/Release/getrelay.exe
-          ./build/src/Release/setrelay.exe
+          build/src/Release/getrelay.exe
+          build/src/Release/setrelay.exe
+          build/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe
