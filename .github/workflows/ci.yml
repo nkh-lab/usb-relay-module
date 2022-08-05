@@ -23,7 +23,7 @@ jobs:
         run: |
           build/src/getrelay
           build/src/setrelay
-          build/tests/component/hidapi/GetRelayInfoTest
+          build/tests/component/hidapi/GetAnyHidDeviceInfoTest
 
   Build-on-Windows:
     runs-on: windows-latest

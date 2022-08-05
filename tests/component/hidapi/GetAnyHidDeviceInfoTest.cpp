@@ -2,16 +2,13 @@
 
 #include "hidapi.h"
 
-#include "constants.h"
 #include "utils.h"
-
-using namespace nrelay::constants;
 
 int main(int argc, char const *argv[])
 {
     NOT_USED(argc);
 
-    hid_device_info *dev = hid_enumerate(kUsbVendorId, kUsbProductId);
+    hid_device_info *dev = hid_enumerate(0, 0);
 
     if (dev)
     {
@@ -26,9 +23,22 @@ int main(int argc, char const *argv[])
     }
     else 
     {
-        printf("No 0x%04hx 0x%04hx USB Relay device!\n", kUsbVendorId, kUsbProductId);
+        printf("No USB HID device!\n");
     }
 
     /* code */
     return 0;
 }
+
+/* Example of output:
+
+path:             /dev/hidraw1
+vendor_id:        0x413c
+product_id:       0x2113
+serial_number:    
+release_number:   264
+manufacturer:     (null)
+product:          Dell KB216 Wired Keyboard
+interface_number: 0
+
+*/
