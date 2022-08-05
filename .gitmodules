@@ -1,0 +1,3 @@
+[submodule "external/hidapi"]
+	path = external/hidapi
+	url = https://github.com/nkh-lab/hidapi.git

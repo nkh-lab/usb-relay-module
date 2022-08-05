@@ -10,6 +10,17 @@ endif()
 
 project(nrelay)
 
-file(GLOB SRC_FILES "src/*.cpp")
+include(cmake/ExternalHidapi.cmake)
 
-add_executable(${PROJECT_NAME} ${SRC_FILES})
+option(${PROJECT_NAME}_BUILD_CTESTS "Build component tests" off)
+option(${PROJECT_NAME}_BUILD_UTESTS "Build unit tests" off)
+
+add_subdirectory(src)
+
+if (${PROJECT_NAME}_BUILD_CTESTS )
+    add_subdirectory(tests/component)
+endif()
+
+if (${PROJECT_NAME}_BUILD_UNITTESTS)
+    add_subdirectory(test/unit)
+endif()

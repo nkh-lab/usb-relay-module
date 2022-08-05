@@ -12,11 +12,13 @@ jobs:
       - name: Build
         run: |
           mkdir build && cd build
-          cmake ..
+          cmake -Dnrelay_BUILD_CTESTS=on ..
           make
       - name: Run
         run: |
-          ./build/nrelay
+          build/src/getrelay
+          build/src/setrelay
+          build/tests/component/hidapi/GetRelayInfoTest
 
   Build-on-Windows:
     runs-on: windows-latest
@@ -25,8 +27,9 @@ jobs:
       - name: Build
         run: |
           mkdir build && cd build
-          cmake -G "Visual Studio 17 2022" -A x64 .. 
+          cmake -G "Visual Studio 17 2022" -A x64 -Dnrelay_BUILD_CTESTS=on .. 
           cmake --build . --config Release
       - name: Run 
         run: |
-          ./build/Release/nrelay.exe
+          ./build/src/Release/getrelay.exe
+          ./build/src/Release/setrelay.exe
