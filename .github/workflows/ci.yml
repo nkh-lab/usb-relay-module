@@ -29,12 +29,18 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
       - uses: microsoft/setup-msbuild@v1.1
       - name: Build
         run: |
           mkdir build && cd build
           cmake -G "Visual Studio 17 2022" -A Win32 -Dnrelay_BUILD_CTESTS=on .. 
           cmake --build . --config Release
+      - name: Copy dll
+        run: |
+          cp external/hidapi/windows/Release/hidapi.dll build/src/Release/
+          cp external/hidapi/windows/Release/hidapi.dll build/tests/component/hidapi/Release/
       - name: Run 
         run: |
           build/src/Release/getrelay.exe
