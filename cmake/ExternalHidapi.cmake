@@ -13,8 +13,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
 elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     add_custom_target(
         external_hidapi
-        COMMAND msbuild hidapi.sln -property:Configuration=Release
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/external/hidapi/windows
+        COMMAND dir
+    #    COMMAND msbuild ${CMAKE_SOURCE_DIR}/external/hidapi/windows/hidapi.sln -property:Configuration=Release
+    #    #WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/external/hidapi/windows
     )
 
     set(HIDAPI_LIB ${CMAKE_SOURCE_DIR}/external/hidapi/windows/Release/hidapi.lib)
