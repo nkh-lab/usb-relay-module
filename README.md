@@ -22,8 +22,32 @@ $ mkdir build && cd build
 Without tests:
 ```
 $ cmake ..
+$ make
 ```
 With tests:
 ```
 $ cmake -Dnrelay_BUILD_CTESTS=on ..
+$ make
 ```
+### Windows
+The following describes how to build the project from the command line for the compiler from Visual Studio.
+
+Add `msbuild` to `PATH` environment variable:
+```
+set PATH=%PATH%;<path to msbuild>
+```
+```
+$ mkdir build && cd build
+```
+Without tests:
+```
+$ cmake -G "Visual Studio 17 2022" -A Win32 .. 
+$ cmake --build . --config Release
+```
+With tests:
+```
+$ cmake -G "Visual Studio 17 2022" -A Win32 -Dnrelay_BUILD_CTESTS=on .. 
+$ cmake --build . --config Release
+```
+
+
