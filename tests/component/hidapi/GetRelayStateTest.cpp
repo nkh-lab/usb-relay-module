@@ -14,7 +14,6 @@ int main(int argc, char const* argv[])
     NOT_USED(argc);
 
     hid_device_info* dev = hid_enumerate(kUsbVendorId, kUsbProductId);
-
     if (dev)
     {
         std::cout << HidDeviceInfoToStr(dev);
@@ -22,8 +21,8 @@ int main(int argc, char const* argv[])
         hid_device* handle = hid_open_path(dev->path);
         if (handle)
         {
-            unsigned char data[8] = {0};
-            data[0] = 0x01; // ID of the requested feature report
+            uint8_t data[kDataSizeBytes] = {0};
+            data[0] = kReportIDGetFeature;
 
             int ret = hid_get_feature_report(handle, data, sizeof(data));
 
@@ -48,7 +47,8 @@ int main(int argc, char const* argv[])
 
 /* Example of output:
 
-path:             /dev/hidraw5
+$ ./GetRelayStateTest
+path:             /dev/hidraw6
 vendor_id:        0x16c0
 product_id:       0x05df
 serial_number:
