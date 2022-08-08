@@ -7,6 +7,7 @@ constexpr uint16_t kUsbVendorId = 0x16c0;
 constexpr uint16_t kUsbProductId = 0x05df;
 
 constexpr size_t kDataSizeBytes = 9;
+constexpr size_t kNameSizeBytes = 5;
 
 constexpr uint8_t kReportIDGetFeature = 0x01;
 constexpr uint8_t kReportIDReadWrite = 0x00;

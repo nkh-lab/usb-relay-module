@@ -32,10 +32,10 @@ int main(int argc, char const* argv[])
             {
                 std::cout << BytesToStr(data, sizeof(data)) << "\n";
 #ifdef __linux__
-                std::string module_name(reinterpret_cast<char*>(&data[0]), 5);
+                std::string module_name(reinterpret_cast<char*>(&data[0]), kNameSizeBytes);
                 uint8_t& relays_state = data[7];
 #else
-                std::string module_name(reinterpret_cast<char*>(&data[1]), 5);
+                std::string module_name(reinterpret_cast<char*>(&data[1]), kNameSizeBytes);
                 uint8_t& relays_state = data[8];
 #endif
                 std::cout << "module_name:      " << module_name << "\n";
