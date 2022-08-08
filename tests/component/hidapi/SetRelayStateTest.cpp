@@ -35,10 +35,12 @@ int main(int argc, char const* argv[])
                 data[1] = relay_val;
                 data[2] = relay_idx;
 
-                int ret = hid_write(handle, data, sizeof(data));
+                //int ret = hid_write(handle, data, sizeof(data)); // On Ubuntu it works as well
+                int ret = hid_send_feature_report(handle, data, sizeof(data));
                 if (ret != -1) main_ret = EXIT_FAILURE;
 
-                printf("hid_write() returned %d\n", ret);
+                //printf("hid_write() returned %d\n", ret);
+                printf("hid_send_feature_report() returned %d\n", ret);
                 std::cout << std::hex;
                 for (int i = 0; i < sizeof(data); ++i)
                     std::cout << std::setfill('0') << std::setw(2) << static_cast<int>(data[i]) << " ";
