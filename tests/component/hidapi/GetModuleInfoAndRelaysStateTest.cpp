@@ -54,7 +54,7 @@ int main(int argc, char const* argv[])
 /* Example of output:
 
 Ubuntu:
-$ ./GetRelayStateTest
+$ ./GetModuleInfoAndRelaysStateTest
 path:             /dev/hidraw4
 vendor_id:        0x16c0
 product_id:       0x05df
