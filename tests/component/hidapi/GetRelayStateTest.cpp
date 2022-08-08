@@ -24,14 +24,15 @@ int main(int argc, char const* argv[])
             uint8_t data[kDataSizeBytes] = {0};
             data[0] = kReportIDGetFeature;
 
+            std::cout << "==============================\n";
+            std::cout << "hid_get_feature_report(" << BytesToStr(data, sizeof(data)) << ") ";
             int ret = hid_get_feature_report(handle, data, sizeof(data));
-
+            std::cout << "returned " << ret << "\n";
             if (ret != -1)
             {
-                std::cout << "=== 0x01 feature report ===\n";
+                std::cout << BytesToStr(data, sizeof(data)) << "\n";
 
                 std::string board_name(reinterpret_cast<char*>(data), 5);
-
                 std::cout << "board_name:       " << board_name << "\n";
                 std::cout << "relays_state:     " << std::bitset<8>(data[7]) << "\n";
             }
@@ -48,7 +49,7 @@ int main(int argc, char const* argv[])
 /* Example of output:
 
 $ ./GetRelayStateTest
-path:             /dev/hidraw6
+path:             /dev/hidraw4
 vendor_id:        0x16c0
 product_id:       0x05df
 serial_number:
@@ -56,8 +57,10 @@ release_number:   256
 manufacturer:     www.dcttech.com
 product:          USBRelay2
 interface_number: 0
-=== 0x01 feature report ===
+==============================
+hid_get_feature_report(01 00 00 00 00 00 00 00 00) returned 9
+52 31 00 00 00 00 00 01 52
 board_name:       R1
-relays_state:     00000011
+relays_state:     00000001
 
 */
