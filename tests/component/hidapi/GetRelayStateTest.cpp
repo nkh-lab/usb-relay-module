@@ -32,13 +32,13 @@ int main(int argc, char const* argv[])
             {
                 std::cout << BytesToStr(data, sizeof(data)) << "\n";
 #ifdef __linux__
-                std::string board_name(reinterpret_cast<char*>(&data[0]), 5);
-				uint8_t& relays_state = data[7];
+                std::string module_name(reinterpret_cast<char*>(&data[0]), 5);
+                uint8_t& relays_state = data[7];
 #else
-				std::string board_name(reinterpret_cast<char*>(&data[1]), 5);
-				uint8_t& relays_state = data[8];
+                std::string module_name(reinterpret_cast<char*>(&data[1]), 5);
+                uint8_t& relays_state = data[8];
 #endif
-                std::cout << "board_name:       " << board_name << "\n";
+                std::cout << "module_name:      " << module_name << "\n";
                 std::cout << "relays_state:     " << std::bitset<8>(relays_state) << "\n";
             }
         }
@@ -66,7 +66,7 @@ interface_number: 0
 ==============================
 hid_get_feature_report(01 00 00 00 00 00 00 00 00) returned 9
 52 31 00 00 00 00 00 01 52
-board_name:       R1
+module_name:       R1
 relays_state:     00000001
 
 Windows:
@@ -81,7 +81,7 @@ interface_number: -1
 ==============================
 hid_get_feature_report(01 00 00 00 00 00 00 00 00) returned 9
 01 52 31 00 00 00 00 00 01
-board_name:       R1
+module_name:       R1
 relays_state:     00000001
 
 */
