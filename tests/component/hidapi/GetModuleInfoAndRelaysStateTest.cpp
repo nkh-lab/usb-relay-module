@@ -22,7 +22,7 @@ int main(int argc, char const* argv[])
         if (handle)
         {
             uint8_t data[kDataSizeBytes] = {0};
-            data[0] = kReportIDGetFeature;
+            data[0] = kReportIDGet;
 
             std::cout << "==============================\n";
             std::cout << "hid_get_feature_report(" << BytesToStr(data, sizeof(data)) << ") ";

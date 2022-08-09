@@ -11,3 +11,7 @@ target_link_libraries(GetModuleInfoAndRelaysStateTest ${HIDAPI_LIB} ${PROJECT_NA
 add_executable(SetRelayStateTest SetRelayStateTest.cpp)
 add_dependencies(SetRelayStateTest external_hidapi)
 target_link_libraries(SetRelayStateTest ${HIDAPI_LIB} ${PROJECT_NAME}-headers ${PROJECT_NAME}-utils)
+
+add_executable(SetModuleNameTest SetModuleNameTest.cpp)
+add_dependencies(SetModuleNameTest external_hidapi)
+target_link_libraries(SetModuleNameTest ${HIDAPI_LIB} ${PROJECT_NAME}-headers ${PROJECT_NAME}-utils)
