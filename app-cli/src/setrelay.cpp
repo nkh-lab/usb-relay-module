@@ -8,5 +8,5 @@ int main(int argc, char const* argv[])
 
     std::cout << "Hello World from " << argv[0] << "\n";
 
-    return 0;
+    return EXIT_SUCCESS;
 }

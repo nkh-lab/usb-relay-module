@@ -5,11 +5,17 @@
 
 #include "IRelayModule.h"
 
+#ifdef __linux__
+#define DLL_EXPORT
+#else
+#define DLL_EXPORT __declspec(dllexport)
+#endif
+
 namespace urm {
 
 using IRelayModulePtr = std::shared_ptr<IRelayModule>;
 
-class IRelayManager
+class DLL_EXPORT IRelayManager
 {
 public:
     virtual ~IRelayManager() = default;
@@ -18,3 +24,5 @@ public:
 };
 
 } // namespace urm
+
+#undef DLL_EXPORT

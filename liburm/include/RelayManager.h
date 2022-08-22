@@ -5,8 +5,16 @@
 
 #include "IRelayManager.h"
 
+#ifdef __linux__
+#define DLL_EXPORT
+#else
+#define DLL_EXPORT __declspec(dllexport)
+#endif
+
 namespace urm {
 
-std::unique_ptr<IRelayManager> CreateHidapiManagerForDcttechModules();
+std::unique_ptr<IRelayManager> DLL_EXPORT CreateHidapiManagerForDcttechModules();
 
 }
+
+#undef DLL_EXPORT

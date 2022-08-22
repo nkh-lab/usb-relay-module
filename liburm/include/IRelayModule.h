@@ -3,9 +3,15 @@
 #include <string>
 #include <vector>
 
+#ifdef __linux__
+#define DLL_EXPORT
+#else
+#define DLL_EXPORT __declspec(dllexport)
+#endif
+
 namespace urm {
 
-class IRelayModule
+class DLL_EXPORT IRelayModule
 {
 public:
     virtual ~IRelayModule() = default;
@@ -18,3 +24,5 @@ public:
 };
 
 } // namespace urm
+
+#undef DLL_EXPORT
