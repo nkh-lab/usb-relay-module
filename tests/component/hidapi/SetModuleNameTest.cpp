@@ -5,11 +5,11 @@
 
 #include "hidapi.h"
 
-#include "constants.h"
+#include "DcttechConstants.h"
 #include "utils.h"
 
-using namespace nrelay::constants;
-using namespace nrelay::utils;
+using namespace urm::tests::hidapi::dcttech;
+using namespace urm::utils;
 
 int main(int argc, char const* argv[])
 {

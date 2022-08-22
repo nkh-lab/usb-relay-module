@@ -8,19 +8,38 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
 endif()
 
-project(nrelay)
+# USB Relay Module
+project(urm)
 
-include(cmake/ExternalHidapi.cmake)
+# External
+set(HIDAPI_LIB hidapi)
+
+# Main lib
+set(URM_LIB ${PROJECT_NAME})
+
+# Others
+# General utils
+set(UTILS_LIB ${PROJECT_NAME}-utils)
+# HIDAPI C++ wrapper + utils
+set(HIDAPICPP_LIB ${HIDAPI_LIB}-cpp)
 
 option(${PROJECT_NAME}_BUILD_CTESTS "Build component tests" off)
 option(${PROJECT_NAME}_BUILD_UTESTS "Build unit tests" off)
 
-add_subdirectory(src)
+file(GLOB SUBDIRS
+    "external"
+    "lib*"
+    "app*"
+    )
+
+foreach(X IN LISTS SUBDIRS)
+    add_subdirectory(${X})
+endforeach()
 
 if (${PROJECT_NAME}_BUILD_CTESTS )
     add_subdirectory(tests/component)
 endif()
 
-if (${PROJECT_NAME}_BUILD_UNITTESTS)
+if (${PROJECT_NAME}_BUILD_UTESTS)
     add_subdirectory(test/unit)
 endif()

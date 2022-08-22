@@ -1,7 +1,9 @@
 #pragma once
 
-namespace nrelay {
-namespace constants {
+namespace urm {
+namespace tests {
+namespace hidapi {
+namespace dcttech {
 
 constexpr uint16_t kUsbVendorId = 0x16c0;
 constexpr uint16_t kUsbProductId = 0x05df;
@@ -16,5 +18,7 @@ constexpr uint8_t kCmdRelayOn = 0xff;
 constexpr uint8_t kCmdRelayOff = 0xfd;
 constexpr uint8_t kCmdSetModuleName = 0xfa;
 
-} // namespace constants
-} // namespace nrelay
+} // namespace dcttech
+} // namespace hidapi
+} // namespace tests
+} // namespace urm

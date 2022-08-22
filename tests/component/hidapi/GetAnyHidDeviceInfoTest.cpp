@@ -2,9 +2,11 @@
 
 #include "hidapi.h"
 
+#include "hidapicpp/utils.h"
 #include "utils.h"
 
-using namespace nrelay::utils;
+using namespace urm::utils;
+using namespace urm::hidapicpp::utils;
 
 int main(int argc, char const* argv[])
 {
