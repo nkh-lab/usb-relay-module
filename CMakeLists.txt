@@ -30,16 +30,11 @@ file(GLOB SUBDIRS
     "external"
     "lib*"
     "app*"
+    "tests"
     )
 
 foreach(X IN LISTS SUBDIRS)
-    add_subdirectory(${X})
+    if(IS_DIRECTORY ${X})
+        add_subdirectory(${X})
+    endif()
 endforeach()
-
-if (${PROJECT_NAME}_BUILD_CTESTS )
-    add_subdirectory(tests/component)
-endif()
-
-if (${PROJECT_NAME}_BUILD_UTESTS)
-    add_subdirectory(test/unit)
-endif()

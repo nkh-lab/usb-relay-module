@@ -20,9 +20,6 @@ public:
     {
         std::list<IRelayModulePtr> l;
 
-        l.push_back(std::make_shared<RelayModuleDcttech>("/dev/path1"));
-        l.push_back(std::make_shared<RelayModuleDcttech>("/dev/path2"));
-
         return l;
     }
 };

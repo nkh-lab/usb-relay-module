@@ -1,19 +1,19 @@
 #include <iostream>
 
+#include "GetRelayWorker.h"
 #include "RelayManager.h"
 #include "utils.h"
 
+using namespace nlab;
+
 int main(int argc, char const* argv[])
 {
-    NOT_USED(argc);
+    GetRelayWorker worker(urm::CreateHidapiManagerForDcttechModules());
 
-    std::cout << "Hello World from " << argv[0] << "\n";
+    std::stringstream out;
 
-    auto RelayManager = urm::CreateHidapiManagerForDcttechModules();
+    bool ret = worker.Do(argc, argv, out);
+    std::cout << out.str();
 
-    auto modules = RelayManager->GetModules();
-
-    for (auto m : modules) std::cout << m->GetPath() << "\n";
-
-    return EXIT_SUCCESS;
+    return ret == true ? EXIT_SUCCESS : EXIT_FAILURE;
 }
