@@ -3,4 +3,4 @@
 	url = https://github.com/nkh-lab/hidapi.git
 [submodule "external/light-arg-parser"]
 	path = external/light-arg-parser
-	url = git@github.com:nkh-lab/light-arg-parser.git
+	url = https://github.com/nkh-lab/light-arg-parser.git
