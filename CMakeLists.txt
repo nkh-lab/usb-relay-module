@@ -9,13 +9,13 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
 endif()
 
 # USB Relay Module
-project(urm)
+project(usbrelaymodule)
 
 # External
 set(HIDAPI_LIB hidapi)
 
 # Main lib
-set(URM_LIB ${PROJECT_NAME})
+set(USB_RELAY_MODULE ${PROJECT_NAME})
 
 # Others
 # General utils
@@ -30,7 +30,6 @@ file(GLOB SUBDIRS
     "external"
     "lib*"
     "app*"
-    "tests"
     )
 
 foreach(X IN LISTS SUBDIRS)

@@ -26,7 +26,7 @@ $ make
 ```
 With tests:
 ```
-$ cmake -Durm_BUILD_CTESTS=on ..
+$ cmake -Dusbrelaymodule_BUILD_CTESTS=on ..
 $ make
 ```
 ### Windows
@@ -46,7 +46,7 @@ $ cmake --build . --config Release
 ```
 With tests:
 ```
-$ cmake -G "Visual Studio 17 2022" -A Win32 -Durm_BUILD_CTESTS=on .. 
+$ cmake -G "Visual Studio 17 2022" -A Win32 -Dusbrelaymodule_BUILD_CTESTS=on .. 
 $ cmake --build . --config Release
 ```
 

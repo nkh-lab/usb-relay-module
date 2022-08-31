@@ -17,13 +17,13 @@ jobs:
       - name: Build
         run: |
           mkdir build && cd build
-          cmake -Durm_BUILD_CTESTS=on ..
+          cmake -Dusbrelaymodule_BUILD_CTESTS=on ..
           make
       - name: Run
         run: |
           build/app-cli/getrelay
           build/app-cli/setrelay
-          build/tests/component/hidapi/GetAnyHidDeviceInfoTest
+          build/libusbrelaymodule/tests/component/hidapi/GetAnyHidDeviceInfoTest
 
   Build-on-Windows:
     runs-on: windows-latest
@@ -35,15 +35,15 @@ jobs:
       - name: Build
         run: |
           mkdir build && cd build
-          cmake -G "Visual Studio 17 2022" -A Win32 -Durm_BUILD_CTESTS=on .. 
+          cmake -G "Visual Studio 17 2022" -A Win32 -Dusbrelaymodule_BUILD_CTESTS=on .. 
           cmake --build . --config Release
       - name: Copy dll
         run: |
           cp external/hidapi/windows/Release/hidapi.dll build/app-cli/Release/
-          cp external/hidapi/windows/Release/hidapi.dll build/tests/component/hidapi/Release/
-          cp build/liburm/Release/urm.dll build/app-cli/Release/
+          cp external/hidapi/windows/Release/hidapi.dll build/libusbrelaymodule/tests/component/hidapi/Release/
+          cp build/libusbrelaymodule/Release/usbrelaymodule.dll build/app-cli/Release/
       - name: Run
         run: |
           build/app-cli/Release/getrelay.exe
           build/app-cli/Release/setrelay.exe
-          build/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe
+          build/libusbrelaymodule/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe
