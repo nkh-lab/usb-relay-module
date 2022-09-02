@@ -7,9 +7,9 @@
 #include "hidapicpp/utils.h"
 #include "utils.h"
 
-using namespace urm::tests::hidapi::dcttech;
-using namespace urm::utils;
-using namespace urm::hidapicpp::utils;
+using namespace nlab::tests::hidapi::dcttech;
+using namespace nlab::utils;
+using namespace nlab::hidapicpp::utils;
 
 int main(int argc, char const* argv[])
 {

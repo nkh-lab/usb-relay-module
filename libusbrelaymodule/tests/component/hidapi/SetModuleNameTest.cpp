@@ -8,8 +8,8 @@
 #include "DcttechConstants.h"
 #include "utils.h"
 
-using namespace urm::tests::hidapi::dcttech;
-using namespace urm::utils;
+using namespace nlab::tests::hidapi::dcttech;
+using namespace nlab::utils;
 
 int main(int argc, char const* argv[])
 {

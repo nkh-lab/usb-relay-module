@@ -13,17 +13,26 @@ jobs:
         run: git submodule update --init --recursive
       - name: Install dependencies
         run: |
-          sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev  
+          sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev libgtest-dev
       - name: Build
         run: |
           mkdir build && cd build
-          cmake -Dusbrelaymodule_BUILD_CTESTS=on ..
+          cmake -Dusbrelaymodule_BUILD_UTESTS=on -Dusbrelaymodule_BUILD_CTESTS=on ..
           make
-      - name: Run
+      - name: Run Unit Tests
+        run: |
+          build/app-cli/tests/unit/AppCliUnitTests
+      - name: Run Component Tests
+        run: |
+          build/libusbrelaymodule/tests/component/hidapi/GetAnyHidDeviceInfoTest
+      - name: Run getrelay
         run: |
           build/app-cli/getrelay
+          build/app-cli/getrelay -v
+          build/app-cli/getrelay -h
+      - name: Run setrelay
+        run: |
           build/app-cli/setrelay
-          build/libusbrelaymodule/tests/component/hidapi/GetAnyHidDeviceInfoTest
 
   Build-on-Windows:
     runs-on: windows-latest
@@ -41,9 +50,15 @@ jobs:
         run: |
           cp external/hidapi/windows/Release/hidapi.dll build/app-cli/Release/
           cp external/hidapi/windows/Release/hidapi.dll build/libusbrelaymodule/tests/component/hidapi/Release/
-          cp build/libusbrelaymodule/Release/usbrelaymodule.dll build/app-cli/Release/
-      - name: Run
+          cp build/libusbrelaymodule/Release/usbrelaymodule.dll build/app-cli/Release/     
+      - name: Run Component Tests
+        run: |
+          build/libusbrelaymodule/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe
+      - name: Run getrelay
         run: |
           build/app-cli/Release/getrelay.exe
+          build/app-cli/Release/getrelay.exe -v
+          build/app-cli/Release/getrelay.exe -h
+      - name: Run setrelay
+        run: |
           build/app-cli/Release/setrelay.exe
-          build/libusbrelaymodule/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe

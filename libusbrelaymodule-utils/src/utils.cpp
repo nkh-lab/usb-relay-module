@@ -2,8 +2,9 @@
 
 #include <iomanip>
 #include <sstream>
+#include <stdarg.h>
 
-namespace urm {
+namespace nlab {
 namespace utils {
 
 std::string BytesToStr(uint8_t* bytes, size_t size)
@@ -32,5 +33,18 @@ std::string PwstrToStr(wchar_t* pwstr)
     return str;
 }
 
+std::string Sprintf(const char* fmt, ...)
+{
+    const int LOG_BUFFER_SIZE = 256;
+
+    char buffer[LOG_BUFFER_SIZE];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(buffer, LOG_BUFFER_SIZE - 1, fmt, args);
+    va_end(args);
+
+    return std::string(buffer);
+}
+
 } // namespace utils
-} // namespace urm
+} // namespace nlab

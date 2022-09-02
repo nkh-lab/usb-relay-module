@@ -1,6 +1,6 @@
 #pragma once
 
-namespace urm {
+namespace nlab {
 namespace tests {
 namespace hidapi {
 namespace dcttech {
@@ -21,4 +21,4 @@ constexpr uint8_t kCmdSetModuleName = 0xfa;
 } // namespace dcttech
 } // namespace hidapi
 } // namespace tests
-} // namespace urm
+} // namespace nlab

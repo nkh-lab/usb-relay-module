@@ -2,7 +2,7 @@
 
 #include <IRelayModule.h>
 
-namespace urm {
+namespace nlab {
 
 class RelayModuleDcttech final : public IRelayModule
 {
@@ -35,4 +35,4 @@ private:
     const std::string path;
 };
 
-} // namespace urm
+} // namespace nlab

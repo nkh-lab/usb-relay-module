@@ -11,7 +11,7 @@
 #define DLL_EXPORT __declspec(dllexport)
 #endif
 
-namespace urm {
+namespace nlab {
 
 std::unique_ptr<IRelayManager> DLL_EXPORT CreateHidapiManagerForDcttechModules();
 

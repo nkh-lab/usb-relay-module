@@ -4,7 +4,7 @@
 
 #include "hidapi.h"
 
-namespace urm {
+namespace nlab {
 namespace hidapicpp {
 namespace utils {
 
@@ -12,4 +12,4 @@ std::string HidDeviceInfoToStr(hid_device_info* dev);
 
 }
 } // namespace hidapicpp
-} // namespace urm
+} // namespace nlab

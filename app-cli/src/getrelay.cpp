@@ -8,12 +8,12 @@ using namespace nlab;
 
 int main(int argc, char const* argv[])
 {
-    GetRelayWorker worker(urm::CreateHidapiManagerForDcttechModules());
+    GetRelayWorker worker(nlab::CreateHidapiManagerForDcttechModules());
 
-    std::stringstream out;
+    std::string out;
 
-    bool ret = worker.Do(argc, argv, out);
-    std::cout << out.str();
+    bool ret = worker.GetRelayWorker::CheckArgsAndAnswer(argc, argv, out);
+    std::cout << out;
 
     return ret == true ? EXIT_SUCCESS : EXIT_FAILURE;
 }

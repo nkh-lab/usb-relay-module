@@ -5,7 +5,7 @@
 #include "IRelayManager.h"
 #include "RelayModuleDcttech.h"
 
-namespace urm {
+namespace nlab {
 
 using IRelayModulePtr = std::shared_ptr<IRelayModule>;
 
@@ -24,4 +24,4 @@ public:
     }
 };
 
-} // namespace urm
+} // namespace nlab

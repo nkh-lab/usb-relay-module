@@ -5,9 +5,9 @@
 #include <iomanip>
 #include <sstream>
 
-using namespace urm::utils;
+using namespace nlab::utils;
 
-namespace urm {
+namespace nlab {
 namespace hidapicpp {
 namespace utils {
 
@@ -31,4 +31,4 @@ std::string HidDeviceInfoToStr(hid_device_info* dev)
 
 } // namespace utils
 } // namespace hidapicpp
-} // namespace urm
+} // namespace nlab

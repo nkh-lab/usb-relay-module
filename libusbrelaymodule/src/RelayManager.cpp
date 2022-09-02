@@ -2,11 +2,11 @@
 #include "RelayManagerHidapi.h"
 #include "RelayModuleDcttech.h"
 
-namespace urm {
+namespace nlab {
 
 std::unique_ptr<IRelayManager> CreateHidapiManagerForDcttechModules()
 {
     return std::make_unique<RelayManagerHidapi<RelayModuleDcttech>>();
 }
 
-} // namespace urm
+} // namespace nlab

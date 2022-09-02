@@ -1,6 +1,8 @@
 #include "GetRelayWorker.h"
 
 #include "LightArgParser.h"
+#include "TextUserInterface.h"
+#include "utils.h"
 
 namespace {
 const char* kAllRelays = "";
@@ -10,12 +12,12 @@ const char* kRelayChannelDelimiter = "_";
 
 namespace nlab {
 
-GetRelayWorker::GetRelayWorker(std::unique_ptr<urm::IRelayManager> relay_manager)
+GetRelayWorker::GetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager)
     : relay_manager{std::move(relay_manager)}
 {
 }
 
-bool GetRelayWorker::Do(int argc, char const** argv, std::stringstream& out)
+bool GetRelayWorker::CheckArgsAndAnswer(int argc, char const** argv, std::string& out)
 {
     bool ret = true;
 
@@ -36,17 +38,17 @@ bool GetRelayWorker::Do(int argc, char const** argv, std::stringstream& out)
         if (conf_args.size() == 1 && data_args.size() == 0 &&
             conf_args_h.AnyKeyExists({"h", "help"}))
         {
-            out << DoHelpText();
+            out = AnswerHelpText();
             ret = true;
         }
         else if (
             conf_args.size() == 1 && data_args.size() == 0 &&
             conf_args_h.AnyKeyExists({"v", "version"}))
         {
-            out << DoVersionText();
+            out = AnswerVersionText();
             ret = true;
         }
-        else
+        else if (conf_args.size() == 0)
         {
             std::string req_relay{kAllRelays};
             size_t req_channel{kAllChannels};
@@ -69,59 +71,50 @@ bool GetRelayWorker::Do(int argc, char const** argv, std::stringstream& out)
                 ret = true;
             }
 
-            if (ret) out << DoRelayStateText(req_relay, req_channel);
+            if (ret) out = AnswerRelayStateText(req_relay, req_channel);
         }
 
-        if (!ret) out << DoWrongArgumentUsageText();
+        if (!ret) out = AnswerWrongArgumentUsageText();
     }
     else
     {
-        out << DoBadArgumentText(bad_arg);
+        out = AnswerBadArgumentText(bad_arg);
     }
 
     return ret;
 }
 
-std::string GetRelayWorker::DoVersionText()
+std::string GetRelayWorker::AnswerVersionText()
 {
-    return "v1.0.0\n";
+    return utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1);
 }
 
-std::string GetRelayWorker::DoHelpText()
+std::string GetRelayWorker::AnswerHelpText()
 {
-    return "This is help text!\n";
+    return TextUserInterface::kHelp;
 }
 
-std::string GetRelayWorker::DoWrongArgumentUsageText()
+std::string GetRelayWorker::AnswerWrongArgumentUsageText()
 {
     return "This is wrong argument usage text!\n";
 }
 
-std::string GetRelayWorker::DoBadArgumentText(std::string bad_arg)
+std::string GetRelayWorker::AnswerBadArgumentText(std::string bad_arg)
 {
-    std::stringstream ss;
-    ss << "This is bad argument: " << bad_arg << " text!\n";
-    return ss.str();
+    return utils::Sprintf(TextUserInterface::kBadArgument, bad_arg.c_str());
 }
 
-std::string GetRelayWorker::DoRelayStateText(std::string relay, size_t channel)
+std::string GetRelayWorker::AnswerRelayStateText(std::string relay, size_t channel)
 {
-    std::stringstream ss;
+    std::string ret{"No USB relay module detected\n"};
 
     auto modules = relay_manager->GetModules();
 
-    if (modules.size() == 0)
+    for (auto m : modules)
     {
-        ss << "No USB relay module detected\n";
-    }
-    else
-    {
-        for (auto m : modules)
-        {
-        }
     }
 
-    return ss.str();
+    return ret;
 }
 
 } // namespace nlab

@@ -11,7 +11,7 @@
 #define DLL_EXPORT __declspec(dllexport)
 #endif
 
-namespace urm {
+namespace nlab {
 
 using IRelayModulePtr = std::shared_ptr<IRelayModule>;
 
@@ -23,6 +23,6 @@ public:
     virtual std::list<IRelayModulePtr> GetModules() = 0;
 };
 
-} // namespace urm
+} // namespace nlab
 
 #undef DLL_EXPORT

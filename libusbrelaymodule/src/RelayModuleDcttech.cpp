@@ -1,6 +1,6 @@
 #include <RelayModuleDcttech.h>
 
-namespace urm {
+namespace nlab {
 
 RelayModuleDcttech::RelayModuleDcttech(const std::string& path)
     : path{path}
@@ -37,4 +37,4 @@ bool RelayModuleDcttech::SetChannel(size_t channel, bool state)
     return false;
 }
 
-} // namespace urm
+} // namespace nlab

@@ -9,7 +9,7 @@
 #define DLL_EXPORT __declspec(dllexport)
 #endif
 
-namespace urm {
+namespace nlab {
 
 class DLL_EXPORT IRelayModule
 {
@@ -23,6 +23,6 @@ public:
     virtual bool SetChannel(size_t channel, bool state) = 0;
 };
 
-} // namespace urm
+} // namespace nlab
 
 #undef DLL_EXPORT
