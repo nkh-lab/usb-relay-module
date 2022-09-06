@@ -223,7 +223,7 @@ TEST_F(GetRelayWorkerTest, NoArgsNoModules)
 
     bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
 
-    EXPECT_EQ(out, std::string{TextUserInterface::kNoUsbRelayModule});
+    EXPECT_EQ(out, std::string{TextUserInterface::kNoModules});
 }
 
 TEST_F(GetRelayWorkerTest, NoArgsOneModule)
@@ -328,6 +328,181 @@ TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
         kModuleInfo2,
         module2_name.c_str(),
         expected_channels_out.c_str());
+
+    /* Debug
+    std::cout << "=================================================\n";
+    std::cout << expected_out;
+    std::cout << "=================================================\n";
+    std::cout << out;
+    std::cout << "=================================================\n";
+    */
+
+    EXPECT_EQ(out, expected_out);
+}
+
+TEST_F(GetRelayWorkerTest, RequestExistingModule)
+{
+    const char* argv[] = {"", "module2"};
+    int argc = arraySize(argv);
+    std::string module1_name{"module1"};
+    std::vector<bool> module1_channels{0, 1};
+    std::string module2_name{"module2"};
+    std::vector<bool> module2_channels{0, 1, 0, 1, 0, 1, 0, 1};
+
+    // Mocking
+    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
+    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
+    EXPECT_CALL(*module2, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo2}));
+    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
+    //========
+
+    GetRelayWorker worker(std::move(relay_manager));
+
+    std::string out;
+
+    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+
+    std::string expected_out;
+    std::string expected_channels_out;
+
+    for (size_t i = 0; i < module2_channels.size(); ++i)
+    {
+        expected_channels_out += utils::Sprintf(
+            TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(module2_channels[i]));
+    }
+
+    expected_out += utils::Sprintf(
+        TextUserInterface::kGetRelayInfoAndState,
+        kModuleInfo2,
+        module2_name.c_str(),
+        expected_channels_out.c_str());
+
+    /* Debug
+    std::cout << "=================================================\n";
+    std::cout << expected_out;
+    std::cout << "=================================================\n";
+    std::cout << out;
+    std::cout << "=================================================\n";
+    */
+
+    EXPECT_EQ(out, expected_out);
+}
+
+TEST_F(GetRelayWorkerTest, RequestUnexistingModule)
+{
+    const char* argv[] = {"", "module3"};
+    int argc = arraySize(argv);
+    std::string module1_name{"module1"};
+    std::vector<bool> module1_channels{0, 1};
+    std::string module2_name{"module2"};
+    std::vector<bool> module2_channels{0, 1, 0, 1, 0, 1, 0, 1};
+
+    // Mocking
+    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
+    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
+    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
+    //========
+
+    GetRelayWorker worker(std::move(relay_manager));
+
+    std::string out;
+
+    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+
+    std::string expected_out = utils::Sprintf(TextUserInterface::kNoRequestedModule, "module3");
+
+    /* Debug
+    std::cout << "=================================================\n";
+    std::cout << expected_out;
+    std::cout << "=================================================\n";
+    std::cout << out;
+    std::cout << "=================================================\n";
+    */
+
+    EXPECT_EQ(out, expected_out);
+}
+
+TEST_F(GetRelayWorkerTest, RequestExistingChannel)
+{
+    const char* argv[] = {"", "module2_2"};
+    int argc = arraySize(argv);
+    std::string module1_name{"module1"};
+    std::vector<bool> module1_channels{0, 1};
+    std::string module2_name{"module2"};
+    std::vector<bool> module2_channels{0, 1};
+
+    // Mocking
+    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
+    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
+    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
+    //========
+
+    GetRelayWorker worker(std::move(relay_manager));
+
+    std::string out;
+
+    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+
+    std::string expected_out = utils::Sprintf(
+        TextUserInterface::kGetChannelState, static_cast<int>(module2_channels[2 - 1]));
+
+    /* Debug
+    std::cout << "=================================================\n";
+    std::cout << expected_out;
+    std::cout << "=================================================\n";
+    std::cout << out;
+    std::cout << "=================================================\n";
+    */
+
+    EXPECT_EQ(out, expected_out);
+}
+
+TEST_F(GetRelayWorkerTest, RequestNonexistingChannel)
+{
+    const char* argv[] = {"", "module2_3"};
+    int argc = arraySize(argv);
+    std::string module1_name{"module1"};
+    std::vector<bool> module1_channels{0, 1};
+    std::string module2_name{"module2"};
+    std::vector<bool> module2_channels{0, 1};
+
+    // Mocking
+    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
+    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
+    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
+    //========
+
+    GetRelayWorker worker(std::move(relay_manager));
+
+    std::string out;
+
+    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+
+    std::string expected_out = utils::Sprintf(TextUserInterface::kNoRequestedChannel, 3, "module2");
 
     /* Debug
     std::cout << "=================================================\n";

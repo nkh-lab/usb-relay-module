@@ -34,8 +34,14 @@ const char* TextUserInterface::kGetRelayInfoAndState =
 const char* TextUserInterface::kChannelNameAndState =
     "channel_%d:        %d\n";
 
-const char* TextUserInterface::kNoUsbRelayModule =
-    "No USB relay module detected\n";
+const char* TextUserInterface::kNoModules =
+    "No USB relay modules detected!\n";
+
+const char* TextUserInterface::kNoRequestedModule =
+    "No requested '%s' USB relay module detected!\n";
+
+const char* TextUserInterface::kNoRequestedChannel =
+    "No requested channel '%d' in '%s' USB relay module!\n";
 
 // clang-format on
 

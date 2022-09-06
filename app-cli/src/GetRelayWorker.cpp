@@ -111,8 +111,21 @@ std::string GetRelayWorker::AnswerRelayStateText(std::string relay, size_t chann
 {
     auto modules = relay_manager->GetModules();
 
-    if (!modules.size()) return TextUserInterface::kNoUsbRelayModule;
+    if (!modules.size()) return TextUserInterface::kNoModules;
 
+    if (relay.empty())
+        return AnswerRelayStateText4AllModules(modules);
+    else
+    {
+        if (channel == 0)
+            return AnswerRelayStateText4Module(modules, relay);
+        else
+            return AnswerRelayStateText4ModuleAndChannel(modules, relay, channel);
+    }
+}
+
+std::string GetRelayWorker::AnswerRelayStateText4AllModules(const IRelayModulePtrs& modules)
+{
     std::string ret;
 
     for (auto m : modules)
@@ -133,6 +146,71 @@ std::string GetRelayWorker::AnswerRelayStateText(std::string relay, size_t chann
             m->GetInfo().c_str(),
             module_name.c_str(),
             channels_out.c_str());
+    }
+
+    return ret;
+}
+
+std::string GetRelayWorker::AnswerRelayStateText4Module(
+    const IRelayModulePtrs& modules,
+    const std::string& module)
+{
+    std::string ret = utils::Sprintf(TextUserInterface::kNoRequestedModule, module.c_str());
+
+    for (auto m : modules)
+    {
+        std::string module_name;
+        std::vector<bool> channels;
+
+        m->GetNameAndChannels(module_name, channels);
+
+        if (module_name == module)
+        {
+            std::string channels_out;
+
+            for (size_t i = 0; i < channels.size(); ++i)
+            {
+                channels_out += utils::Sprintf(
+                    TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
+            }
+
+            ret = utils::Sprintf(
+                TextUserInterface::kGetRelayInfoAndState,
+                m->GetInfo().c_str(),
+                module_name.c_str(),
+                channels_out.c_str());
+        }
+    }
+
+    return ret;
+}
+
+std::string GetRelayWorker::AnswerRelayStateText4ModuleAndChannel(
+    const IRelayModulePtrs& modules,
+    const std::string& module,
+    size_t channel)
+{
+    std::string ret{TextUserInterface::kNoRequestedModule};
+
+    for (auto m : modules)
+    {
+        std::string module_name;
+        std::vector<bool> channels;
+
+        m->GetNameAndChannels(module_name, channels);
+
+        if (module_name == module)
+        {
+            if (channel <= channels.size())
+            {
+                ret = utils::Sprintf(
+                    TextUserInterface::kGetChannelState, static_cast<int>(channels[channel - 1]));
+            }
+            else
+            {
+                ret = utils::Sprintf(TextUserInterface::kNoRequestedChannel, channel, module.c_str());
+            }
+        }
     }
 
     return ret;

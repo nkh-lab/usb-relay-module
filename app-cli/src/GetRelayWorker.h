@@ -21,6 +21,12 @@ private:
     std::string AnswerWrongArgumentUsageText();
     std::string AnswerBadArgumentText(std::string bad_arg);
     std::string AnswerRelayStateText(std::string relay, size_t channel);
+    std::string AnswerRelayStateText4AllModules(const IRelayModulePtrs& modules);
+    std::string AnswerRelayStateText4Module(const IRelayModulePtrs& modules, const std::string& module);
+    std::string AnswerRelayStateText4ModuleAndChannel(
+        const IRelayModulePtrs& modules,
+        const std::string& module,
+        size_t channel);
 
     std::unique_ptr<nlab::IRelayManager> relay_manager;
 };
