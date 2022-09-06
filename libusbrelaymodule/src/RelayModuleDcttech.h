@@ -13,7 +13,7 @@ public:
     static uint16_t GetVendorId();
     static uint16_t GetProductId();
 
-    std::string GetPath() override;
+    std::string GetInfo() override;
     bool GetNameAndChannels(std::string& module_name, std::vector<bool>& channels) override;
     bool SetName(const std::string& name) override;
     bool SetChannel(size_t channel, bool state) override;

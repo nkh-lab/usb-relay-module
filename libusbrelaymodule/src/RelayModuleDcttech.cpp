@@ -17,9 +17,9 @@ uint16_t RelayModuleDcttech::GetProductId()
     return kUsbProductId;
 }
 
-std::string RelayModuleDcttech::GetPath()
+std::string RelayModuleDcttech::GetInfo()
 {
-    return path;
+    return "";
 }
 
 bool RelayModuleDcttech::GetNameAndChannels(std::string& module_name, std::vector<bool>& channels)

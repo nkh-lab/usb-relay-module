@@ -35,7 +35,7 @@ std::string PwstrToStr(wchar_t* pwstr)
 
 std::string Sprintf(const char* fmt, ...)
 {
-    const int LOG_BUFFER_SIZE = 256;
+    const int LOG_BUFFER_SIZE = 512;
 
     char buffer[LOG_BUFFER_SIZE];
     va_list args;

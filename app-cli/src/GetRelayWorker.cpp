@@ -4,6 +4,9 @@
 #include "TextUserInterface.h"
 #include "utils.h"
 
+// DBG
+#include <iostream>
+
 namespace {
 const char* kAllRelays = "";
 const size_t kAllChannels = 0;
@@ -96,7 +99,7 @@ std::string GetRelayWorker::AnswerHelpText()
 
 std::string GetRelayWorker::AnswerWrongArgumentUsageText()
 {
-    return "This is wrong argument usage text!\n";
+    return TextUserInterface::kWrongArgumentUsage;
 }
 
 std::string GetRelayWorker::AnswerBadArgumentText(std::string bad_arg)
@@ -106,16 +109,30 @@ std::string GetRelayWorker::AnswerBadArgumentText(std::string bad_arg)
 
 std::string GetRelayWorker::AnswerRelayStateText(std::string relay, size_t channel)
 {
-    std::string ret{TextUserInterface::kNoUsbRelayModule};
-
     auto modules = relay_manager->GetModules();
 
-    auto size = modules.size();
+    if (!modules.size()) return TextUserInterface::kNoUsbRelayModule;
 
-    if (size) ret = std::to_string(size);
+    std::string ret;
 
     for (auto m : modules)
     {
+        std::string module_name, channels_out;
+        std::vector<bool> channels;
+
+        m->GetNameAndChannels(module_name, channels);
+
+        for (size_t i = 0; i < channels.size(); ++i)
+        {
+            channels_out += utils::Sprintf(
+                TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
+        }
+
+        ret += utils::Sprintf(
+            TextUserInterface::kGetRelayInfoAndState,
+            m->GetInfo().c_str(),
+            module_name.c_str(),
+            channels_out.c_str());
     }
 
     return ret;
