@@ -14,13 +14,14 @@
 namespace nlab {
 
 using IRelayModulePtr = std::shared_ptr<IRelayModule>;
+using IRelayModulePtrs = std::list<IRelayModulePtr>;
 
 class DLL_EXPORT IRelayManager
 {
 public:
     virtual ~IRelayManager() = default;
 
-    virtual std::list<IRelayModulePtr> GetModules() = 0;
+    virtual IRelayModulePtrs GetModules() = 0;
 };
 
 } // namespace nlab

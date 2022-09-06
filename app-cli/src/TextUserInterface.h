@@ -10,6 +10,7 @@ struct TextUserInterface
     static const char* kBadArgument;
     static const char* kGetChannelState;
     static const char* kGetRelayInfoAndState;
+    static const char* kNoUsbRelayModule;
 };
 
 } // namespace nlab

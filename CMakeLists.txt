@@ -15,13 +15,16 @@ project(usbrelaymodule)
 set(HIDAPI_LIB hidapi)
 
 # Main lib
-set(USB_RELAY_MODULE ${PROJECT_NAME})
+set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
+set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
 
 # Others
 # General utils
 set(UTILS_LIB ${PROJECT_NAME}-utils)
 # HIDAPI C++ wrapper + utils
 set(HIDAPICPP_LIB ${HIDAPI_LIB}-cpp)
+# Main mocked lib
+set(USB_RELAY_MODULE_MOCK_LIB ${PROJECT_NAME}-mock)
 
 option(${PROJECT_NAME}_BUILD_CTESTS "Build component tests" off)
 option(${PROJECT_NAME}_BUILD_UTESTS "Build unit tests" off)

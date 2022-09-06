@@ -13,8 +13,10 @@
 
 namespace nlab {
 
-std::unique_ptr<IRelayManager> DLL_EXPORT CreateHidapiManagerForDcttechModules();
+using IRelayManagerPtr = std::unique_ptr<IRelayManager>;
 
-}
+IRelayManagerPtr DLL_EXPORT CreateHidapiManagerForDcttechModules();
+
+} // namespace nlab
 
 #undef DLL_EXPORT

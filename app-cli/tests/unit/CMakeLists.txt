@@ -11,9 +11,11 @@ add_executable(AppCliUnitTests
     )
 
 target_link_libraries(AppCliUnitTests
-    PRIVATE ${PROJECT_NAME}
+    PRIVATE ${USB_RELAY_MODULE_LIB}
+    PRIVATE ${USB_RELAY_MODULE_MOCK_LIB}
     PRIVATE ${GTEST_LIBRARIES}
     PRIVATE GTest::Main
+    PRIVATE gmock
     PRIVATE ${CMAKE_THREAD_LIBS_INIT}
     PRIVATE lightargparser
     PRIVATE ${UTILS_LIB}

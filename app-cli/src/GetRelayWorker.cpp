@@ -106,9 +106,13 @@ std::string GetRelayWorker::AnswerBadArgumentText(std::string bad_arg)
 
 std::string GetRelayWorker::AnswerRelayStateText(std::string relay, size_t channel)
 {
-    std::string ret{"No USB relay module detected\n"};
+    std::string ret{TextUserInterface::kNoUsbRelayModule};
 
     auto modules = relay_manager->GetModules();
+
+    auto size = modules.size();
+
+    if (size) ret = std::to_string(size);
 
     for (auto m : modules)
     {

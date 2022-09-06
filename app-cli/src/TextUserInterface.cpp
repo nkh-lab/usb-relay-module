@@ -10,4 +10,6 @@ const char* TextUserInterface::kBadArgument = "This is bad argument %s text!\n";
 const char* TextUserInterface::kGetChannelState = "%d\n";
 const char* TextUserInterface::kGetRelayInfoAndState = "%s\n";
 
+const char* TextUserInterface::kNoUsbRelayModule = "No USB relay module detected\n";
+
 } // namespace nlab

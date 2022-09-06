@@ -1,12 +1,16 @@
 file(GLOB SRC_FILES "src/*.cpp")
 
-add_library(${USB_RELAY_MODULE} SHARED ${SRC_FILES})
+add_library(${USB_RELAY_MODULE_LIB} SHARED
+    ${SRC_FILES}
+    )
 
-target_include_directories(${USB_RELAY_MODULE}
+target_include_directories(${USB_RELAY_MODULE_LIB}
     PUBLIC include
-    PRIVATE src)
+    PRIVATE src
+    )
     
-target_link_libraries(${USB_RELAY_MODULE}
-    PRIVATE hidapi)
+target_link_libraries(${USB_RELAY_MODULE_LIB}
+    PRIVATE hidapi
+    )
 
 add_subdirectory(tests)
