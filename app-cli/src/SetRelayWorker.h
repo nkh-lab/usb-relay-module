@@ -19,7 +19,10 @@ private:
     std::string AnswerVersionText();
     std::string AnswerHelpText();
     std::string AnswerWrongArgumentUsageText();
-    std::string AnswerBadArgumentText(std::string bad_arg);
+    std::string AnswerBadArgumentText(const std::string& bad_arg);
+
+    bool AnswerRenameModule(const std::string& module, const std::string& new_module, std::string& out);
+    bool AnswerSetChannel(const std::string& module, size_t channel, bool state, std::string& out);
 
     std::unique_ptr<nlab::IRelayManager> relay_manager;
 };

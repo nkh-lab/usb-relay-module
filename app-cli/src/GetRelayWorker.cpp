@@ -91,12 +91,12 @@ std::string GetRelayWorker::AnswerWrongArgumentUsageText()
     return TextUserInterface::kWrongArgumentUsage;
 }
 
-std::string GetRelayWorker::AnswerBadArgumentText(std::string bad_arg)
+std::string GetRelayWorker::AnswerBadArgumentText(const std::string& bad_arg)
 {
     return utils::Sprintf(TextUserInterface::kBadArgument, bad_arg.c_str());
 }
 
-std::string GetRelayWorker::AnswerRelayStateText(std::string relay, size_t channel)
+std::string GetRelayWorker::AnswerRelayStateText(const std::string& relay, size_t channel)
 {
     auto modules = relay_manager->GetModules();
 

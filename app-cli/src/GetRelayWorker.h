@@ -19,8 +19,8 @@ private:
     std::string AnswerVersionText();
     std::string AnswerHelpText();
     std::string AnswerWrongArgumentUsageText();
-    std::string AnswerBadArgumentText(std::string bad_arg);
-    std::string AnswerRelayStateText(std::string relay, size_t channel);
+    std::string AnswerBadArgumentText(const std::string& bad_arg);
+    std::string AnswerRelayStateText(const std::string& relay, size_t channel);
     std::string AnswerRelayStateText4AllModules(const IRelayModulePtrs& modules);
     std::string AnswerRelayStateText4Module(const IRelayModulePtrs& modules, const std::string& module);
     std::string AnswerRelayStateText4ModuleAndChannel(

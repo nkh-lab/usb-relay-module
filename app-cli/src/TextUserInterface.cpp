@@ -8,7 +8,7 @@ const char* TextUserInterface::kVersion = "v%d.%d.%d\n";
 
 const char* TextUserInterface::kGetRelayHelp =
     "Usage:\n"
-    "    <ModuleName>_<ChannelNumber>    Return a state 0 or 1 of the requested channel\n"
+    "    <ModuleName>_<ChannelNumber>    Return a state 0 or 1 of the requested channel (numbering starts from 1)\n"
     "    <ModuleName>                    Return full information about the requested module\n"
     "    <>                              No arguments provided, return full information about all detected modules\n"
     "\n"
@@ -18,7 +18,7 @@ const char* TextUserInterface::kGetRelayHelp =
 
 const char* TextUserInterface::kSetRelayHelp =
     "Usage:\n"
-    "    <ModuleName>_<ChannelNumber>=<StateToSet>    Set the state 0 or 1 of the specified channel\n"
+    "    <ModuleName>_<ChannelNumber>=<StateToSet>    Set the state 0 or 1 of the specified channel (numbering starts from 1)\n"
     "    <ModuleName>=<NewModuleName>                 Rename module\n"
     "\n"
     "Service commands:\n"
