@@ -12,11 +12,14 @@ target_link_libraries(getrelay
 
 add_executable(setrelay
     src/setrelay.cpp
+    src/SetRelayWorker.cpp
+    src/TextUserInterface.cpp
     )
 
 target_link_libraries(setrelay 
     ${UTILS_LIB}
     ${USB_RELAY_MODULE_LIB}
+    lightargparser
     )
 
 add_subdirectory(tests)

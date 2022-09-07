@@ -46,5 +46,23 @@ std::string Sprintf(const char* fmt, ...)
     return std::string(buffer);
 }
 
+void SplitModuleChannelStr(const std::string& module_channel, std::string& module, size_t& channel)
+{
+    const char* kModuleChannelDelimiter = "_";
+
+    size_t delimiter_pos = module_channel.find_first_of(kModuleChannelDelimiter);
+
+    if (delimiter_pos != std::string::npos)
+    {
+        module = module_channel.substr(0, delimiter_pos);
+        channel = std::stoi(module_channel.substr(delimiter_pos + 1));
+    }
+    else
+    {
+        module = module_channel;
+        channel = 0;
+    }
+}
+
 } // namespace utils
 } // namespace nlab

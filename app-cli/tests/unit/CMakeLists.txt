@@ -3,6 +3,7 @@ find_package(GTest REQUIRED)
 file(GLOB SRC_FILES 
     "*.cpp" 
     "../../src/GetRelayWorker.cpp"
+    "../../src/SetRelayWorker.cpp"
     "../../src/TextUserInterface.cpp"
     )
 

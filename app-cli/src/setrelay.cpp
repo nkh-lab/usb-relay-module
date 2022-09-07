@@ -1,12 +1,19 @@
 #include <iostream>
 
+#include "RelayManager.h"
+#include "SetRelayWorker.h"
 #include "utils.h"
+
+using namespace nlab;
 
 int main(int argc, char const* argv[])
 {
-    NOT_USED(argc);
+    SetRelayWorker worker(nlab::CreateHidapiManagerForDcttechModules());
 
-    std::cout << "Hello World from " << argv[0] << "\n";
+    std::string out;
 
-    return EXIT_SUCCESS;
+    bool ret = worker.Run(argc, argv, out);
+    std::cout << out;
+
+    return ret == true ? EXIT_SUCCESS : EXIT_FAILURE;
 }

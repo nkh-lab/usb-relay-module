@@ -13,7 +13,7 @@ public:
     GetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager);
     ~GetRelayWorker() = default;
 
-    bool CheckArgsAndAnswer(int argc, char const** argv, std::string& out);
+    bool Run(int argc, char const** argv, std::string& out);
 
 private:
     std::string AnswerVersionText();

@@ -77,7 +77,7 @@ TEST_F(GetRelayWorkerTest, VersionShortArg)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1));
 }
@@ -95,7 +95,7 @@ TEST_F(GetRelayWorkerTest, VersionLongArg)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1));
 }
@@ -113,9 +113,9 @@ TEST_F(GetRelayWorkerTest, HelpShortArg)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, std::string{TextUserInterface::kHelp});
+    EXPECT_EQ(out, std::string{TextUserInterface::kGetRelayHelp});
 }
 
 TEST_F(GetRelayWorkerTest, HelpLongArg)
@@ -131,9 +131,9 @@ TEST_F(GetRelayWorkerTest, HelpLongArg)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, std::string{TextUserInterface::kHelp});
+    EXPECT_EQ(out, std::string{TextUserInterface::kGetRelayHelp});
 }
 
 TEST_F(GetRelayWorkerTest, BadArg)
@@ -149,7 +149,7 @@ TEST_F(GetRelayWorkerTest, BadArg)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, utils::Sprintf(TextUserInterface::kBadArgument, argv[1]));
 }
@@ -167,7 +167,7 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage1)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, std::string{TextUserInterface::kWrongArgumentUsage});
 }
@@ -185,7 +185,7 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage2)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, std::string{TextUserInterface::kWrongArgumentUsage});
 }
@@ -203,7 +203,7 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage3)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, std::string{TextUserInterface::kWrongArgumentUsage});
 }
@@ -221,7 +221,7 @@ TEST_F(GetRelayWorkerTest, NoArgsNoModules)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, std::string{TextUserInterface::kNoModules});
 }
@@ -245,7 +245,7 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModule)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     std::string expected_out;
     std::string expected_channels_out;
@@ -298,7 +298,7 @@ TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     std::string expected_out;
     std::string expected_channels_out;
@@ -366,7 +366,7 @@ TEST_F(GetRelayWorkerTest, RequestExistingModule)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     std::string expected_out;
     std::string expected_channels_out;
@@ -419,7 +419,7 @@ TEST_F(GetRelayWorkerTest, RequestUnexistingModule)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     std::string expected_out = utils::Sprintf(TextUserInterface::kNoRequestedModule, "module3");
 
@@ -459,7 +459,7 @@ TEST_F(GetRelayWorkerTest, RequestExistingChannel)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     std::string expected_out = utils::Sprintf(
         TextUserInterface::kGetChannelState, static_cast<int>(module2_channels[2 - 1]));
@@ -500,7 +500,7 @@ TEST_F(GetRelayWorkerTest, RequestNonexistingChannel)
 
     std::string out;
 
-    bool ret = worker.CheckArgsAndAnswer(argc, argv, out);
+    bool ret = worker.Run(argc, argv, out);
 
     std::string expected_out = utils::Sprintf(TextUserInterface::kNoRequestedChannel, 3, "module2");
 

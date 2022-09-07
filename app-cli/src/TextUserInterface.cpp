@@ -6,15 +6,24 @@ namespace nlab {
 
 const char* TextUserInterface::kVersion = "v%d.%d.%d\n";
 
-const char* TextUserInterface::kHelp =
+const char* TextUserInterface::kGetRelayHelp =
     "Usage:\n"
-    "    <ModuleName>_<ChannelNumber>    Return a state 0 or 1 of the requested channel 1..8\n"
+    "    <ModuleName>_<ChannelNumber>    Return a state 0 or 1 of the requested channel\n"
     "    <ModuleName>                    Return full information about the requested module\n"
     "    <>                              No arguments provided, return full information about all detected modules\n"
     "\n"
     "Service commands:\n"
     "    -h | --help                     Display this help text\n"
     "    -v | --version                  Display version information\n";
+
+const char* TextUserInterface::kSetRelayHelp =
+    "Usage:\n"
+    "    <ModuleName>_<ChannelNumber>=<StateToSet>    Set the state 0 or 1 of the specified channel\n"
+    "    <ModuleName>=<NewModuleName>                 Rename module\n"
+    "\n"
+    "Service commands:\n"
+    "    -h | --help                                  Display this help text\n"
+    "    -v | --version                               Display version information\n";
 
 const char* TextUserInterface::kWrongArgumentUsage =
     "Wrong argument usage!\n"

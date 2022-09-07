@@ -4,9 +4,6 @@
 #include "TextUserInterface.h"
 #include "utils.h"
 
-// DBG
-#include <iostream>
-
 namespace {
 const char* kAllRelays = "";
 const size_t kAllChannels = 0;
@@ -20,7 +17,7 @@ GetRelayWorker::GetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manage
 {
 }
 
-bool GetRelayWorker::CheckArgsAndAnswer(int argc, char const** argv, std::string& out)
+bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
 {
     bool ret = true;
 
@@ -62,15 +59,7 @@ bool GetRelayWorker::CheckArgsAndAnswer(int argc, char const** argv, std::string
             }
             else if (data_args.size() == 1)
             {
-                std::string s = data_args.begin()->first;
-                req_relay = s;
-                size_t delimiter_pos = s.find_first_of(kRelayChannelDelimiter);
-
-                if (delimiter_pos != std::string::npos)
-                {
-                    req_relay = s.substr(0, delimiter_pos);
-                    req_channel = std::stoi(s.substr(delimiter_pos + 1));
-                }
+                utils::SplitModuleChannelStr(data_args.begin()->first, req_relay, req_channel);
                 ret = true;
             }
 
@@ -94,7 +83,7 @@ std::string GetRelayWorker::AnswerVersionText()
 
 std::string GetRelayWorker::AnswerHelpText()
 {
-    return TextUserInterface::kHelp;
+    return TextUserInterface::kGetRelayHelp;
 }
 
 std::string GetRelayWorker::AnswerWrongArgumentUsageText()

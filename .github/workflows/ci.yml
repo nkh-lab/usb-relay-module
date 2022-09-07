@@ -32,7 +32,8 @@ jobs:
           build/app-cli/getrelay -h
       - name: Run setrelay
         run: |
-          build/app-cli/setrelay
+          build/app-cli/setrelay -v
+          build/app-cli/setrelay -h
 
   Build-on-Windows:
     runs-on: windows-latest
@@ -61,4 +62,5 @@ jobs:
           build/app-cli/Release/getrelay.exe -h
       - name: Run setrelay
         run: |
-          build/app-cli/Release/setrelay.exe
+          build/app-cli/Release/setrelay.exe -v
+          build/app-cli/Release/setrelay.exe -h
