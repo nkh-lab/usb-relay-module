@@ -16,17 +16,22 @@ public:
     bool Run(int argc, char const** argv, std::string& out);
 
 private:
-    std::string AnswerVersionText();
-    std::string AnswerHelpText();
-    std::string AnswerWrongArgumentUsageText();
-    std::string AnswerBadArgumentText(const std::string& bad_arg);
-    std::string AnswerRelayStateText(const std::string& relay, size_t channel);
-    std::string AnswerRelayStateText4AllModules(const IRelayModulePtrs& modules);
-    std::string AnswerRelayStateText4Module(const IRelayModulePtrs& modules, const std::string& module);
-    std::string AnswerRelayStateText4ModuleAndChannel(
+    std::string DoVersionText();
+    std::string DoHelpText();
+    std::string DoWrongArgumentUsageText();
+    std::string DoBadArgumentText(const std::string& bad_arg);
+
+    bool GetState(const std::string& relay, size_t channel, std::string& out);
+    bool GetStatesAllModules(const IRelayModulePtrs& modules, std::string& out);
+    bool GetStatesRequestedModule(
         const IRelayModulePtrs& modules,
         const std::string& module,
-        size_t channel);
+        std::string& out);
+    bool GetStateRequestedChannel(
+        const IRelayModulePtrs& modules,
+        const std::string& module,
+        size_t channel,
+        std::string& out);
 
     std::unique_ptr<nlab::IRelayManager> relay_manager;
 };

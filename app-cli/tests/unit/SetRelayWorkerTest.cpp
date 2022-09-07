@@ -60,6 +60,7 @@ TEST_F(SetRelayWorkerTest, VersionShortArg)
     bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1));
+    EXPECT_TRUE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, VersionLongArg)
@@ -78,6 +79,7 @@ TEST_F(SetRelayWorkerTest, VersionLongArg)
     bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1));
+    EXPECT_TRUE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, HelpShortArg)
@@ -96,6 +98,7 @@ TEST_F(SetRelayWorkerTest, HelpShortArg)
     bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, std::string{TextUserInterface::kSetRelayHelp});
+    EXPECT_TRUE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, HelpLongArg)
@@ -114,6 +117,7 @@ TEST_F(SetRelayWorkerTest, HelpLongArg)
     bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, std::string{TextUserInterface::kSetRelayHelp});
+    EXPECT_TRUE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, BadArg)
@@ -131,7 +135,8 @@ TEST_F(SetRelayWorkerTest, BadArg)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, utils::Sprintf(TextUserInterface::kBadArgument, argv[1]));
+    EXPECT_EQ(out, utils::Sprintf(TextUserInterface::kErrorBadArgument, argv[1]));
+    EXPECT_FALSE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, WrongArgUsage1)
@@ -149,7 +154,8 @@ TEST_F(SetRelayWorkerTest, WrongArgUsage1)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, std::string{TextUserInterface::kWrongArgumentUsage});
+    EXPECT_EQ(out, std::string{TextUserInterface::kErrorWrongArgumentUsage});
+    EXPECT_FALSE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, WrongArgUsage2)
@@ -167,7 +173,8 @@ TEST_F(SetRelayWorkerTest, WrongArgUsage2)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, std::string{TextUserInterface::kWrongArgumentUsage});
+    EXPECT_EQ(out, std::string{TextUserInterface::kErrorWrongArgumentUsage});
+    EXPECT_FALSE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, WrongArgUsage3)
@@ -185,7 +192,8 @@ TEST_F(SetRelayWorkerTest, WrongArgUsage3)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, std::string{TextUserInterface::kWrongArgumentUsage});
+    EXPECT_EQ(out, std::string{TextUserInterface::kErrorWrongArgumentUsage});
+    EXPECT_FALSE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, NoArgsNoModules)
@@ -203,7 +211,8 @@ TEST_F(SetRelayWorkerTest, NoArgsNoModules)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, std::string{TextUserInterface::kWrongArgumentUsage});
+    EXPECT_EQ(out, std::string{TextUserInterface::kErrorWrongArgumentUsage});
+    EXPECT_FALSE(ret);
 }
 
 TEST_F(SetRelayWorkerTest, SetExistingChannelToValidValue)
@@ -260,7 +269,7 @@ TEST_F(SetRelayWorkerTest, SetExistingChannelToUnvalidValue)
 
     bool ret = worker.Run(argc, argv, out);
 
-    std::string expected_out{std::string{TextUserInterface::kWrongArgumentUsage}};
+    std::string expected_out{std::string{TextUserInterface::kErrorWrongArgumentUsage}};
 
     /* Debug
     std::cout << "=================================================\n";
@@ -302,7 +311,8 @@ TEST_F(SetRelayWorkerTest, SetUnexistingChannelToValidValue)
 
     bool ret = worker.Run(argc, argv, out);
 
-    std::string expected_out = utils::Sprintf(TextUserInterface::kNoRequestedChannel, 3, "module2");
+    std::string expected_out =
+        utils::Sprintf(TextUserInterface::kErrorNoRequestedChannel, 3, "module2");
 
     /* Debug
     std::cout << "=================================================\n";
@@ -335,7 +345,7 @@ TEST_F(SetRelayWorkerTest, SetChannel0ToValidValue)
 
     bool ret = worker.Run(argc, argv, out);
 
-    std::string expected_out = TextUserInterface::kWrongArgumentUsage;
+    std::string expected_out = TextUserInterface::kErrorWrongArgumentUsage;
 
     /* Debug
     std::cout << "=================================================\n";

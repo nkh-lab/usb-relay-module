@@ -25,13 +25,6 @@ const char* TextUserInterface::kSetRelayHelp =
     "    -h | --help                                  Display this help text\n"
     "    -v | --version                               Display version information\n";
 
-const char* TextUserInterface::kWrongArgumentUsage =
-    "Wrong argument usage!\n"
-    "Use the '-h | --help' command to see a description of usage.\n";
-
-const char* TextUserInterface::kBadArgument =
-    "Bad argument '%s' provided!\n";
-
 const char* TextUserInterface::kGetChannelState =
     "%d\n";
 
@@ -44,13 +37,20 @@ const char* TextUserInterface::kChannelNameAndState =
     "channel_%d:        %d\n";
 
 const char* TextUserInterface::kNoModules =
-    "No USB relay modules detected!\n";
+    "No USB relay modules detected\n";
 
-const char* TextUserInterface::kNoRequestedModule =
-    "No requested '%s' USB relay module detected!\n";
+const char* TextUserInterface::kErrorWrongArgumentUsage =
+    "ERROR: Wrong argument usage!\n"
+    "       Use the '-h | --help' command to see a description of usage.\n";
 
-const char* TextUserInterface::kNoRequestedChannel =
-    "No requested channel '%d' in '%s' USB relay module!\n";
+const char* TextUserInterface::kErrorBadArgument =
+    "ERROR: Bad argument '%s' provided!\n";
+
+const char* TextUserInterface::kErrorNoRequestedModule =
+    "ERROR: No requested '%s' USB relay module detected!\n";
+
+const char* TextUserInterface::kErrorNoRequestedChannel =
+    "ERROR: No requested channel '%d' in '%s' USB relay module!\n";
 
 // clang-format on
 

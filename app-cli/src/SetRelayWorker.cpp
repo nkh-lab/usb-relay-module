@@ -33,14 +33,14 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
         if (conf_args.size() == 1 && data_args.size() == 0 &&
             conf_args_h.AnyKeyExists({"h", "help"}))
         {
-            out = AnswerHelpText();
+            out = DoHelpText();
             ret = true;
         }
         else if (
             conf_args.size() == 1 && data_args.size() == 0 &&
             conf_args_h.AnyKeyExists({"v", "version"}))
         {
-            out = AnswerVersionText();
+            out = DoVersionText();
             ret = true;
         }
         else if (conf_args.size() == 0 && data_args.size() == 1)
@@ -54,53 +54,50 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
                 data_args.begin()->second[0] != '1' && data_args.begin()->second[0] != '0')
             {
                 std::string new_name{data_args.begin()->second};
-                ret = AnswerRenameModule(req_module, data_args.begin()->second, out);
+                ret = RenameModule(req_module, data_args.begin()->second, out);
             }
             else if (req_channel > 0 && (data_args.begin()->second[0] == '1' || data_args.begin()->second[0] == '0'))
             {
                 bool state = data_args.begin()->second[0] == '1' ? true : false;
-                ret = AnswerSetChannel(req_module, req_channel, state, out);
+                ret = SetChannel(req_module, req_channel, state, out);
             }
         }
 
-        if (!ret && out.empty()) out = AnswerWrongArgumentUsageText();
+        if (!ret && out.empty()) out = DoWrongArgumentUsageText();
     }
     else
     {
-        out = AnswerBadArgumentText(bad_arg);
+        out = DoBadArgumentText(bad_arg);
     }
 
     return ret;
 }
 
-std::string SetRelayWorker::AnswerVersionText()
+std::string SetRelayWorker::DoVersionText()
 {
     return utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1);
 }
 
-std::string SetRelayWorker::AnswerHelpText()
+std::string SetRelayWorker::DoHelpText()
 {
     return TextUserInterface::kSetRelayHelp;
 }
 
-std::string SetRelayWorker::AnswerWrongArgumentUsageText()
+std::string SetRelayWorker::DoWrongArgumentUsageText()
 {
-    return TextUserInterface::kWrongArgumentUsage;
+    return TextUserInterface::kErrorWrongArgumentUsage;
 }
 
-std::string SetRelayWorker::AnswerBadArgumentText(const std::string& bad_arg)
+std::string SetRelayWorker::DoBadArgumentText(const std::string& bad_arg)
 {
-    return utils::Sprintf(TextUserInterface::kBadArgument, bad_arg.c_str());
+    return utils::Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
 }
 
-bool SetRelayWorker::AnswerRenameModule(
-    const std::string& module,
-    const std::string& new_module,
-    std::string& out)
+bool SetRelayWorker::RenameModule(const std::string& module, const std::string& new_module, std::string& out)
 {
     bool ret = false;
 
-    out = utils::Sprintf(TextUserInterface::kNoRequestedModule, module.c_str());
+    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     auto modules = relay_manager->GetModules();
 
@@ -121,11 +118,11 @@ bool SetRelayWorker::AnswerRenameModule(
     return ret;
 }
 
-bool SetRelayWorker::AnswerSetChannel(const std::string& module, size_t channel, bool state, std::string& out)
+bool SetRelayWorker::SetChannel(const std::string& module, size_t channel, bool state, std::string& out)
 {
     bool ret = false;
 
-    out = utils::Sprintf(TextUserInterface::kNoRequestedModule, module.c_str());
+    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     auto modules = relay_manager->GetModules();
 
@@ -146,7 +143,8 @@ bool SetRelayWorker::AnswerSetChannel(const std::string& module, size_t channel,
             else
             {
                 ret = false;
-                out = utils::Sprintf(TextUserInterface::kNoRequestedChannel, channel, module.c_str());
+                out = utils::Sprintf(
+                    TextUserInterface::kErrorNoRequestedChannel, channel, module.c_str());
             }
         }
     }

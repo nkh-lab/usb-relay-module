@@ -38,14 +38,14 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
         if (conf_args.size() == 1 && data_args.size() == 0 &&
             conf_args_h.AnyKeyExists({"h", "help"}))
         {
-            out = AnswerHelpText();
+            out = DoHelpText();
             ret = true;
         }
         else if (
             conf_args.size() == 1 && data_args.size() == 0 &&
             conf_args_h.AnyKeyExists({"v", "version"}))
         {
-            out = AnswerVersionText();
+            out = DoVersionText();
             ret = true;
         }
         else if (conf_args.size() == 0)
@@ -63,60 +63,65 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
                 ret = true;
             }
 
-            if (ret) out = AnswerRelayStateText(req_relay, req_channel);
+            if (ret) ret = GetState(req_relay, req_channel, out);
         }
 
-        if (!ret) out = AnswerWrongArgumentUsageText();
+        if (!ret && out.empty()) out = DoWrongArgumentUsageText();
     }
     else
     {
-        out = AnswerBadArgumentText(bad_arg);
+        out = DoBadArgumentText(bad_arg);
     }
 
     return ret;
 }
 
-std::string GetRelayWorker::AnswerVersionText()
+std::string GetRelayWorker::DoVersionText()
 {
     return utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1);
 }
 
-std::string GetRelayWorker::AnswerHelpText()
+std::string GetRelayWorker::DoHelpText()
 {
     return TextUserInterface::kGetRelayHelp;
 }
 
-std::string GetRelayWorker::AnswerWrongArgumentUsageText()
+std::string GetRelayWorker::DoWrongArgumentUsageText()
 {
-    return TextUserInterface::kWrongArgumentUsage;
+    return TextUserInterface::kErrorWrongArgumentUsage;
 }
 
-std::string GetRelayWorker::AnswerBadArgumentText(const std::string& bad_arg)
+std::string GetRelayWorker::DoBadArgumentText(const std::string& bad_arg)
 {
-    return utils::Sprintf(TextUserInterface::kBadArgument, bad_arg.c_str());
+    return utils::Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
 }
 
-std::string GetRelayWorker::AnswerRelayStateText(const std::string& relay, size_t channel)
+bool GetRelayWorker::GetState(const std::string& module, size_t channel, std::string& out)
 {
+    bool ret = true;
+    out = TextUserInterface::kNoModules;
     auto modules = relay_manager->GetModules();
 
-    if (!modules.size()) return TextUserInterface::kNoModules;
-
-    if (relay.empty())
-        return AnswerRelayStateText4AllModules(modules);
-    else
+    if (modules.size() > 0)
     {
-        if (channel == 0)
-            return AnswerRelayStateText4Module(modules, relay);
+        out.clear();
+
+        if (module.empty())
+            ret = GetStatesAllModules(modules, out);
         else
-            return AnswerRelayStateText4ModuleAndChannel(modules, relay, channel);
+        {
+            if (channel == 0)
+                ret = GetStatesRequestedModule(modules, module, out);
+            else
+                ret = GetStateRequestedChannel(modules, module, channel, out);
+        }
     }
+
+    return ret;
 }
 
-std::string GetRelayWorker::AnswerRelayStateText4AllModules(const IRelayModulePtrs& modules)
+bool GetRelayWorker::GetStatesAllModules(const IRelayModulePtrs& modules, std::string& out)
 {
-    std::string ret;
-
     for (auto m : modules)
     {
         std::string module_name, channels_out;
@@ -130,21 +135,23 @@ std::string GetRelayWorker::AnswerRelayStateText4AllModules(const IRelayModulePt
                 TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
         }
 
-        ret += utils::Sprintf(
+        out += utils::Sprintf(
             TextUserInterface::kGetRelayInfoAndState,
             m->GetInfo().c_str(),
             module_name.c_str(),
             channels_out.c_str());
     }
 
-    return ret;
+    return true;
 }
 
-std::string GetRelayWorker::AnswerRelayStateText4Module(
+bool GetRelayWorker::GetStatesRequestedModule(
     const IRelayModulePtrs& modules,
-    const std::string& module)
+    const std::string& module,
+    std::string& out)
 {
-    std::string ret = utils::Sprintf(TextUserInterface::kNoRequestedModule, module.c_str());
+    bool ret = false;
+    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     for (auto m : modules)
     {
@@ -163,23 +170,27 @@ std::string GetRelayWorker::AnswerRelayStateText4Module(
                     TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
             }
 
-            ret = utils::Sprintf(
+            out = utils::Sprintf(
                 TextUserInterface::kGetRelayInfoAndState,
                 m->GetInfo().c_str(),
                 module_name.c_str(),
                 channels_out.c_str());
+
+            ret = true;
         }
     }
 
     return ret;
 }
 
-std::string GetRelayWorker::AnswerRelayStateText4ModuleAndChannel(
+bool GetRelayWorker::GetStateRequestedChannel(
     const IRelayModulePtrs& modules,
     const std::string& module,
-    size_t channel)
+    size_t channel,
+    std::string& out)
 {
-    std::string ret{TextUserInterface::kNoRequestedModule};
+    bool ret = false;
+    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     for (auto m : modules)
     {
@@ -192,12 +203,14 @@ std::string GetRelayWorker::AnswerRelayStateText4ModuleAndChannel(
         {
             if (channel <= channels.size())
             {
-                ret = utils::Sprintf(
+                out = utils::Sprintf(
                     TextUserInterface::kGetChannelState, static_cast<int>(channels[channel - 1]));
+                ret = true;
             }
             else
             {
-                ret = utils::Sprintf(TextUserInterface::kNoRequestedChannel, channel, module.c_str());
+                out = utils::Sprintf(
+                    TextUserInterface::kErrorNoRequestedChannel, channel, module.c_str());
             }
         }
     }
