@@ -1,4 +1,4 @@
-#include "hidapicpp/utils.h"
+#include "HidapiUtils.h"
 
 #include "utils.h"
 
@@ -8,8 +8,6 @@
 using namespace nlab::utils;
 
 namespace nlab {
-namespace hidapicpp {
-namespace utils {
 
 std::string HidDeviceInfoToStr(hid_device_info* dev)
 {
@@ -29,6 +27,4 @@ std::string HidDeviceInfoToStr(hid_device_info* dev)
     return ss.str();
 }
 
-} // namespace utils
-} // namespace hidapicpp
 } // namespace nlab

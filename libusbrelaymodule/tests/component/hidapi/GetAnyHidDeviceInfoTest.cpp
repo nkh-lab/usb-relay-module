@@ -2,11 +2,11 @@
 
 #include "hidapi.h"
 
-#include "hidapicpp/utils.h"
+#include "HidapiUtils.h"
 #include "utils.h"
 
 using namespace nlab::utils;
-using namespace nlab::hidapicpp::utils;
+using namespace nlab;
 
 int main(int argc, char const* argv[])
 {

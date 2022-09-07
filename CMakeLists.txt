@@ -19,24 +19,15 @@ set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
 set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
 
 # Others
-# General utils
+# Utils lib
 set(UTILS_LIB ${PROJECT_NAME}-utils)
-# HIDAPI C++ wrapper + utils
-set(HIDAPICPP_LIB ${HIDAPI_LIB}-cpp)
 # Main mocked lib
 set(USB_RELAY_MODULE_MOCK_LIB ${PROJECT_NAME}-mock)
 
 option(${PROJECT_NAME}_BUILD_CTESTS "Build component tests" off)
 option(${PROJECT_NAME}_BUILD_UTESTS "Build unit tests" off)
 
-file(GLOB SUBDIRS
-    "external"
-    "lib*"
-    "app*"
-    )
-
-foreach(X IN LISTS SUBDIRS)
-    if(IS_DIRECTORY ${X})
-        add_subdirectory(${X})
-    endif()
-endforeach()
+add_subdirectory(external)
+add_subdirectory(utils)
+add_subdirectory(libusbrelaymodule)
+add_subdirectory(app-cli)
