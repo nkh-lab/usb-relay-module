@@ -12,7 +12,7 @@ std::string BytesToStr(uint8_t* bytes, size_t size)
     std::stringstream ss;
 
     ss << std::hex;
-    for (int i = 0; i < size; ++i)
+    for (size_t i = 0; i < size; ++i)
     {
         ss << std::setfill('0') << std::setw(2) << static_cast<int>(bytes[i]);
         if (i < size - 1) ss << " ";

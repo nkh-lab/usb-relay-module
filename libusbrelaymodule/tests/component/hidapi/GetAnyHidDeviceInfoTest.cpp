@@ -10,7 +10,8 @@ using namespace nlab;
 
 int main(int argc, char const* argv[])
 {
-    NOT_USED(argc);
+    UNUSED(argc);
+    UNUSED(argv);
 
     hid_device_info* dev = hid_enumerate(0, 0);
 

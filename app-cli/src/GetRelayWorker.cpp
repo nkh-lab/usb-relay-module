@@ -7,7 +7,6 @@
 namespace {
 const char* kAllRelays = "";
 const size_t kAllChannels = 0;
-const char* kRelayChannelDelimiter = "_";
 } // namespace
 
 namespace nlab {

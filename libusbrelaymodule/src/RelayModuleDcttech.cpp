@@ -1,5 +1,7 @@
 #include <RelayModuleDcttech.h>
 
+#include "utils.h"
+
 namespace nlab {
 
 RelayModuleDcttech::RelayModuleDcttech(const std::string& path)
@@ -24,16 +26,24 @@ std::string RelayModuleDcttech::GetInfo()
 
 bool RelayModuleDcttech::GetNameAndChannels(std::string& module_name, std::vector<bool>& channels)
 {
+    UNUSED(module_name);
+    UNUSED(channels);
+
     return false;
 }
 
 bool RelayModuleDcttech::SetName(const std::string& name)
 {
+    UNUSED(name);
+
     return false;
 }
 
 bool RelayModuleDcttech::SetChannel(size_t channel, bool state)
 {
+    UNUSED(channel);
+    UNUSED(state);
+
     return false;
 }
 

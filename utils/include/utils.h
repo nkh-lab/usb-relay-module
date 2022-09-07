@@ -2,7 +2,7 @@
 
 #include <string>
 
-#define NOT_USED(x) static_cast<void>(x)
+#define UNUSED(x) static_cast<void>(x)
 
 namespace nlab {
 namespace utils {
