@@ -112,6 +112,7 @@ bool SetRelayWorker::RenameModule(const std::string& module, const std::string& 
         {
             ret = m->SetName(new_module);
             out.clear();
+            break;
         }
     }
 
