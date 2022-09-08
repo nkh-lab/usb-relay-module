@@ -29,9 +29,9 @@ const char* TextUserInterface::kGetChannelState =
     "%d\n";
 
 const char* TextUserInterface::kGetRelayInfoAndState =
-    "%s\n"
+    "%s"
     "module_name:      %s\n"
-    "%s\n";
+    "%s";
 
 const char* TextUserInterface::kChannelNameAndState =
     "channel_%d:        %d\n";

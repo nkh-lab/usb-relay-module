@@ -139,6 +139,8 @@ bool GetRelayWorker::GetStatesAllModules(const IRelayModulePtrs& modules, std::s
             m->GetInfo().c_str(),
             module_name.c_str(),
             channels_out.c_str());
+
+        if (m != modules.back()) out += "\n";
     }
 
     return true;

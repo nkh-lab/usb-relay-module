@@ -28,12 +28,12 @@ int main(int argc, char const* argv[])
             data[0] = kReportIDGet;
 
             std::cout << "==============================\n";
-            std::cout << "hid_get_feature_report(" << BytesToStr(data, sizeof(data)) << ") ";
+            std::cout << "hid_get_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
             int ret = hid_get_feature_report(handle, data, sizeof(data));
             std::cout << "returned " << ret << "\n";
             if (ret != -1)
             {
-                std::cout << BytesToStr(data, sizeof(data)) << "\n";
+                std::cout << PrintBytes(data, sizeof(data)) << "\n";
 #ifdef __linux__
                 std::string module_name(reinterpret_cast<char*>(&data[0]), kNameSizeBytes);
                 uint8_t& relays_state = data[7];

@@ -35,13 +35,13 @@ int main(int argc, char const* argv[])
                 data[1] = relay_val;
                 data[2] = relay_idx;
 
-                std::cout << "hid_send_feature_report(" << BytesToStr(data, sizeof(data)) << ") ";
+                std::cout << "hid_send_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
                 // int ret = hid_write(handle, data, sizeof(data)); // On Ubuntu it works as well
                 int ret = hid_send_feature_report(handle, data, sizeof(data));
                 std::cout << "returned " << ret << "\n";
                 if (ret != -1)
                 {
-                    std::cout << BytesToStr(data, sizeof(data)) << "\n";
+                    std::cout << PrintBytes(data, sizeof(data)) << "\n";
                 }
                 else
                     main_ret = EXIT_FAILURE;

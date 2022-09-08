@@ -7,7 +7,7 @@
 namespace nlab {
 namespace utils {
 
-std::string BytesToStr(uint8_t* bytes, size_t size)
+std::string PrintBytes(uint8_t* bytes, size_t size)
 {
     std::stringstream ss;
 
@@ -19,6 +19,22 @@ std::string BytesToStr(uint8_t* bytes, size_t size)
     }
 
     return ss.str();
+}
+
+std::string GetStrFromBytes(uint8_t* bytes, size_t size)
+{
+    size_t actual_str_size{size};
+
+    for (size_t i = 0; i < size; ++i)
+    {
+        if (bytes[i] == 0)
+        {
+            actual_str_size = i;
+            break;
+        }
+    }
+
+    return std::string(std::string(reinterpret_cast<char*>(&bytes[0]), actual_str_size));
 }
 
 std::string PwstrToStr(wchar_t* pwstr)

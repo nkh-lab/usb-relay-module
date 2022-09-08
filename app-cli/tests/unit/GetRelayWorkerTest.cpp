@@ -335,6 +335,8 @@ TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
             TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(module2_channels[i]));
     }
 
+    expected_out += "\n";
+
     expected_out += utils::Sprintf(
         TextUserInterface::kGetRelayInfoAndState,
         kModuleInfo2,

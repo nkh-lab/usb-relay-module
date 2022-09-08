@@ -7,7 +7,7 @@ namespace nlab {
 class RelayModuleDcttech final : public IRelayModule
 {
 public:
-    RelayModuleDcttech(const std::string& path);
+    RelayModuleDcttech(const std::string& info, const std::string& path, size_t channels_size);
     ~RelayModuleDcttech() = default;
 
     static uint16_t GetVendorId();
@@ -32,7 +32,9 @@ private:
     static const uint8_t kCmdRelayOff = 0xfd;
     static const uint8_t kCmdSetModuleName = 0xfa;
 
+    const std::string info;
     const std::string path;
+    const size_t channels_size;
 };
 
 } // namespace nlab

@@ -38,13 +38,13 @@ int main(int argc, char const* argv[])
                 data[1] = kCmdSetModuleName;
                 std::strncpy(reinterpret_cast<char*>(&data[2]), new_module_name, name_size_to_copy);
 
-                std::cout << "hid_send_feature_report(" << BytesToStr(data, sizeof(data)) << ") ";
+                std::cout << "hid_send_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
                 // int ret = hid_write(handle, data, sizeof(data)); // On Ubuntu it works as well
                 int ret = hid_send_feature_report(handle, data, sizeof(data));
                 std::cout << "returned " << ret << "\n";
                 if (ret != -1)
                 {
-                    std::cout << BytesToStr(data, sizeof(data)) << "\n";
+                    std::cout << PrintBytes(data, sizeof(data)) << "\n";
                 }
                 else
                     main_ret = EXIT_FAILURE;
