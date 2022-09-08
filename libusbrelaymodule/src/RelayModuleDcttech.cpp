@@ -96,10 +96,25 @@ bool RelayModuleDcttech::SetName(const std::string& name)
 
 bool RelayModuleDcttech::SetChannel(size_t channel, bool state)
 {
-    UNUSED(channel);
-    UNUSED(state);
+    bool ret = false;
 
-    return false;
+    hid_device* handle = hid_open_path(path_.c_str());
+
+    if (handle)
+    {
+        uint8_t data[kDataSizeBytes] = {0};
+        data[0] = kReportIDSet;
+        data[1] = state ? kCmdRelayOn : kCmdRelayOff;
+        data[2] = static_cast<uint8_t>(channel);
+
+        int hid_ret = hid_send_feature_report(handle, data, sizeof(data));
+
+        if (hid_ret != -1) ret = true;
+
+        hid_close(handle);
+    }
+
+    return ret;
 }
 
 } // namespace nlab
