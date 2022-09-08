@@ -5,7 +5,7 @@
 
 #include "DcttechConstants.h"
 #include "HidapiUtils.h"
-#include "utils.h"
+#include "Utils.h"
 
 using namespace nlab::tests::hidapi::dcttech;
 using namespace nlab::utils;

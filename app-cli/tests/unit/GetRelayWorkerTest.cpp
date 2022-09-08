@@ -4,7 +4,7 @@
 #include "MockRelayManager.h"
 #include "MockRelayModule.h"
 #include "TextUserInterface.h"
-#include "utils.h"
+#include "Utils.h"
 
 using namespace nlab;
 
@@ -42,26 +42,24 @@ protected:
 
     void SetUp() override
     {
-        relay_manager = std::make_unique<MockRelayManager>();
-        module1 = std::make_shared<MockRelayModule>();
-        module2 = std::make_shared<MockRelayModule>();
+        relay_manager_ = std::make_unique<MockRelayManager>();
+        module1_ = std::make_shared<MockRelayModule>();
+        module2_ = std::make_shared<MockRelayModule>();
 
-        relay_modules_size1.push_back(module1);
+        relay_modules_size1_.push_back(module1_);
 
-        relay_modules_size2.push_back(module1);
-        relay_modules_size2.push_back(module2);
+        relay_modules_size2_.push_back(module1_);
+        relay_modules_size2_.push_back(module2_);
     }
 
     // void TearDown() override {}
 
-    std::unique_ptr<MockRelayManager> relay_manager;
-    IRelayModulePtrs relay_modules_size0;
-    IRelayModulePtrs relay_modules_size1;
-    IRelayModulePtrs relay_modules_size2;
-    std::shared_ptr<MockRelayModule> module1;
-    std::shared_ptr<MockRelayModule> module2;
-
-    // relay_modules.push_back(module1);
+    std::unique_ptr<MockRelayManager> relay_manager_;
+    IRelayModulePtrs relay_modules_size0_;
+    IRelayModulePtrs relay_modules_size1_;
+    IRelayModulePtrs relay_modules_size2_;
+    std::shared_ptr<MockRelayModule> module1_;
+    std::shared_ptr<MockRelayModule> module2_;
 };
 
 TEST_F(GetRelayWorkerTest, VersionShortArg)
@@ -70,10 +68,10 @@ TEST_F(GetRelayWorkerTest, VersionShortArg)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -89,10 +87,10 @@ TEST_F(GetRelayWorkerTest, VersionLongArg)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -108,10 +106,10 @@ TEST_F(GetRelayWorkerTest, HelpShortArg)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -127,10 +125,10 @@ TEST_F(GetRelayWorkerTest, HelpLongArg)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -146,10 +144,10 @@ TEST_F(GetRelayWorkerTest, BadArg)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -165,10 +163,10 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage1)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -184,10 +182,10 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage2)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -203,10 +201,10 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage3)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(0);
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -222,10 +220,10 @@ TEST_F(GetRelayWorkerTest, NoArgsNoModules)
     int argc = arraySize(argv);
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size0));
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size0_));
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -243,14 +241,14 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModule)
     std::vector<bool> channels{0, 1};
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size1));
-    EXPECT_CALL(*module1, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo1}));
-    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size1_));
+    EXPECT_CALL(*module1_, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo1}));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(SetArgReferee<0>(module_name), SetArgReferee<1>(channels), Return(true)));
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -293,20 +291,20 @@ TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
     std::vector<bool> module2_channels{0, 1, 0, 1, 0, 1, 0, 1};
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
-    EXPECT_CALL(*module1, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo1}));
-    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size2_));
+    EXPECT_CALL(*module1_, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo1}));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
-    EXPECT_CALL(*module2, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo2}));
-    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+    EXPECT_CALL(*module2_, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo2}));
+    EXPECT_CALL(*module2_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -365,19 +363,19 @@ TEST_F(GetRelayWorkerTest, RequestExistingModule)
     std::vector<bool> module2_channels{0, 1, 0, 1, 0, 1, 0, 1};
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
-    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size2_));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
-    EXPECT_CALL(*module2, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo2}));
-    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+    EXPECT_CALL(*module2_, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo2}));
+    EXPECT_CALL(*module2_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -420,18 +418,18 @@ TEST_F(GetRelayWorkerTest, RequestUnexistingModule)
     std::vector<bool> module2_channels{0, 1, 0, 1, 0, 1, 0, 1};
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
-    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size2_));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
-    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+    EXPECT_CALL(*module2_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -461,18 +459,18 @@ TEST_F(GetRelayWorkerTest, RequestExistingChannel)
     std::vector<bool> module2_channels{0, 1};
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
-    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size2_));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
-    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+    EXPECT_CALL(*module2_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 
@@ -503,18 +501,18 @@ TEST_F(GetRelayWorkerTest, RequestNonexistingChannel)
     std::vector<bool> module2_channels{0, 1};
 
     // Mocking
-    EXPECT_CALL(*relay_manager, GetModules()).Times(1).WillOnce(Return(relay_modules_size2));
-    EXPECT_CALL(*module1, GetNameAndChannels(_, _))
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size2_));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
-    EXPECT_CALL(*module2, GetNameAndChannels(_, _))
+    EXPECT_CALL(*module2_, GetNameAndChannels(_, _))
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
     //========
 
-    GetRelayWorker worker(std::move(relay_manager));
+    GetRelayWorker worker(std::move(relay_manager_));
 
     std::string out;
 

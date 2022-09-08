@@ -1,6 +1,6 @@
 #include "HidapiUtils.h"
 
-#include "utils.h"
+#include "Utils.h"
 
 #include <iomanip>
 #include <sstream>

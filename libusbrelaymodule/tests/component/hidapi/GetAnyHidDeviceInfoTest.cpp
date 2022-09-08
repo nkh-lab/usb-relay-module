@@ -3,7 +3,7 @@
 #include "hidapi.h"
 
 #include "HidapiUtils.h"
-#include "utils.h"
+#include "Utils.h"
 
 using namespace nlab::utils;
 using namespace nlab;

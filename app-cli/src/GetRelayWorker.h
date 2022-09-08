@@ -33,7 +33,7 @@ private:
         size_t channel,
         std::string& out);
 
-    std::unique_ptr<nlab::IRelayManager> relay_manager;
+    std::unique_ptr<nlab::IRelayManager> relay_manager_;
 };
 
 } // namespace nlab

@@ -2,12 +2,12 @@
 
 #include "LightArgParser.h"
 #include "TextUserInterface.h"
-#include "utils.h"
+#include "Utils.h"
 
 namespace nlab {
 
 SetRelayWorker::SetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager)
-    : relay_manager{std::move(relay_manager)}
+    : relay_manager_{std::move(relay_manager)}
 {
 }
 
@@ -99,7 +99,7 @@ bool SetRelayWorker::RenameModule(const std::string& module, const std::string& 
 
     out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
-    auto modules = relay_manager->GetModules();
+    auto modules = relay_manager_->GetModules();
 
     for (auto m : modules)
     {
@@ -124,7 +124,7 @@ bool SetRelayWorker::SetChannel(const std::string& module, size_t channel, bool 
 
     out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
-    auto modules = relay_manager->GetModules();
+    auto modules = relay_manager_->GetModules();
 
     for (auto m : modules)
     {

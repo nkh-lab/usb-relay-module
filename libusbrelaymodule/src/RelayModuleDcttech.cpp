@@ -4,14 +4,14 @@
 
 #include "hidapi.h"
 
-#include "utils.h"
+#include "Utils.h"
 
 namespace nlab {
 
 RelayModuleDcttech::RelayModuleDcttech(const std::string& info, const std::string& path, size_t channels_size)
-    : info{info}
-    , path{path}
-    , channels_size{channels_size}
+    : info_{info}
+    , path_{path}
+    , channels_size_{channels_size}
 {
 }
 
@@ -27,14 +27,14 @@ uint16_t RelayModuleDcttech::GetProductId()
 
 std::string RelayModuleDcttech::GetInfo()
 {
-    return info;
+    return info_;
 }
 
 bool RelayModuleDcttech::GetNameAndChannels(std::string& module_name, std::vector<bool>& channels)
 {
     bool ret = false;
 
-    hid_device* handle = hid_open_path(path.c_str());
+    hid_device* handle = hid_open_path(path_.c_str());
 
     if (handle)
     {
@@ -54,7 +54,7 @@ bool RelayModuleDcttech::GetNameAndChannels(std::string& module_name, std::vecto
 #endif
             auto channels_states = std::bitset<8>(relays_state);
 
-            for (size_t i = 0; i < channels_size && i < 8; ++i)
+            for (size_t i = 0; i < channels_size_ && i < 8; ++i)
             {
                 channels.emplace_back(channels_states[i]);
             }

@@ -24,7 +24,7 @@ private:
     bool RenameModule(const std::string& module, const std::string& new_module, std::string& out);
     bool SetChannel(const std::string& module, size_t channel, bool state, std::string& out);
 
-    std::unique_ptr<nlab::IRelayManager> relay_manager;
+    std::unique_ptr<nlab::IRelayManager> relay_manager_;
 };
 
 } // namespace nlab

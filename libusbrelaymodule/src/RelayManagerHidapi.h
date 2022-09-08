@@ -7,7 +7,7 @@
 #include "HidapiUtils.h"
 #include "IRelayManager.h"
 #include "RelayModuleDcttech.h"
-#include "utils.h"
+#include "Utils.h"
 
 namespace nlab {
 

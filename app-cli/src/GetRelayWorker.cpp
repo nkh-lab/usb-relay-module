@@ -2,7 +2,7 @@
 
 #include "LightArgParser.h"
 #include "TextUserInterface.h"
-#include "utils.h"
+#include "Utils.h"
 
 namespace {
 const char* kAllRelays = "";
@@ -12,7 +12,7 @@ const size_t kAllChannels = 0;
 namespace nlab {
 
 GetRelayWorker::GetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager)
-    : relay_manager{std::move(relay_manager)}
+    : relay_manager_{std::move(relay_manager)}
 {
 }
 
@@ -99,7 +99,7 @@ bool GetRelayWorker::GetState(const std::string& module, size_t channel, std::st
 {
     bool ret = true;
     out = TextUserInterface::kNoModules;
-    auto modules = relay_manager->GetModules();
+    auto modules = relay_manager_->GetModules();
 
     if (modules.size() > 0)
     {
