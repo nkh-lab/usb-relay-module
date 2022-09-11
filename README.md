@@ -44,7 +44,7 @@ cmake -G "Visual Studio 17 2022" -A Win32 ..
 cmake --build . --config Release
 ```
 ### Portable
-To be able to use the output binaries outside of the project, use the appropriate scripts from the [tools](tools) folder to build the portable package ([build/portable](build/portable) and its archive [build/usbrelaymodule-portable.zip](build/usbrelaymodule-portable.zip)), for example for Ubuntu:
+To be able to use the output binaries outside of the project, use the appropriate scripts from the [tools](tools) folder to build the portable package ([build/portable](build/portable) and its archive [build/usbrelaymodule-portable.tar.gz](build/usbrelaymodule-portable.tar.gz)), for example for Ubuntu:
 ```
 ./tools/build-portable-linux.sh
 ```
