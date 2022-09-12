@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ F-Move-to-libusb-hidapi ]
 
 jobs:
   Build-on-Ubuntu:
