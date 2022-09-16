@@ -52,6 +52,9 @@ const char* TextUserInterface::kErrorNoRequestedModule =
 const char* TextUserInterface::kErrorNoRequestedChannel =
     "ERROR: No requested channel '%d' in '%s' USB relay module!\n";
 
+const char* TextUserInterface::kErrorInaccessible =
+    "ERROR: Inaccessible!";
+
 // clang-format on
 
 } // namespace nlab

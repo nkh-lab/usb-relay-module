@@ -15,6 +15,7 @@ struct TextUserInterface
     static const char* kNoModules;
     static const char* kErrorNoRequestedModule;
     static const char* kErrorNoRequestedChannel;
+    static const char* kErrorInaccessible;
 };
 
 } // namespace nlab

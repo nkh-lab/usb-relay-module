@@ -1,0 +1,3 @@
+# Path: /etc/udev/rules.d/
+
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="05df", MODE="0666", GROUP="plugdev"

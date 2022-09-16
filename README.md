@@ -77,3 +77,10 @@ channel_2:        0
 ```
 ./setrelay R3=Mod4
 ```
+
+## Troubleshooting and other documentation
+Troubleshooting documentation is available at:
+- [doc/Troubleshooting.md](doc/Troubleshooting.md)
+
+And here is the start page of all available documentation:
+- [doc/README.md](doc/README.md).

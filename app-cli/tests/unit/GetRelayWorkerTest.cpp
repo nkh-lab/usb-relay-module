@@ -28,7 +28,7 @@ protected:
         "release_number:   256\n"
         "manufacturer:     www.dcttech.com\n"
         "product:          USBRelay2\n"
-        "interface_number: 0";
+        "interface_number: 0\n";
 
     const char* kModuleInfo2 =
         "path:             /dev/hidraw5\n"
@@ -38,7 +38,7 @@ protected:
         "release_number:   256\n"
         "manufacturer:     www.dcttech.com\n"
         "product:          USBRelay2\n"
-        "interface_number: 0";
+        "interface_number: 0\n";
 
     void SetUp() override
     {
@@ -279,6 +279,54 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModule)
 
     EXPECT_EQ(out, expected_out);
     EXPECT_TRUE(ret);
+}
+
+TEST_F(GetRelayWorkerTest, NoArgsOneModuleAndFailedGetNameAndChannels)
+{
+    const char* argv[] = {""};
+    int argc = arraySize(argv);
+    std::string module_name = utils::Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
+    std::vector<bool> channels{};
+
+    // Mocking
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size1_));
+    EXPECT_CALL(*module1_, GetInfo()).Times(1).WillOnce(Return(std::string{kModuleInfo1}));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(SetArgReferee<0>(module_name), SetArgReferee<1>(channels), Return(false)));
+    //========
+
+    GetRelayWorker worker(std::move(relay_manager_));
+
+    std::string out;
+
+    bool ret = worker.Run(argc, argv, out);
+
+    std::string expected_out;
+    std::string expected_channels_out;
+
+    for (size_t i = 0; i < channels.size(); ++i)
+    {
+        expected_channels_out += utils::Sprintf(
+            TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
+    }
+
+    expected_out = utils::Sprintf(
+        TextUserInterface::kGetRelayInfoAndState,
+        kModuleInfo1,
+        module_name.c_str(),
+        expected_channels_out.c_str());
+
+    /* Debug
+    std::cout << "=================================================\n";
+    std::cout << expected_out;
+    std::cout << "=================================================\n";
+    std::cout << out;
+    std::cout << "=================================================\n";
+    */
+
+    EXPECT_EQ(out, expected_out);
+    EXPECT_FALSE(ret);
 }
 
 TEST_F(GetRelayWorkerTest, NoArgsTwoModules)

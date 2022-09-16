@@ -121,17 +121,26 @@ bool GetRelayWorker::GetState(const std::string& module, size_t channel, std::st
 
 bool GetRelayWorker::GetStatesAllModules(const IRelayModulePtrs& modules, std::string& out)
 {
+    bool ret = true;
+
     for (auto m : modules)
     {
         std::string module_name, channels_out;
         std::vector<bool> channels;
 
-        m->GetNameAndChannels(module_name, channels);
-
-        for (size_t i = 0; i < channels.size(); ++i)
+        if (m->GetNameAndChannels(module_name, channels))
         {
-            channels_out += utils::Sprintf(
-                TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
+            for (size_t i = 0; i < channels.size(); ++i)
+            {
+                channels_out += utils::Sprintf(
+                    TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
+            }
+        }
+        else
+        {
+            module_name = utils::Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
+
+            if (ret) ret = false;
         }
 
         out += utils::Sprintf(
@@ -143,7 +152,7 @@ bool GetRelayWorker::GetStatesAllModules(const IRelayModulePtrs& modules, std::s
         if (m != modules.back()) out += "\n";
     }
 
-    return true;
+    return ret;
 }
 
 bool GetRelayWorker::GetStatesRequestedModule(
