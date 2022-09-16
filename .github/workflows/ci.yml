@@ -13,7 +13,7 @@ jobs:
         run: git submodule update --init --recursive
       - name: Install dependencies
         run: |
-          sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev libgtest-dev libgmock-dev
+          sudo apt-get install libudev-dev libgtest-dev libgmock-dev
       - name: Build
         run: |
           mkdir build && cd build
@@ -49,9 +49,9 @@ jobs:
           cmake --build . --config Release
       - name: Copy dll
         run: |
-          cp external/hidapi/windows/Release/hidapi.dll build/app-cli/Release/
-          cp external/hidapi/windows/Release/hidapi.dll build/libusbrelaymodule/tests/component/hidapi/Release/
-          cp build/libusbrelaymodule/Release/usbrelaymodule.dll build/app-cli/Release/     
+          cp build/external/hidapi/src/windows/Release/hidapi.dll build/app-cli/Release/
+          cp build/external/hidapi/src/windows/Release/hidapi.dll build/libusbrelaymodule/tests/component/hidapi/Release/
+          cp build/libusbrelaymodule/Release/usbrelaymodule.dll build/app-cli/Release/
       - name: Run Component Tests
         run: |
           build/libusbrelaymodule/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe

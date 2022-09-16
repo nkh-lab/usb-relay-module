@@ -14,8 +14,8 @@ target_include_directories(${USB_RELAY_MODULE_LIB}
     )
     
 target_link_libraries(${USB_RELAY_MODULE_LIB}
-    PRIVATE hidapi
-    ${UTILS_LIB}
+    PRIVATE ${HIDAPI_LIB}
+    PRIVATE ${UTILS_LIB}
     )
 
 add_subdirectory(tests)

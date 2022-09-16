@@ -8,7 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(usbrelaymodule)
 
 # External
-set(HIDAPI_LIB hidapi)
+set(HIDAPI_LIB hidapi::hidapi)
 
 # Main lib
 set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
@@ -24,9 +24,13 @@ option(${PROJECT_NAME}_BUILD_CTESTS     "Build component tests"     OFF)
 option(${PROJECT_NAME}_BUILD_UTESTS     "Build unit tests"          OFF)
 option(${PROJECT_NAME}_BUILD_PORTABLE   "Build portable binaries"   OFF)
 
-if(${PROJECT_NAME}_BUILD_PORTABLE AND CMAKE_SYSTEM_NAME STREQUAL Linux)
-    set(CMAKE_INSTALL_RPATH "\$ORIGIN")
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+if(CMAKE_SYSTEM_NAME STREQUAL Linux)
+    if(${PROJECT_NAME}_BUILD_PORTABLE)
+        set(CMAKE_INSTALL_RPATH "\$ORIGIN")
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+    endif()
+
+    set(HIDAPI_WITH_LIBUSB OFF)
 endif()
 
 add_subdirectory(external)
