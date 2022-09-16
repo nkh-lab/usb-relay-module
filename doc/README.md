@@ -1,4 +1,4 @@
-Contents
+## Contents
 
 [Intro page](../README.md)
 

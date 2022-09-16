@@ -1,0 +1,1 @@
+setrelay R1_2=1

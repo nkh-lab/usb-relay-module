@@ -22,7 +22,7 @@ git submodule update --init
 
 Install depedencies, e.g. for Ubuntu:
 ```
-sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev
+sudo apt-get install libudev-dev
 ```
 Build:
 ```
