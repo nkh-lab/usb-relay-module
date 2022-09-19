@@ -2,7 +2,9 @@
 
 #include <IRelayModule.h>
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace impl {
 
 class RelayModuleDcttech final : public IRelayModule
 {
@@ -37,4 +39,6 @@ private:
     const size_t channels_size_;
 };
 
-} // namespace nlab
+} // namespace impl
+} // namespace usbrelaymodule
+} // namespace nkhlab

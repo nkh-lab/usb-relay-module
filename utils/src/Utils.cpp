@@ -4,7 +4,8 @@
 #include <sstream>
 #include <stdarg.h>
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
 namespace utils {
 
 std::string PrintBytes(uint8_t* bytes, size_t size)
@@ -81,4 +82,5 @@ void SplitModuleChannelStr(const std::string& module_channel, std::string& modul
 }
 
 } // namespace utils
-} // namespace nlab
+} // namespace usbrelaymodule
+} // namespace nkhlab

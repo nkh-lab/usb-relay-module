@@ -4,9 +4,13 @@
 #include "TextUserInterface.h"
 #include "Utils.h"
 
-namespace nlab {
+using namespace nkhlab::lightargparser;
 
-SetRelayWorker::SetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager)
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace appcli {
+
+SetRelayWorker::SetRelayWorker(std::unique_ptr<IRelayManager> relay_manager)
     : relay_manager_{std::move(relay_manager)}
 {
 }
@@ -153,4 +157,6 @@ bool SetRelayWorker::SetChannel(const std::string& module, size_t channel, bool 
     return ret;
 }
 
-} // namespace nlab
+} // namespace appcli
+} // namespace usbrelaymodule
+} // namespace nkhlab

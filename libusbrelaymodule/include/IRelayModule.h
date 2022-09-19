@@ -9,7 +9,8 @@
 #define DLL_EXPORT __declspec(dllexport)
 #endif
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
 
 class DLL_EXPORT IRelayModule
 {
@@ -24,6 +25,7 @@ public:
     virtual bool SetChannel(size_t channel, bool state) = 0;
 };
 
-} // namespace nlab
+} // namespace usbrelaymodule
+} // namespace nkhlab
 
 #undef DLL_EXPORT

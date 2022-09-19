@@ -4,7 +4,9 @@
 
 #include "IRelayModule.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace tests {
 
 class MockRelayModule : public IRelayModule
 {
@@ -15,4 +17,6 @@ public:
     MOCK_METHOD2(SetChannel, bool(size_t channel, bool state));
 };
 
-} // namespace nlab
+} // namespace tests
+} // namespace usbrelaymodule
+} // namespace nkhlab

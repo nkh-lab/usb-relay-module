@@ -7,7 +7,9 @@
 
 #include "Utils.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace impl {
 
 RelayModuleDcttech::RelayModuleDcttech(const std::string& info, const std::string& path, size_t channels_size)
     : info_{info}
@@ -117,4 +119,6 @@ bool RelayModuleDcttech::SetChannel(size_t channel, bool state)
     return ret;
 }
 
-} // namespace nlab
+} // namespace impl
+} // namespace usbrelaymodule
+} // namespace nkhlab

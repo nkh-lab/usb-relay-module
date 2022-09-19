@@ -9,7 +9,9 @@
 #include "RelayModuleDcttech.h"
 #include "Utils.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace impl {
 
 template <typename TRelayModule>
 class RelayManagerHidapi final : public IRelayManager
@@ -42,4 +44,6 @@ public:
     }
 };
 
-} // namespace nlab
+} // namespace impl
+} // namespace usbrelaymodule
+} // namespace nkhlab

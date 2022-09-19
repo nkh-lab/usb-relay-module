@@ -7,9 +7,9 @@
 #include "HidapiUtils.h"
 #include "Utils.h"
 
-using namespace nlab::tests::hidapi::dcttech;
-using namespace nlab::utils;
-using namespace nlab;
+using namespace nkhlab::usbrelaymodule::tests::hidapi::dcttech;
+using namespace nkhlab::usbrelaymodule::impl;
+using namespace nkhlab::usbrelaymodule::utils;
 
 int main(int argc, char const* argv[])
 {

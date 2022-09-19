@@ -1,6 +1,8 @@
 #pragma once
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace appcli {
 
 struct TextUserInterface
 {
@@ -18,4 +20,6 @@ struct TextUserInterface
     static const char* kErrorInaccessible;
 };
 
-} // namespace nlab
+} // namespace appcli
+} // namespace usbrelaymodule
+} // namespace nkhlab

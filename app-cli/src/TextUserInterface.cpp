@@ -1,6 +1,8 @@
 #include "TextUserInterface.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace appcli {
 
 // clang-format off
 
@@ -57,4 +59,6 @@ const char* TextUserInterface::kErrorInaccessible =
 
 // clang-format on
 
-} // namespace nlab
+} // namespace appcli
+} // namespace usbrelaymodule
+} // namespace nkhlab

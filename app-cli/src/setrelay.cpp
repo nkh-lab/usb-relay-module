@@ -4,11 +4,12 @@
 #include "SetRelayWorker.h"
 #include "Utils.h"
 
-using namespace nlab;
+using namespace nkhlab::usbrelaymodule;
+using namespace nkhlab::usbrelaymodule::appcli;
 
 int main(int argc, char const* argv[])
 {
-    SetRelayWorker worker(nlab::CreateHidapiManagerForDcttechModules());
+    SetRelayWorker worker(CreateHidapiManagerForDcttechModules());
 
     std::string out;
 

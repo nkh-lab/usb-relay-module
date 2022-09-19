@@ -5,12 +5,14 @@
 
 #include "RelayManager.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace appcli {
 
 class GetRelayWorker
 {
 public:
-    GetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager);
+    GetRelayWorker(std::unique_ptr<IRelayManager> relay_manager);
     ~GetRelayWorker() = default;
 
     bool Run(int argc, char const** argv, std::string& out);
@@ -33,7 +35,9 @@ private:
         size_t channel,
         std::string& out);
 
-    std::unique_ptr<nlab::IRelayManager> relay_manager_;
+    std::unique_ptr<IRelayManager> relay_manager_;
 };
 
-} // namespace nlab
+} // namespace appcli
+} // namespace usbrelaymodule
+} // namespace nkhlab

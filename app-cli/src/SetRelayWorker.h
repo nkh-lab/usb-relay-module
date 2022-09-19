@@ -5,12 +5,14 @@
 
 #include "RelayManager.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace appcli {
 
 class SetRelayWorker
 {
 public:
-    SetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager);
+    SetRelayWorker(std::unique_ptr<IRelayManager> relay_manager);
     ~SetRelayWorker() = default;
 
     bool Run(int argc, char const** argv, std::string& out);
@@ -24,7 +26,9 @@ private:
     bool RenameModule(const std::string& module, const std::string& new_module, std::string& out);
     bool SetChannel(const std::string& module, size_t channel, bool state, std::string& out);
 
-    std::unique_ptr<nlab::IRelayManager> relay_manager_;
+    std::unique_ptr<IRelayManager> relay_manager_;
 };
 
-} // namespace nlab
+} // namespace appcli
+} // namespace usbrelaymodule
+} // namespace nkhlab

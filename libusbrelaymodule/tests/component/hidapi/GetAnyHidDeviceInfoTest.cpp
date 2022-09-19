@@ -5,8 +5,7 @@
 #include "HidapiUtils.h"
 #include "Utils.h"
 
-using namespace nlab::utils;
-using namespace nlab;
+using namespace nkhlab::usbrelaymodule::impl;
 
 int main(int argc, char const* argv[])
 {

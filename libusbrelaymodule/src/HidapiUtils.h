@@ -4,8 +4,12 @@
 
 #include "hidapi.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace impl {
 
 std::string HidDeviceInfoToStr(hid_device_info* dev);
 
-} // namespace nlab
+}
+} // namespace usbrelaymodule
+} // namespace nkhlab

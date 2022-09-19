@@ -1,6 +1,7 @@
 #pragma once
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
 namespace tests {
 namespace hidapi {
 namespace dcttech {
@@ -21,4 +22,5 @@ constexpr uint8_t kCmdSetModuleName = 0xfa;
 } // namespace dcttech
 } // namespace hidapi
 } // namespace tests
-} // namespace nlab
+} // namespace usbrelaymodule
+} // namespace nkhlab

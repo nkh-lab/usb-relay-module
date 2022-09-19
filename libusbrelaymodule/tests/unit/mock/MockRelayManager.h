@@ -4,7 +4,9 @@
 
 #include "IRelayManager.h"
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace tests {
 
 class MockRelayManager : public IRelayManager
 {
@@ -12,4 +14,6 @@ public:
     MOCK_METHOD0(GetModules, IRelayModulePtrs());
 };
 
-} // namespace nlab
+} // namespace tests
+} // namespace usbrelaymodule
+} // namespace nkhlab

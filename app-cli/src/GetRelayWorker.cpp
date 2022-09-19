@@ -4,14 +4,18 @@
 #include "TextUserInterface.h"
 #include "Utils.h"
 
+using namespace nkhlab::lightargparser;
+
 namespace {
 const char* kAllRelays = "";
 const size_t kAllChannels = 0;
 } // namespace
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace appcli {
 
-GetRelayWorker::GetRelayWorker(std::unique_ptr<nlab::IRelayManager> relay_manager)
+GetRelayWorker::GetRelayWorker(std::unique_ptr<IRelayManager> relay_manager)
     : relay_manager_{std::move(relay_manager)}
 {
 }
@@ -228,4 +232,6 @@ bool GetRelayWorker::GetStateRequestedChannel(
     return ret;
 }
 
-} // namespace nlab
+} // namespace appcli
+} // namespace usbrelaymodule
+} // namespace nkhlab

@@ -4,7 +4,8 @@
 
 #define UNUSED(x) static_cast<void>(x)
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
 namespace utils {
 
 std::string PrintBytes(uint8_t* bytes, size_t size);
@@ -14,4 +15,5 @@ std::string Sprintf(const char* fmt, ...);
 void SplitModuleChannelStr(const std::string& module_channel, std::string& module, size_t& channel);
 
 } // namespace utils
-} // namespace nlab
+} // namespace usbrelaymodule
+} // namespace nkhlab

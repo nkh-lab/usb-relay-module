@@ -11,12 +11,14 @@
 #define DLL_EXPORT __declspec(dllexport)
 #endif
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
 
 using IRelayManagerPtr = std::unique_ptr<IRelayManager>;
 
 IRelayManagerPtr DLL_EXPORT CreateHidapiManagerForDcttechModules();
 
-} // namespace nlab
+} // namespace usbrelaymodule
+} // namespace nkhlab
 
 #undef DLL_EXPORT

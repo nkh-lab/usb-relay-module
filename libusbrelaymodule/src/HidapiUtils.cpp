@@ -5,9 +5,11 @@
 #include <iomanip>
 #include <sstream>
 
-using namespace nlab::utils;
+using namespace nkhlab::usbrelaymodule::utils;
 
-namespace nlab {
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace impl {
 
 std::string HidDeviceInfoToStr(hid_device_info* dev)
 {
@@ -27,4 +29,6 @@ std::string HidDeviceInfoToStr(hid_device_info* dev)
     return ss.str();
 }
 
-} // namespace nlab
+} // namespace impl
+} // namespace usbrelaymodule
+} // namespace nkhlab
