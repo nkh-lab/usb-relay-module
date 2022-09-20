@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # USB Relay Module
-project(usbrelaymodule)
+project(usbrelaymodule VERSION 0.0.1)
 
 # External
 set(HIDAPI_LIB hidapi::hidapi)
@@ -17,6 +17,8 @@ set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
 # Others
 # Utils lib
 set(UTILS_LIB ${PROJECT_NAME}-utils)
+# Config lib
+set(CONFIG_LIB ${PROJECT_NAME}-config)                                                                                                                                                                                                
 # Main mocked lib
 set(USB_RELAY_MODULE_MOCK_LIB ${PROJECT_NAME}-mock)
 
@@ -34,6 +36,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
 endif()
 
 add_subdirectory(external)
+add_subdirectory(config)
 add_subdirectory(utils)
 add_subdirectory(libusbrelaymodule)
 add_subdirectory(app-cli)

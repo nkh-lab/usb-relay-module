@@ -10,6 +10,7 @@ add_executable(getrelay
 
 target_link_libraries(getrelay
     ${UTILS_LIB}
+    ${CONFIG_LIB}
     ${USB_RELAY_MODULE_LIB}
     lightargparser
     )
@@ -22,6 +23,7 @@ add_executable(setrelay
 
 target_link_libraries(setrelay 
     ${UTILS_LIB}
+    ${CONFIG_LIB}
     ${USB_RELAY_MODULE_LIB}
     lightargparser
     )

@@ -1,0 +1,15 @@
+#pragma once
+
+namespace nkhlab {
+namespace usbrelaymodule {
+namespace config {
+
+// clang-format off
+constexpr int kProjectVerMajor = @PROJECT_VERSION_MAJOR@;
+constexpr int kProjectVerMinor = @PROJECT_VERSION_MINOR@;
+constexpr int kProjectVerPatch = @PROJECT_VERSION_PATCH@;
+// clang-format on
+
+} // namespace config
+} // namespace usbrelaymodule
+} // namespace nkhlab

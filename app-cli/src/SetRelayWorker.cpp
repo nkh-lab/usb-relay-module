@@ -1,10 +1,13 @@
 #include "SetRelayWorker.h"
 
+#include "Config.h"
 #include "LightArgParser.h"
 #include "TextUserInterface.h"
 #include "Utils.h"
 
 using namespace nkhlab::lightargparser;
+using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::usbrelaymodule::config;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -79,7 +82,11 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
 
 std::string SetRelayWorker::DoVersionText()
 {
-    return utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1);
+    return utils::Sprintf(
+        TextUserInterface::kVersion,
+        config::kProjectVerMajor,
+        config::kProjectVerMinor,
+        config::kProjectVerPatch);
 }
 
 std::string SetRelayWorker::DoHelpText()

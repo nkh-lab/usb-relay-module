@@ -1,10 +1,13 @@
 #include "GetRelayWorker.h"
 
+#include "Config.h"
 #include "LightArgParser.h"
 #include "TextUserInterface.h"
 #include "Utils.h"
 
 using namespace nkhlab::lightargparser;
+using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::usbrelaymodule::config;
 
 namespace {
 const char* kAllRelays = "";
@@ -62,7 +65,7 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
             }
             else if (data_args.size() == 1)
             {
-                utils::SplitModuleChannelStr(data_args.begin()->first, req_relay, req_channel);
+                SplitModuleChannelStr(data_args.begin()->first, req_relay, req_channel);
                 ret = true;
             }
 
@@ -81,7 +84,7 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
 
 std::string GetRelayWorker::DoVersionText()
 {
-    return utils::Sprintf(TextUserInterface::kVersion, 0, 0, 1);
+    return Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch);
 }
 
 std::string GetRelayWorker::DoHelpText()
@@ -96,7 +99,7 @@ std::string GetRelayWorker::DoWrongArgumentUsageText()
 
 std::string GetRelayWorker::DoBadArgumentText(const std::string& bad_arg)
 {
-    return utils::Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
+    return Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
 }
 
 bool GetRelayWorker::GetState(const std::string& module, size_t channel, std::string& out)
@@ -136,18 +139,18 @@ bool GetRelayWorker::GetStatesAllModules(const IRelayModulePtrs& modules, std::s
         {
             for (size_t i = 0; i < channels.size(); ++i)
             {
-                channels_out += utils::Sprintf(
+                channels_out += Sprintf(
                     TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
             }
         }
         else
         {
-            module_name = utils::Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
+            module_name = Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
 
             if (ret) ret = false;
         }
 
-        out += utils::Sprintf(
+        out += Sprintf(
             TextUserInterface::kGetRelayInfoAndState,
             m->GetInfo().c_str(),
             module_name.c_str(),
@@ -165,7 +168,7 @@ bool GetRelayWorker::GetStatesRequestedModule(
     std::string& out)
 {
     bool ret = false;
-    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
+    out = Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     for (auto m : modules)
     {
@@ -180,11 +183,11 @@ bool GetRelayWorker::GetStatesRequestedModule(
 
             for (size_t i = 0; i < channels.size(); ++i)
             {
-                channels_out += utils::Sprintf(
+                channels_out += Sprintf(
                     TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
             }
 
-            out = utils::Sprintf(
+            out = Sprintf(
                 TextUserInterface::kGetRelayInfoAndState,
                 m->GetInfo().c_str(),
                 module_name.c_str(),
@@ -204,7 +207,7 @@ bool GetRelayWorker::GetStateRequestedChannel(
     std::string& out)
 {
     bool ret = false;
-    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
+    out = Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     for (auto m : modules)
     {
@@ -217,14 +220,13 @@ bool GetRelayWorker::GetStateRequestedChannel(
         {
             if (channel <= channels.size())
             {
-                out = utils::Sprintf(
+                out = Sprintf(
                     TextUserInterface::kGetChannelState, static_cast<int>(channels[channel - 1]));
                 ret = true;
             }
             else
             {
-                out = utils::Sprintf(
-                    TextUserInterface::kErrorNoRequestedChannel, channel, module.c_str());
+                out = Sprintf(TextUserInterface::kErrorNoRequestedChannel, channel, module.c_str());
             }
         }
     }

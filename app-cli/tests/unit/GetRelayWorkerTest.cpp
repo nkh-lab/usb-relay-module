@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "Config.h"
 #include "GetRelayWorker.h"
 #include "MockRelayManager.h"
 #include "MockRelayModule.h"
@@ -10,6 +11,7 @@ using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;
 using namespace nkhlab::usbrelaymodule::tests;
 using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::usbrelaymodule::config;
 
 using ::testing::Return;
 using namespace ::testing;
@@ -80,7 +82,9 @@ TEST_F(GetRelayWorkerTest, VersionShortArg)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, Sprintf(TextUserInterface::kVersion, 0, 0, 1));
+    EXPECT_EQ(
+        out,
+        Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
     EXPECT_TRUE(ret);
 }
 
@@ -99,7 +103,9 @@ TEST_F(GetRelayWorkerTest, VersionLongArg)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, Sprintf(TextUserInterface::kVersion, 0, 0, 1));
+    EXPECT_EQ(
+        out,
+        Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
     EXPECT_TRUE(ret);
 }
 

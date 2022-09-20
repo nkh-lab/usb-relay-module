@@ -16,14 +16,15 @@ add_executable(AppCliUnitTests
     )
 
 target_link_libraries(AppCliUnitTests
-    PRIVATE ${USB_RELAY_MODULE_LIB}
-    PRIVATE ${USB_RELAY_MODULE_MOCK_LIB}
-    PRIVATE ${GTEST_LIBRARIES}
-    PRIVATE GTest::Main
-    PRIVATE gmock
-    PRIVATE ${CMAKE_THREAD_LIBS_INIT}
-    PRIVATE lightargparser
-    PRIVATE ${UTILS_LIB}
+    ${USB_RELAY_MODULE_LIB}
+    ${USB_RELAY_MODULE_MOCK_LIB}
+    ${GTEST_LIBRARIES}
+    GTest::Main
+    gmock
+    ${CMAKE_THREAD_LIBS_INIT}
+    lightargparser
+    ${UTILS_LIB}
+    ${CONFIG_LIB}
     )
 
 target_include_directories(AppCliUnitTests

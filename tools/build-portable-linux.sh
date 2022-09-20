@@ -18,7 +18,7 @@ mkdir $PORTABLE_DIR_REL_PATH
 cp build/app-cli/getrelay $PORTABLE_DIR_REL_PATH
 cp build/app-cli/setrelay $PORTABLE_DIR_REL_PATH
 cp build/libusbrelaymodule/libusbrelaymodule.so $PORTABLE_DIR_REL_PATH
-cp external/hidapi/linux/.libs/libhidapi-hidraw.so $PORTABLE_DIR_REL_PATH
+cp build/external/hidapi/src/linux/libhidapi-hidraw.so $PORTABLE_DIR_REL_PATH
 
 cd $PORTABLE_DIR_REL_PATH
 
