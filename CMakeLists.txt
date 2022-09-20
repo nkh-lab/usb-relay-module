@@ -12,7 +12,6 @@ set(HIDAPI_LIB hidapi::hidapi)
 
 # Main lib
 set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
-set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
 
 # Others
 # Utils lib
