@@ -588,3 +588,32 @@ TEST_F(GetRelayWorkerTest, RequestNonexistingChannel)
     EXPECT_EQ(out, expected_out);
     EXPECT_FALSE(ret);
 }
+
+TEST_F(GetRelayWorkerTest, WrongArgUsage)
+{
+    const char* argv[] = {"", "module1_1=1"};
+    int argc = arraySize(argv);
+
+    // Mocking
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
+    //========
+
+    GetRelayWorker worker(std::move(relay_manager_));
+
+    std::string out;
+
+    bool ret = worker.Run(argc, argv, out);
+
+    std::string expected_out = TextUserInterface::kErrorWrongArgumentUsage;
+
+    /* Debug
+    std::cout << "=================================================\n";
+    std::cout << expected_out;
+    std::cout << "=================================================\n";
+    std::cout << out;
+    std::cout << "=================================================\n";
+    */
+
+    EXPECT_EQ(out, expected_out);
+    EXPECT_FALSE(ret);
+}

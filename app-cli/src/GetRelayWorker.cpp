@@ -63,7 +63,7 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
             {
                 ret = true;
             }
-            else if (data_args.size() == 1)
+            else if (data_args.size() == 1 && data_args.begin()->second.empty())
             {
                 SplitModuleChannelStr(data_args.begin()->first, req_relay, req_channel);
                 ret = true;
