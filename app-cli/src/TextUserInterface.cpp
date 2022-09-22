@@ -17,7 +17,10 @@ namespace appcli {
 
 // clang-format off
 
-const char* TextUserInterface::kVersion = "v%d.%d.%d\n";
+const char* TextUserInterface::kVersion = 
+    "v%d.%d.%d\n"
+    "Copyright (C) 2022 https://github.com/nkh-lab\n"
+    "This is free software under GPL-3.0 license.\n";
 
 const char* TextUserInterface::kGetRelayHelp =
     "Usage:\n"
@@ -27,7 +30,9 @@ const char* TextUserInterface::kGetRelayHelp =
     "\n"
     "Service commands:\n"
     "    -h | --help                     Display this help text\n"
-    "    -v | --version                  Display version information\n";
+    "    -v | --version                  Display version information\n"
+    "\n"
+    "For bug reporting use:              https://github.com/nkh-lab/usb-relay-module/issues\n";
 
 const char* TextUserInterface::kSetRelayHelp =
     "Usage:\n"
@@ -36,7 +41,9 @@ const char* TextUserInterface::kSetRelayHelp =
     "\n"
     "Service commands:\n"
     "    -h | --help                                  Display this help text\n"
-    "    -v | --version                               Display version information\n";
+    "    -v | --version                               Display version information\n"
+    "\n"
+    "For bug reporting use:                           https://github.com/nkh-lab/usb-relay-module/issues\n";
 
 const char* TextUserInterface::kGetChannelState =
     "%d\n";
