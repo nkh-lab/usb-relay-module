@@ -1,3 +1,14 @@
+@rem
+@rem Copyright (C) 2022 https://github.com/nkh-lab
+@rem
+@rem This is free software. You can redistribute it and/or
+@rem modify it under the terms of the GNU General Public License
+@rem version 3 as published by the Free Software Foundation.
+@rem
+@rem This software is distributed in the hope that it will be useful,
+@rem but WITHOUT ANY WARRANTY.
+@rem 
+
 @echo off
 
 SET DIR=%~dp0
