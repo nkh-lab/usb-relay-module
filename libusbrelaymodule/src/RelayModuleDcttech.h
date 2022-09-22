@@ -31,7 +31,6 @@ public:
     bool SetName(const std::string& name) override;
     bool SetChannel(size_t channel, bool state) override;
 
-private:
     static const uint16_t kUsbVendorId = 0x16c0;
     static const uint16_t kUsbProductId = 0x05df;
 
@@ -45,6 +44,7 @@ private:
     static const uint8_t kCmdRelayOff = 0xfd;
     static const uint8_t kCmdSetModuleName = 0xfa;
 
+private:
     const std::string info_;
     const std::string path_;
     const size_t channels_size_;

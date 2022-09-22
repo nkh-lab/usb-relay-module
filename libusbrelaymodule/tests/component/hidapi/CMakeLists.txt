@@ -16,6 +16,7 @@ endif()
 include_directories(
     ${HIDAPI_LIB_INCLUDE}
     ../../../src
+    ../../../include
     )
 
 add_executable(GetAnyHidDeviceInfoTest 

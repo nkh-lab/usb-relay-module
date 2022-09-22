@@ -14,11 +14,10 @@
 
 #include "hidapi.h"
 
-#include "DcttechConstants.h"
 #include "HidapiUtils.h"
+#include "RelayModuleDcttech.h"
 #include "Utils.h"
 
-using namespace nkhlab::usbrelaymodule::tests::hidapi::dcttech;
 using namespace nkhlab::usbrelaymodule::impl;
 using namespace nkhlab::usbrelaymodule::utils;
 
@@ -27,7 +26,8 @@ int main(int argc, char const* argv[])
     UNUSED(argc);
     UNUSED(argv);
 
-    hid_device_info* dev = hid_enumerate(kUsbVendorId, kUsbProductId);
+    hid_device_info* dev =
+        hid_enumerate(RelayModuleDcttech::kUsbVendorId, RelayModuleDcttech::kUsbProductId);
     if (dev)
     {
         std::cout << HidDeviceInfoToStr(dev);
@@ -35,8 +35,8 @@ int main(int argc, char const* argv[])
         hid_device* handle = hid_open_path(dev->path);
         if (handle)
         {
-            uint8_t data[kDataSizeBytes] = {0};
-            data[0] = kReportIDGet;
+            uint8_t data[RelayModuleDcttech::kDataSizeBytes] = {0};
+            data[0] = RelayModuleDcttech::kReportIDGet;
 
             std::cout << "==============================\n";
             std::cout << "hid_get_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
@@ -46,10 +46,12 @@ int main(int argc, char const* argv[])
             {
                 std::cout << PrintBytes(data, sizeof(data)) << "\n";
 #ifdef __linux__
-                std::string module_name(reinterpret_cast<char*>(&data[0]), kNameSizeBytes);
+                std::string module_name(
+                    reinterpret_cast<char*>(&data[0]), RelayModuleDcttech::kNameSizeBytes);
                 uint8_t& relays_state = data[7];
 #else
-                std::string module_name(reinterpret_cast<char*>(&data[1]), kNameSizeBytes);
+                std::string module_name(
+                    reinterpret_cast<char*>(&data[1]), RelayModuleDcttech::kNameSizeBytes);
                 uint8_t& relays_state = data[8];
 #endif
                 std::cout << "module_name:      " << module_name << "\n";

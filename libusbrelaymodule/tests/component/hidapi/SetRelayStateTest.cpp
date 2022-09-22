@@ -15,10 +15,10 @@
 
 #include "hidapi.h"
 
-#include "DcttechConstants.h"
+#include "RelayModuleDcttech.h"
 #include "Utils.h"
 
-using namespace nkhlab::usbrelaymodule::tests::hidapi::dcttech;
+using namespace nkhlab::usbrelaymodule::impl;
 using namespace nkhlab::usbrelaymodule::utils;
 
 int main(int argc, char const* argv[])
@@ -32,17 +32,19 @@ int main(int argc, char const* argv[])
     }
     else
     {
-        hid_device_info* dev = hid_enumerate(kUsbVendorId, kUsbProductId);
+        hid_device_info* dev =
+            hid_enumerate(RelayModuleDcttech::kUsbVendorId, RelayModuleDcttech::kUsbProductId);
         if (dev)
         {
             hid_device* handle = hid_open_path(dev->path);
             if (handle)
             {
                 uint8_t relay_idx = std::stoi(argv[1]);
-                uint8_t relay_val = std::stoi(argv[2]) == 1 ? kCmdRelayOn : kCmdRelayOff;
+                uint8_t relay_val = std::stoi(argv[2]) == 1 ? RelayModuleDcttech::kCmdRelayOn
+                                                            : RelayModuleDcttech::kCmdRelayOff;
 
-                uint8_t data[kDataSizeBytes] = {0};
-                data[0] = kReportIDSet;
+                uint8_t data[RelayModuleDcttech::kDataSizeBytes] = {0};
+                data[0] = RelayModuleDcttech::kReportIDSet;
                 data[1] = relay_val;
                 data[2] = relay_idx;
 

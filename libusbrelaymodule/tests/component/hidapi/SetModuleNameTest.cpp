@@ -16,10 +16,10 @@
 
 #include "hidapi.h"
 
-#include "DcttechConstants.h"
+#include "RelayModuleDcttech.h"
 #include "Utils.h"
 
-using namespace nkhlab::usbrelaymodule::tests::hidapi::dcttech;
+using namespace nkhlab::usbrelaymodule::impl;
 using namespace nkhlab::usbrelaymodule::utils;
 
 int main(int argc, char const* argv[])
@@ -33,7 +33,8 @@ int main(int argc, char const* argv[])
     }
     else
     {
-        hid_device_info* dev = hid_enumerate(kUsbVendorId, kUsbProductId);
+        hid_device_info* dev =
+            hid_enumerate(RelayModuleDcttech::kUsbVendorId, RelayModuleDcttech::kUsbProductId);
         if (dev)
         {
             hid_device* handle = hid_open_path(dev->path);
@@ -41,12 +42,13 @@ int main(int argc, char const* argv[])
             {
                 const char* new_module_name = argv[1];
                 size_t new_module_name_size = std::strlen(new_module_name);
-                size_t name_size_to_copy =
-                    new_module_name_size < kNameSizeBytes ? new_module_name_size : kNameSizeBytes;
+                size_t name_size_to_copy = new_module_name_size < RelayModuleDcttech::kNameSizeBytes
+                                               ? new_module_name_size
+                                               : RelayModuleDcttech::kNameSizeBytes;
 
-                uint8_t data[kDataSizeBytes] = {0};
-                data[0] = kReportIDSet;
-                data[1] = kCmdSetModuleName;
+                uint8_t data[RelayModuleDcttech::kDataSizeBytes] = {0};
+                data[0] = RelayModuleDcttech::kReportIDSet;
+                data[1] = RelayModuleDcttech::kCmdSetModuleName;
                 std::strncpy(reinterpret_cast<char*>(&data[2]), new_module_name, name_size_to_copy);
 
                 std::cout << "hid_send_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
