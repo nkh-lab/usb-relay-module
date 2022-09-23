@@ -347,10 +347,6 @@ TEST_F(SetRelayWorkerTest, SetChannel0ToValidValue)
 {
     const char* argv[] = {"", "module2_0=0"};
     int argc = arraySize(argv);
-    std::string module1_name{"module1"};
-    std::vector<bool> module1_channels{0, 1};
-    std::string module2_name{"module2"};
-    std::vector<bool> module2_channels{0, 1};
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);

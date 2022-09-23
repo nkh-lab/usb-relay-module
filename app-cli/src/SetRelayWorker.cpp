@@ -72,7 +72,7 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
                 data_args.begin()->second[0] != '1' && data_args.begin()->second[0] != '0')
             {
                 std::string new_name{data_args.begin()->second};
-                ret = RenameModule(req_module, data_args.begin()->second, out);
+                ret = RenameModule(req_module, new_name, out);
             }
             else if (req_channel > 0 && (data_args.begin()->second[0] == '1' || data_args.begin()->second[0] == '0'))
             {

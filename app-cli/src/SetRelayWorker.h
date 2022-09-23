@@ -23,7 +23,7 @@ namespace appcli {
 class SetRelayWorker
 {
 public:
-    SetRelayWorker(std::unique_ptr<IRelayManager> relay_manager);
+    explicit SetRelayWorker(std::unique_ptr<IRelayManager> relay_manager);
     ~SetRelayWorker() = default;
 
     bool Run(int argc, char const** argv, std::string& out);
