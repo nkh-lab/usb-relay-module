@@ -16,7 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # USB Relay Module
-project(usbrelaymodule VERSION 0.0.1)
+project(usbrelaymodule VERSION 1.0.0)
 
 # External
 set(HIDAPI_LIB hidapi::hidapi)
