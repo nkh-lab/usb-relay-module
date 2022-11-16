@@ -29,7 +29,7 @@ mkdir %PORTABLE_DIR_REL_PATH%
 
 copy build\app-cli\Release\getrelay.exe %PORTABLE_DIR_REL_PATH%
 copy build\app-cli\Release\setrelay.exe %PORTABLE_DIR_REL_PATH%
-copy build\libusbrelaymodule\Release\usbrelaymodule.dll %PORTABLE_DIR_REL_PATH%
+copy build\libusbrelaymodule\Release\libusbrelaymodule.dll %PORTABLE_DIR_REL_PATH%
 copy build\external\hidapi\src\windows\Release\hidapi.dll %PORTABLE_DIR_REL_PATH%
 
 cd %PORTABLE_DIR_REL_PATH%

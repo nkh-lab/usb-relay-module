@@ -14,7 +14,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install libudev-dev libgtest-dev libgmock-dev
-      - name: Build
+      - name: Build with Tests
         run: |
           mkdir build && cd build
           cmake -Dusbrelaymodule_BUILD_UTESTS=on -Dusbrelaymodule_BUILD_CTESTS=on ..
@@ -25,15 +25,27 @@ jobs:
       - name: Run Component Tests
         run: |
           build/libusbrelaymodule/tests/component/hidapi/GetAnyHidDeviceInfoTest
-      - name: Run getrelay
+      - name: Run CLI APP getrelay
         run: |
           build/app-cli/getrelay
           build/app-cli/getrelay -v
           build/app-cli/getrelay -h
-      - name: Run setrelay
+      - name: Run CLI APP setrelay
         run: |
           build/app-cli/setrelay -v
           build/app-cli/setrelay -h
+      - name: Build Portable
+        run: |
+          tools/build-portable-linux.sh
+      - name: Run Portable CLI APP getrelay
+        run: |
+          build/portable/getrelay
+          build/portable/getrelay -v
+          build/portable/getrelay -h
+      - name: Run Portable APP setrelay
+        run: |
+          build/portable/setrelay -v
+          build/portable/setrelay -h
 
   Build-on-Windows:
     runs-on: windows-latest
@@ -42,7 +54,7 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init --recursive
       - uses: microsoft/setup-msbuild@v1.1
-      - name: Build
+      - name: Build with Component Tests
         run: |
           mkdir build && cd build
           cmake -G "Visual Studio 17 2022" -Dusbrelaymodule_BUILD_CTESTS=on .. 
@@ -51,7 +63,7 @@ jobs:
         run: |
           cp build/external/hidapi/src/windows/Release/hidapi.dll build/app-cli/Release/
           cp build/external/hidapi/src/windows/Release/hidapi.dll build/libusbrelaymodule/tests/component/hidapi/Release/
-          cp build/libusbrelaymodule/Release/usbrelaymodule.dll build/app-cli/Release/
+          cp build/libusbrelaymodule/Release/libusbrelaymodule.dll build/app-cli/Release/
       - name: Run Component Tests
         run: |
           build/libusbrelaymodule/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe
@@ -64,3 +76,15 @@ jobs:
         run: |
           build/app-cli/Release/setrelay.exe -v
           build/app-cli/Release/setrelay.exe -h
+      - name: Build Portable
+        run: |
+          tools/build-portable-windows.bat
+      - name: Run Portable CLI APP getrelay
+        run: |
+          build/portable/getrelay.exe
+          build/portable/getrelay.exe -v
+          build/portable/getrelay.exe -h
+      - name: Run Portable APP setrelay
+        run: |
+          build/portable/setrelay.exe -v
+          build/portable/setrelay.exe -h
