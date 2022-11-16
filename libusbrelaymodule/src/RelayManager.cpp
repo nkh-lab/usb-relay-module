@@ -16,7 +16,7 @@
 namespace nkhlab {
 namespace usbrelaymodule {
 
-std::unique_ptr<IRelayManager> CreateHidapiManagerForDcttechModules()
+IRelayManagerPtr CreateHidapiManagerForDcttechModules()
 {
     return std::make_unique<impl::RelayManagerHidapi<impl::RelayModuleDcttech>>();
 }

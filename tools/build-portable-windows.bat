@@ -20,7 +20,7 @@ SET PORTABLE_ARCHIVE_NAME="usbrelaymodule-portable"
 rd /s /q build\ 2>nul
 mkdir build && cd build
 
-cmake -G "Visual Studio 17 2022" -A Win32 .. 
+cmake -G "Visual Studio 17 2022" .. 
 cmake --build . --config Release
 
 cd %PROJECT_ROOT%

@@ -7,10 +7,10 @@
 #
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#  
+#
 
-add_library(${USB_RELAY_MODULE_MOCK_LIB} INTERFACE)
+add_library(${PROJECT_NAME}-mock INTERFACE)
 
-target_include_directories(${USB_RELAY_MODULE_MOCK_LIB} INTERFACE
+target_include_directories(${PROJECT_NAME}-mock  INTERFACE
     mock
     )    

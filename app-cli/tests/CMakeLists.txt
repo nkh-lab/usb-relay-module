@@ -7,8 +7,8 @@
 #
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#  
+#
 
-if (${PROJECT_NAME}_BUILD_UTESTS )
+if(${PROJECT_NAME}_BUILD_UTESTS )
     add_subdirectory(unit)
 endif()

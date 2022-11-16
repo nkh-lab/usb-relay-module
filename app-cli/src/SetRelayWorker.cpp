@@ -24,7 +24,7 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appcli {
 
-SetRelayWorker::SetRelayWorker(std::unique_ptr<IRelayManager> relay_manager)
+SetRelayWorker::SetRelayWorker(IRelayManagerPtr relay_manager)
     : relay_manager_{std::move(relay_manager)}
 {
 }

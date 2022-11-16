@@ -7,31 +7,16 @@
 #
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#  
+#
 
 cmake_minimum_required(VERSION 3.4.1)
-
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 # USB Relay Module
 project(usbrelaymodule VERSION 1.0.0)
 
-# External
-set(HIDAPI_LIB hidapi::hidapi)
-
-# Main lib
-set(USB_RELAY_MODULE_LIB ${PROJECT_NAME})
-
-# Others
-# Utils lib
-set(UTILS_LIB ${PROJECT_NAME}-utils)
-# Config lib
-set(CONFIG_LIB ${PROJECT_NAME}-config)                                                                                                                                                                                                
-# Main mocked lib
-set(USB_RELAY_MODULE_MOCK_LIB ${PROJECT_NAME}-mock)
-
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+                                                                                                                                                                                           
 option(${PROJECT_NAME}_BUILD_CTESTS     "Build component tests"     OFF)
 option(${PROJECT_NAME}_BUILD_UTESTS     "Build unit tests"          OFF)
 option(${PROJECT_NAME}_BUILD_PORTABLE   "Build portable binaries"   OFF)

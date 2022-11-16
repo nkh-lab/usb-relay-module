@@ -7,10 +7,16 @@
 #
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#  
+#
 
-if(CMAKE_SYSTEM_NAME STREQUAL Linux)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
+project(app-cli)
+
+set(${PROJECT_NAME}_BUILD_UTESTS ${usbrelaymodule_BUILD_UTESTS})
+
+if(MSVC)
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
 add_executable(getrelay 
@@ -20,9 +26,9 @@ add_executable(getrelay
     )
 
 target_link_libraries(getrelay
-    ${UTILS_LIB}
-    ${CONFIG_LIB}
-    ${USB_RELAY_MODULE_LIB}
+    libusbrelaymodule-utils
+    libusbrelaymodule-config
+    libusbrelaymodule
     lightargparser
     )
 
@@ -33,9 +39,9 @@ add_executable(setrelay
     )
 
 target_link_libraries(setrelay 
-    ${UTILS_LIB}
-    ${CONFIG_LIB}
-    ${USB_RELAY_MODULE_LIB}
+    libusbrelaymodule-utils
+    libusbrelaymodule-config
+    libusbrelaymodule
     lightargparser
     )
 

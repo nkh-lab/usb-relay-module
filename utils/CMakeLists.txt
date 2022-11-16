@@ -7,17 +7,24 @@
 #
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#  
+#
 
-# -fPIC to be able to link static lib to shared
-if(CMAKE_SYSTEM_NAME STREQUAL Linux)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -fPIC")
+project(libusbrelaymodule-utils)
+
+set(CMAKE_STATIC_LIBRARY_PREFIX "")
+
+if(MSVC)
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -pedantic -Werror)
+    # -fPIC to be able to link static lib to shared
+    add_compile_options(-fPIC)
 endif()
 
 file(GLOB SRC_FILES "src/*.cpp")
 
-add_library(${UTILS_LIB} STATIC 
+add_library(${PROJECT_NAME} STATIC 
     ${SRC_FILES})
 
-target_include_directories(${UTILS_LIB}
+target_include_directories(${PROJECT_NAME}
     PUBLIC include)

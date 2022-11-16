@@ -7,7 +7,9 @@
 #
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#  
+#
+
+set(CONFIG_LIB "libusbrelaymodule-config")
 
 file(GLOB CFG_FILES "include/*.h.in")
 
@@ -17,8 +19,8 @@ foreach(CFG_FILE IN LISTS CFG_FILES)
     configure_file(${CFG_FILE} ${SRC_FILE} @ONLY)
 endforeach()
 
-add_library(${CONFIG_LIB} INTERFACE)
+add_library(libusbrelaymodule-config INTERFACE)
 
-target_include_directories(${CONFIG_LIB} 
+target_include_directories(libusbrelaymodule-config 
     INTERFACE ${CMAKE_CURRENT_BINARY_DIR}
     )

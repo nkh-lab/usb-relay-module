@@ -40,7 +40,7 @@ set PATH=%PATH%;<path to msbuild>
 Build:
 ```
 mkdir build && cd build
-cmake -G "Visual Studio 17 2022" -A Win32 .. 
+cmake -G "Visual Studio 17 2022" .. 
 cmake --build . --config Release
 ```
 ### Portable

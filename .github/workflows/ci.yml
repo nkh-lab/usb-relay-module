@@ -21,7 +21,7 @@ jobs:
           make
       - name: Run Unit Tests
         run: |
-          build/app-cli/tests/unit/AppCliUnitTests
+          build/app-cli/tests/unit/app-cli-unit-tests
       - name: Run Component Tests
         run: |
           build/libusbrelaymodule/tests/component/hidapi/GetAnyHidDeviceInfoTest
@@ -45,7 +45,7 @@ jobs:
       - name: Build
         run: |
           mkdir build && cd build
-          cmake -G "Visual Studio 17 2022" -A Win32 -Dusbrelaymodule_BUILD_CTESTS=on .. 
+          cmake -G "Visual Studio 17 2022" -Dusbrelaymodule_BUILD_CTESTS=on .. 
           cmake --build . --config Release
       - name: Copy dll
         run: |

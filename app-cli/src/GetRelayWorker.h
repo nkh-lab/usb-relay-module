@@ -23,7 +23,7 @@ namespace appcli {
 class GetRelayWorker
 {
 public:
-    explicit GetRelayWorker(std::unique_ptr<IRelayManager> relay_manager);
+    explicit GetRelayWorker(IRelayManagerPtr relay_manager);
     ~GetRelayWorker() = default;
 
     bool Run(int argc, char const** argv, std::string& out);
@@ -46,7 +46,7 @@ private:
         size_t channel,
         std::string& out);
 
-    std::unique_ptr<IRelayManager> relay_manager_;
+    IRelayManagerPtr relay_manager_;
 };
 
 } // namespace appcli

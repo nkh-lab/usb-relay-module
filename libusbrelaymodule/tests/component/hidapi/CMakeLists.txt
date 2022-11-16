@@ -7,14 +7,9 @@
 #
 # This software is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY.
-#  
-
-if(CMAKE_SYSTEM_NAME STREQUAL Linux)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
-endif()
+#
 
 include_directories(
-    ${HIDAPI_LIB_INCLUDE}
     ../../../src
     ../../../include
     )
@@ -25,8 +20,8 @@ add_executable(GetAnyHidDeviceInfoTest
     )
 
 target_link_libraries(GetAnyHidDeviceInfoTest 
-    ${HIDAPI_LIB} 
-    ${UTILS_LIB}
+    hidapi::hidapi 
+    libusbrelaymodule-utils
     )
 
 add_executable(GetModuleInfoAndRelaysStateTest 
@@ -35,18 +30,18 @@ add_executable(GetModuleInfoAndRelaysStateTest
     )
 
 target_link_libraries(GetModuleInfoAndRelaysStateTest
-    ${HIDAPI_LIB} 
-    ${UTILS_LIB}
+    hidapi::hidapi 
+    libusbrelaymodule-utils
     )
 
 add_executable(SetRelayStateTest SetRelayStateTest.cpp)
 target_link_libraries(SetRelayStateTest
-    ${HIDAPI_LIB} 
-    ${UTILS_LIB}
+    hidapi::hidapi 
+    libusbrelaymodule-utils
     )
 
 add_executable(SetModuleNameTest SetModuleNameTest.cpp)
 target_link_libraries(SetModuleNameTest
-    ${HIDAPI_LIB} 
-    ${UTILS_LIB}
+    hidapi::hidapi 
+    libusbrelaymodule-utils
     )
