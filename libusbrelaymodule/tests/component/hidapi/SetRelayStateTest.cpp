@@ -39,7 +39,7 @@ int main(int argc, char const* argv[])
             hid_device* handle = hid_open_path(dev->path);
             if (handle)
             {
-                uint8_t relay_idx = std::stoi(argv[1]);
+                uint8_t relay_idx = static_cast<uint8_t>(std::stoi(argv[1]));
                 uint8_t relay_val = std::stoi(argv[2]) == 1 ? RelayModuleDcttech::kCmdRelayOn
                                                             : RelayModuleDcttech::kCmdRelayOff;
 
