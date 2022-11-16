@@ -49,7 +49,7 @@ int main(int argc, char const* argv[])
                 uint8_t data[RelayModuleDcttech::kDataSizeBytes] = {0};
                 data[0] = RelayModuleDcttech::kReportIDSet;
                 data[1] = RelayModuleDcttech::kCmdSetModuleName;
-                std::strncpy(reinterpret_cast<char*>(&data[2]), new_module_name, name_size_to_copy);
+                std::copy(new_module_name, new_module_name + name_size_to_copy, &data[2]);
 
                 std::cout << "hid_send_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
                 // int ret = hid_write(handle, data, sizeof(data)); // On Ubuntu it works as well

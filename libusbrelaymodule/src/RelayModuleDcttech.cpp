@@ -95,7 +95,7 @@ bool RelayModuleDcttech::SetName(const std::string& name)
         uint8_t data[kDataSizeBytes] = {0};
         data[0] = kReportIDSet;
         data[1] = kCmdSetModuleName;
-        std::strncpy(reinterpret_cast<char*>(&data[2]), name.c_str(), name_size_to_copy);
+        std::copy(name.cbegin(), name.cbegin() + name_size_to_copy, &data[2]);
 
         int hid_ret = hid_send_feature_report(handle, data, sizeof(data));
 
