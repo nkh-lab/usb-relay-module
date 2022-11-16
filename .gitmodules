@@ -1,6 +1,6 @@
 [submodule "external/hidapi"]
 	path = external/hidapi
 	url = https://github.com/libusb/hidapi.git
-[submodule "external/light-arg-parser"]
-	path = external/light-arg-parser
-	url = https://github.com/nkh-lab/light-arg-parser.git
+[submodule "external/liblightargparser"]
+	path = external/liblightargparser
+	url = https://github.com/nkh-lab/liblightargparser.git

@@ -29,7 +29,7 @@ target_link_libraries(getrelay
     libusbrelaymodule-utils
     libusbrelaymodule-config
     libusbrelaymodule
-    lightargparser
+    liblightargparser
     )
 
 add_executable(setrelay
@@ -42,7 +42,7 @@ target_link_libraries(setrelay
     libusbrelaymodule-utils
     libusbrelaymodule-config
     libusbrelaymodule
-    lightargparser
+    liblightargparser
     )
 
 add_subdirectory(tests)

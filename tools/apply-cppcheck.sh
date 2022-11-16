@@ -17,7 +17,7 @@
 
 cppcheck ./ --inconclusive --enable=all --suppress=missingIncludeSystem --suppress=functionStatic \
         -I external/hidapi/hidapi \
-        -I external/light-arg-parser/liblightargparser/include \
+        -I external/liblightargparser/include \
         -I build/config \
         -I app-cli/src \
         -I libusbrelaymodule/include \

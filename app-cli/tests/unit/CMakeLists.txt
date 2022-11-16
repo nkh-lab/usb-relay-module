@@ -26,7 +26,7 @@ add_executable(${PROJECT_NAME}-unit-tests
 target_link_libraries(${PROJECT_NAME}-unit-tests
     GTest::Main
     gmock
-    lightargparser
+    liblightargparser
     libusbrelaymodule
     libusbrelaymodule-mock
     libusbrelaymodule-utils
