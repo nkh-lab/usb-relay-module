@@ -11,7 +11,9 @@
 
 #include "Utils.h"
 
+#include <codecvt>
 #include <iomanip>
+#include <locale>
 #include <sstream>
 #include <stdarg.h>
 
@@ -54,8 +56,9 @@ std::string PwstrToStr(wchar_t* pwstr)
     std::string str = "(null)";
     if (pwstr)
     {
-        std::wstring wstr = std::wstring(pwstr);
-        str = std::string(wstr.begin(), wstr.end());
+        // wide to UTF-8
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        str = converter.to_bytes(pwstr);
     }
 
     return str;
