@@ -11,8 +11,8 @@
 
 find_package(GTest REQUIRED)
 
-file(GLOB SRC_FILES 
-    "*.cpp" 
+file(GLOB SRC_FILES
+    "*.cpp"
     "../../src/*.cpp"
     )
 

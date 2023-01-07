@@ -14,34 +14,34 @@ include_directories(
     ../../../include
     )
 
-add_executable(GetAnyHidDeviceInfoTest 
+add_executable(GetAnyHidDeviceInfoTest
     GetAnyHidDeviceInfoTest.cpp
     ../../../src/HidapiUtils.cpp
     )
 
-target_link_libraries(GetAnyHidDeviceInfoTest 
-    hidapi::hidapi 
+target_link_libraries(GetAnyHidDeviceInfoTest
+    hidapi::hidapi
     libusbrelaymodule-utils
     )
 
-add_executable(GetModuleInfoAndRelaysStateTest 
+add_executable(GetModuleInfoAndRelaysStateTest
     GetModuleInfoAndRelaysStateTest.cpp
     ../../../src/HidapiUtils.cpp
     )
 
 target_link_libraries(GetModuleInfoAndRelaysStateTest
-    hidapi::hidapi 
+    hidapi::hidapi
     libusbrelaymodule-utils
     )
 
 add_executable(SetRelayStateTest SetRelayStateTest.cpp)
 target_link_libraries(SetRelayStateTest
-    hidapi::hidapi 
+    hidapi::hidapi
     libusbrelaymodule-utils
     )
 
 add_executable(SetModuleNameTest SetModuleNameTest.cpp)
 target_link_libraries(SetModuleNameTest
-    hidapi::hidapi 
+    hidapi::hidapi
     libusbrelaymodule-utils
     )

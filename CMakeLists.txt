@@ -16,7 +16,7 @@ project(usbrelaymodule VERSION 1.1.0)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-                                                                                                                                                                                           
+
 option(${PROJECT_NAME}_BUILD_CTESTS     "Build component tests"     OFF)
 option(${PROJECT_NAME}_BUILD_UTESTS     "Build unit tests"          OFF)
 option(${PROJECT_NAME}_BUILD_PORTABLE   "Build portable binaries"   OFF)

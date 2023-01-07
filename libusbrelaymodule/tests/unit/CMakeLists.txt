@@ -13,4 +13,4 @@ add_library(${PROJECT_NAME}-mock INTERFACE)
 
 target_include_directories(${PROJECT_NAME}-mock  INTERFACE
     mock
-    )    
+    )

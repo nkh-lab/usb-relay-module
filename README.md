@@ -4,9 +4,9 @@ Project to control USB relay modules based on HID technology.
 ![](doc/pictures/usb-relay-module-example-view.jpg)
 
 ## CI Status
-[![CI](https://github.com/nkh-lab/usb-relay-module/actions/workflows/ci.yml/badge.svg)](https://github.com/nkh-lab/usb-relay-module/actions/workflows/ci.yml) 
+[![CI](https://github.com/nkh-lab/usb-relay-module/actions/workflows/ci.yml/badge.svg)](https://github.com/nkh-lab/usb-relay-module/actions/workflows/ci.yml)
 
-Ubuntu | Windows 
+Ubuntu | Windows
 
 ## How to get project source code
 Clone main project:
@@ -40,7 +40,7 @@ set PATH=%PATH%;<path to msbuild>
 Build:
 ```
 mkdir build && cd build
-cmake -G "Visual Studio 17 2022" .. 
+cmake -G "Visual Studio 17 2022" ..
 cmake --build . --config Release
 ```
 ### Portable
@@ -58,7 +58,7 @@ These are CLI applications, use `--help` command to see usage description.
 path:             /dev/hidraw6
 vendor_id:        0x16c0
 product_id:       0x05df
-serial_number:    
+serial_number:
 release_number:   256
 manufacturer:     www.dcttech.com
 product:          USBRelay2

@@ -19,7 +19,7 @@ else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
-add_executable(getrelay 
+add_executable(getrelay
     src/getrelay.cpp
     src/GetRelayWorker.cpp
     src/TextUserInterface.cpp
@@ -38,7 +38,7 @@ add_executable(setrelay
     src/TextUserInterface.cpp
     )
 
-target_link_libraries(setrelay 
+target_link_libraries(setrelay
     libusbrelaymodule-utils
     libusbrelaymodule-config
     libusbrelaymodule

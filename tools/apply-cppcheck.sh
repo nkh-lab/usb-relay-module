@@ -28,4 +28,3 @@ cppcheck ./ --inconclusive --enable=all --suppress=missingIncludeSystem --suppre
         -i build \
         -i external \
         -i tools
-        

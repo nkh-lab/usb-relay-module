@@ -21,6 +21,6 @@ endforeach()
 
 add_library(libusbrelaymodule-config INTERFACE)
 
-target_include_directories(libusbrelaymodule-config 
+target_include_directories(libusbrelaymodule-config
     INTERFACE ${CMAKE_CURRENT_BINARY_DIR}
     )
