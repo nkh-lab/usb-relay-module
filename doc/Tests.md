@@ -14,6 +14,6 @@ make
 ### Windows
 Supports only Component tests:
 ```
-cmake -G "Visual Studio 17 2022" -Dusbrelaymodule_BUILD_CTESTS=on .. 
+cmake -G "Visual Studio 17 2022" -Dusbrelaymodule_BUILD_CTESTS=on ..
 cmake --build . --config Release
 ```

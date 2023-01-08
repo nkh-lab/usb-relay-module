@@ -1,11 +1,11 @@
 ## Module name inaccessible on Linux
 **Issue:**
 ```
-./getrelay 
+./getrelay
 path:             /dev/hidraw4
 vendor_id:        0x16c0
 product_id:       0x05df
-serial_number:    
+serial_number:
 release_number:   256
 manufacturer:     www.dcttech.com
 product:          USBRelay2
@@ -23,14 +23,14 @@ crw------- 1 root root 508, 4 sep 15 15:18 /dev/hidraw4
 
 For **quick fix** solution `sudo` can be used:
 ```
-sudo ./getrelay 
+sudo ./getrelay
 ```
 
 Or configure **udev rules**:
 
 1. Create udev rules file, e.g.:
 ```
-sudo touch /etc/udev/rules.d/91-usbrelay.rules 
+sudo touch /etc/udev/rules.d/91-usbrelay.rules
 ```
 2. Add rule:
 ```
