@@ -5,3 +5,5 @@
 [Troubleshooting](Troubleshooting)
 
 [Tests](Tests.md)
+
+[Simulation mode](Simulation.md)

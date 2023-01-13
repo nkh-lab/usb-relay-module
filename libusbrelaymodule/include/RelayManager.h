@@ -29,6 +29,10 @@ using IRelayManagerPtr = std::unique_ptr<IRelayManager>;
 
 IRelayManagerPtr DLL_EXPORT CreateHidapiManagerForDcttechModules();
 
+#ifdef URM_SIMU
+IRelayManagerPtr DLL_EXPORT CreateSimuManager();
+#endif
+
 } // namespace usbrelaymodule
 } // namespace nkhlab
 

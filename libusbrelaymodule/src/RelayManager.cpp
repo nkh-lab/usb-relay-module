@@ -12,6 +12,10 @@
 #include "RelayManager.h"
 #include "RelayManagerHidapi.h"
 #include "RelayModuleDcttech.h"
+#ifdef URM_SIMU
+#include "simu/RelayManagerSimu.h"
+#include "simu/RelayModuleSimu.h"
+#endif
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -20,6 +24,13 @@ IRelayManagerPtr CreateHidapiManagerForDcttechModules()
 {
     return std::make_unique<impl::RelayManagerHidapi<impl::RelayModuleDcttech>>();
 }
+
+#ifdef URM_SIMU
+IRelayManagerPtr CreateSimuManager()
+{
+    return std::make_unique<impl::RelayManagerSimu<impl::RelayModuleSimu>>();
+}
+#endif
 
 } // namespace usbrelaymodule
 } // namespace nkhlab

@@ -20,6 +20,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(${PROJECT_NAME}_BUILD_CTESTS     "Build component tests"     OFF)
 option(${PROJECT_NAME}_BUILD_UTESTS     "Build unit tests"          OFF)
 option(${PROJECT_NAME}_BUILD_PORTABLE   "Build portable binaries"   OFF)
+option(${PROJECT_NAME}_BUILD_SIMU       "Build in simulation mode"  OFF)
 
 if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     if(${PROJECT_NAME}_BUILD_PORTABLE)
@@ -28,6 +29,10 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     endif()
 
     set(HIDAPI_WITH_LIBUSB OFF)
+endif()
+
+if(${PROJECT_NAME}_BUILD_SIMU)
+    add_definitions(-DURM_SIMU)
 endif()
 
 add_subdirectory(external)

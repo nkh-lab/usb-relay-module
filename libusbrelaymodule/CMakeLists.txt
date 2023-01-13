@@ -23,6 +23,13 @@ endif()
 
 file(GLOB SRC_FILES "src/*.cpp")
 
+if(${usbrelaymodule_BUILD_SIMU})
+    file(GLOB SIMU_SRC_FILES "src/simu/*.cpp")
+    list(APPEND SRC_FILES ${SIMU_SRC_FILES})
+    list(APPEND SIMU_INCLUDES src/simu)
+    list(APPEND SIMU_LIBS jsoncpp_lib)
+endif()
+
 add_library(${PROJECT_NAME} SHARED
     ${SRC_FILES}
     )
@@ -30,11 +37,13 @@ add_library(${PROJECT_NAME} SHARED
 target_include_directories(${PROJECT_NAME}
     PUBLIC include
     PRIVATE src
+    PRIVATE ${SIMU_INCLUDES}
     )
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE hidapi::hidapi
     PRIVATE libusbrelaymodule-utils
+    PRIVATE ${SIMU_LIBS}
     )
 
 add_subdirectory(tests)

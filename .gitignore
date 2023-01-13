@@ -24,3 +24,8 @@ temp/
 # Folders
 .settings/
 .vscode/
+
+# Project specific #
+
+# Folders
+external/jsoncpp/

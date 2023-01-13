@@ -20,8 +20,11 @@ using namespace nkhlab::usbrelaymodule::appcli;
 
 int main(int argc, char const* argv[])
 {
+#ifdef URM_SIMU
+    GetRelayWorker worker(CreateSimuManager());
+#else
     GetRelayWorker worker(CreateHidapiManagerForDcttechModules());
-
+#endif
     std::string out;
 
     bool ret = worker.Run(argc, argv, out);
