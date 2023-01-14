@@ -21,7 +21,10 @@ using namespace nkhlab::usbrelaymodule::appcli;
 int main(int argc, char const* argv[])
 {
 #ifdef URM_SIMU
-    SetRelayWorker worker(CreateSimuManager());
+    std::string path = argv[0];
+    std::size_t found = path.find_last_of("/\\") + 1;
+    path = path.substr(0, found);
+    SetRelayWorker worker(CreateSimuManager(path));
 #else
     SetRelayWorker worker(CreateHidapiManagerForDcttechModules());
 #endif

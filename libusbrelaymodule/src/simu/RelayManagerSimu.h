@@ -51,8 +51,9 @@ template <typename TRelayModule>
 class RelayManagerSimu final : public IRelayManager
 {
 public:
-    RelayManagerSimu()
-        : simu_file_{std::make_shared<SynchronizedString>(std::string(simu::kFileName))}
+    RelayManagerSimu(const std::string& simu_file_path)
+        : simu_file_{std::make_shared<SynchronizedString>(
+              std::move(std::string(simu_file_path).append(simu::kFileName)))}
     {
         CreateSimuFileIfNotExist();
     }

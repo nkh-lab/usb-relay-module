@@ -26,9 +26,9 @@ IRelayManagerPtr CreateHidapiManagerForDcttechModules()
 }
 
 #ifdef URM_SIMU
-IRelayManagerPtr CreateSimuManager()
+IRelayManagerPtr CreateSimuManager(const std::string& simu_file_path)
 {
-    return std::make_unique<impl::RelayManagerSimu<impl::RelayModuleSimu>>();
+    return std::make_unique<impl::RelayManagerSimu<impl::RelayModuleSimu>>(simu_file_path);
 }
 #endif
 

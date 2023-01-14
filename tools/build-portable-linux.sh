@@ -17,10 +17,19 @@ PROJECT_ROOT=$(cd $DIR/.. && pwd)
 PORTABLE_DIR_REL_PATH="build/portable"
 PORTABLE_ARCHIVE_NAME="usbrelaymodule-portable"
 
+CMAKE_ARGS="-Dusbrelaymodule_BUILD_PORTABLE=ON"
+
+for arg in "$@"
+do
+    if [ "simu" = "$arg" ]; then
+        CMAKE_ARGS="$CMAKE_ARGS -Dusbrelaymodule_BUILD_SIMU=ON"
+    fi
+done
+
 rm -rf build/
 mkdir build && cd build
 
-cmake -Dusbrelaymodule_BUILD_PORTABLE=ON ..
+cmake $CMAKE_ARGS ..
 make
 
 cd $PROJECT_ROOT
