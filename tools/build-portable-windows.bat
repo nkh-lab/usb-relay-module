@@ -21,18 +21,17 @@ SET PORTABLE_ARCHIVE_NAME="usbrelaymodule-portable"
 if "%1" == "" (
     goto end_args_check
 )
-else if "%1" == "simu" (
+if "%1" == "simu" (
     SET SIMU="true"
-    CMAKE_ARGS="$CMAKE_ARGS \
-                -Dusbrelaymodule_BUILD_SIMU=ON
-                -DJSONCPP_WITH_TESTS=OFF
-                -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF
-                -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF
-                -DJSONCPP_WITH_CMAKE_PACKAGE=OFF"
+    SET CMAKE_ARGS="%CMAKE_ARGS% -Dusbrelaymodule_BUILD_SIMU=ON"
+    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_TESTS=OFF"
+    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF"
+    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF"
+    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_CMAKE_PACKAGE=OFF"
 
-    if [ ! -d "$PROJECT_ROOT/external/jsoncpp" ]; then
-        git clone https://github.com/nkh-lab/jsoncpp.git ./external/jsoncpp -b Avoid-using-cmake-glob-vars
-    fi
+    if not exist "%PROJECT_ROOT%\external\jsoncpp" (
+        git clone https://github.com/nkh-lab/jsoncpp.git external\jsoncpp -b Avoid-using-cmake-glob-vars
+    )
 )
 
 shift
@@ -43,7 +42,7 @@ goto :start_args_check
 rd /s /q build\ 2>nul
 mkdir build && cd build
 
-cmake -G "Visual Studio 17 2022" ..
+cmake -G "Visual Studio 17 2022" %CMAKE_ARGS% ..
 cmake --build . --config Release
 
 cd %PROJECT_ROOT%
@@ -54,6 +53,9 @@ copy build\app-cli\Release\getrelay.exe %PORTABLE_DIR_REL_PATH%
 copy build\app-cli\Release\setrelay.exe %PORTABLE_DIR_REL_PATH%
 copy build\libusbrelaymodule\Release\libusbrelaymodule.dll %PORTABLE_DIR_REL_PATH%
 copy build\external\hidapi\src\windows\Release\hidapi.dll %PORTABLE_DIR_REL_PATH%
+if "%SIMU%" == "true" (
+    copy build\external\jsoncpp\src\lib_json\Release\jsoncpp.dll %PORTABLE_DIR_REL_PATH%
+)
 
 cd %PORTABLE_DIR_REL_PATH%
 
