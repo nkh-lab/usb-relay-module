@@ -46,6 +46,14 @@ jobs:
         run: |
           build/portable/setrelay -v
           build/portable/setrelay -h
+      - name: Build Portable Simu
+        run: |
+          tools/build-portable-linux.sh simu
+      - name: Run Portable Simu CLI APP
+        run: |
+          build/portable/getrelay
+          build/portable/setrelay R2_2=1
+          build/portable/getrelay
 
   Build-on-Windows:
     runs-on: windows-latest

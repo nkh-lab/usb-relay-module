@@ -22,7 +22,17 @@ CMAKE_ARGS="-Dusbrelaymodule_BUILD_PORTABLE=ON"
 for arg in "$@"
 do
     if [ "simu" = "$arg" ]; then
-        CMAKE_ARGS="$CMAKE_ARGS -Dusbrelaymodule_BUILD_SIMU=ON"
+        SIMU="true"
+        CMAKE_ARGS="$CMAKE_ARGS \
+                    -Dusbrelaymodule_BUILD_SIMU=ON \
+                    -DJSONCPP_WITH_TESTS=OFF  \
+                    -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF \
+                    -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF \
+                    -DJSONCPP_WITH_CMAKE_PACKAGE=OFF"
+
+        if [ ! -d "$PROJECT_ROOT/external/jsoncpp" ]; then
+            git clone https://github.com/nkh-lab/jsoncpp.git ./external/jsoncpp -b Avoid-using-cmake-glob-vars
+        fi
     fi
 done
 
@@ -38,11 +48,12 @@ mkdir $PORTABLE_DIR_REL_PATH
 cp build/app-cli/getrelay $PORTABLE_DIR_REL_PATH
 cp build/app-cli/setrelay $PORTABLE_DIR_REL_PATH
 cp build/libusbrelaymodule/libusbrelaymodule.so $PORTABLE_DIR_REL_PATH
-cp build/external/hidapi/src/linux/libhidapi-hidraw.so $PORTABLE_DIR_REL_PATH
+cp build/external/hidapi/src/linux/libhidapi-hidraw.so* $PORTABLE_DIR_REL_PATH
+if [ $SIMU = "true" ]; then
+    cp build/external/jsoncpp/src/lib_json/libjsoncpp.so* $PORTABLE_DIR_REL_PATH
+fi
 
 cd $PORTABLE_DIR_REL_PATH
-
-ln -s libhidapi-hidraw.so libhidapi-hidraw.so.0
 
 #zip -r ../$PORTABLE_ARCHIVE_NAME.zip *
 tar -czf ../$PORTABLE_ARCHIVE_NAME.tar.gz *

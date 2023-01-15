@@ -17,6 +17,29 @@ SET PROJECT_ROOT=%cd%
 SET PORTABLE_DIR_REL_PATH="build\portable"
 SET PORTABLE_ARCHIVE_NAME="usbrelaymodule-portable"
 
+:start_args_check
+if "%1" == "" (
+    goto end_args_check
+)
+else if "%1" == "simu" (
+    SET SIMU="true"
+    CMAKE_ARGS="$CMAKE_ARGS \
+                -Dusbrelaymodule_BUILD_SIMU=ON
+                -DJSONCPP_WITH_TESTS=OFF
+                -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF
+                -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF
+                -DJSONCPP_WITH_CMAKE_PACKAGE=OFF"
+
+    if [ ! -d "$PROJECT_ROOT/external/jsoncpp" ]; then
+        git clone https://github.com/nkh-lab/jsoncpp.git ./external/jsoncpp -b Avoid-using-cmake-glob-vars
+    fi
+)
+
+shift
+goto :start_args_check
+
+:end_args_check
+
 rd /s /q build\ 2>nul
 mkdir build && cd build
 
