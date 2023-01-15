@@ -32,12 +32,12 @@ bool GetModuleInRootJson(
     const std::string& requested_module,
     Json::Value& jroot,
     Json::Value& jmodule,
-    uint& jmodule_idx);
+    unsigned int& jmodule_idx);
 bool GetChannelInModuleJson(
-    uint requested_channel,
+    unsigned int requested_channel,
     Json::Value& jmodule,
     Json::Value& jchannel,
-    uint& jchannel_idx);
+    unsigned int& jchannel_idx);
 
 } // namespace simu
 } // namespace impl

@@ -37,7 +37,7 @@ constexpr char kModuleInfo[] =
 #else
 constexpr char kModuleInfo[] =
     "path:             "
-    "\\?\hid#vid_16c0&pid_05df#6&5a5089d&0&0000#{4d1e55b2-f16f-11cf-88cb-0011110000%d}\n"
+    "\\\\?\\hid#vid_16c0&pid_05df#6&5a5089d&0&0000#{4d1e55b2-f16f-11cf-88cb-0011110000%d}\n"
     "vendor_id:        0x16c0\n"
     "product_id:       0x05df\n"
     "serial_number:    (null)\n"
@@ -71,7 +71,7 @@ public:
 
         auto jmodules_size = jroot[simu::kJsonKeyModules].size();
 
-        for (uint i = 0; i < jmodules_size; ++i)
+        for (unsigned int i = 0; i < jmodules_size; ++i)
         {
             Json::Value& jmodule = jroot[simu::kJsonKeyModules][i];
 

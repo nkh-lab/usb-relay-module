@@ -20,18 +20,18 @@ namespace simu {
 
 Json::Value BuildJsonTemplate()
 {
-    constexpr uint kJsonTemplateModuleSize = 2;
-    constexpr uint kJsonTemplateChannelSize = 2;
+    constexpr unsigned int kJsonTemplateModuleSize = 2;
+    constexpr unsigned int kJsonTemplateChannelSize = 2;
     constexpr char kJsonTemplateModuleName[] = "R%d";
 
     Json::Value jroot;
 
-    for (uint m_idx = 0; m_idx < kJsonTemplateModuleSize; ++m_idx)
+    for (unsigned int m_idx = 0; m_idx < kJsonTemplateModuleSize; ++m_idx)
     {
         Json::Value module;
         module[kJsonKeyModuleName] = utils::Sprintf(kJsonTemplateModuleName, m_idx + 1);
 
-        for (uint c_idx = 0; c_idx < kJsonTemplateChannelSize; ++c_idx)
+        for (unsigned int c_idx = 0; c_idx < kJsonTemplateChannelSize; ++c_idx)
         {
             Json::Value channel;
 
@@ -51,13 +51,13 @@ bool GetModuleInRootJson(
     const std::string& requested_module,
     Json::Value& jroot,
     Json::Value& jmodule,
-    uint& jmodule_idx)
+    unsigned int& jmodule_idx)
 {
     bool ret = false;
 
-    uint jmodule_size = jroot[simu::kJsonKeyModules].size();
+    unsigned int jmodule_size = jroot[simu::kJsonKeyModules].size();
 
-    for (uint i = 0; i < jmodule_size; ++i)
+    for (unsigned int i = 0; i < jmodule_size; ++i)
     {
         Json::Value& jm = jroot[simu::kJsonKeyModules][i];
 
@@ -74,13 +74,13 @@ bool GetModuleInRootJson(
     return ret;
 }
 
-bool GetChannelInModuleJson(uint requested_channel, Json::Value& jmodule, Json::Value& jchannel, uint& jchannel_idx)
+bool GetChannelInModuleJson(unsigned int requested_channel, Json::Value& jmodule, Json::Value& jchannel, unsigned int& jchannel_idx)
 {
     bool ret = false;
 
-    uint jchannels_size = jmodule[simu::kJsonKeyChannels].size();
+    unsigned int jchannels_size = jmodule[simu::kJsonKeyChannels].size();
 
-    for (uint i = 0; i < jchannels_size; ++i)
+    for (unsigned int i = 0; i < jchannels_size; ++i)
     {
         Json::Value& jc = jmodule[simu::kJsonKeyChannels][i];
 

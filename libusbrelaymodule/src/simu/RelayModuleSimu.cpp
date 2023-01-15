@@ -42,7 +42,7 @@ bool RelayModuleSimu::GetNameAndChannels(std::string& module_name, std::vector<b
     std::string file_path = simu_file_->GetResource();
     std::fstream file(file_path, std::ios::in);
     Json::Value jroot, jmodule;
-    uint jmodule_idx;
+    unsigned int jmodule_idx;
     file >> jroot;
 
     if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
@@ -70,7 +70,7 @@ bool RelayModuleSimu::SetName(const std::string& name)
     std::string file_path = simu_file_->GetResource();
     std::fstream file(file_path, std::ios::in);
     Json::Value jroot, jmodule;
-    uint jmodule_idx;
+    unsigned int jmodule_idx;
     file >> jroot;
 
     if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
@@ -98,12 +98,12 @@ bool RelayModuleSimu::SetChannel(size_t channel, bool state)
     std::string file_path = simu_file_->GetResource();
     std::fstream file(file_path, std::ios::in);
     Json::Value jroot, jmodule, jchannel;
-    uint jmodule_idx, jchannel_idx;
+    unsigned int jmodule_idx, jchannel_idx;
     file >> jroot;
 
     if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
     {
-        if (simu::GetChannelInModuleJson(static_cast<uint>(channel), jmodule, jchannel, jchannel_idx))
+        if (simu::GetChannelInModuleJson(static_cast<unsigned int>(channel), jmodule, jchannel, jchannel_idx))
         {
             jchannel[simu::kJsonKeyChannelState] = state == true ? 1 : 0;
             jroot[simu::kJsonKeyModules][jmodule_idx][simu::kJsonKeyChannels][jchannel_idx] = jchannel;

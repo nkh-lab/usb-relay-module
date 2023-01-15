@@ -11,23 +11,26 @@
 
 @echo off
 
-SET DIR=%~dp0
+@rem To be able to set variables inside an if statement
+setlocal enableDelayedExpansion
+
+set DIR=%~dp0
 cd %DIR\..
-SET PROJECT_ROOT=%cd%
-SET PORTABLE_DIR_REL_PATH="build\portable"
-SET PORTABLE_ARCHIVE_NAME="usbrelaymodule-portable"
+set PROJECT_ROOT=%cd%
+set PORTABLE_DIR_REL_PATH="build\portable"
+set PORTABLE_ARCHIVE_NAME="usbrelaymodule-portable"
 
 :start_args_check
 if "%1" == "" (
     goto end_args_check
 )
 if "%1" == "simu" (
-    SET SIMU="true"
-    SET CMAKE_ARGS="%CMAKE_ARGS% -Dusbrelaymodule_BUILD_SIMU=ON"
-    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_TESTS=OFF"
-    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF"
-    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF"
-    SET CMAKE_ARGS="%CMAKE_ARGS% -DJSONCPP_WITH_CMAKE_PACKAGE=OFF"
+    set SIMU=true
+    set CMAKE_ARGS=!CMAKE_ARGS! -Dusbrelaymodule_BUILD_SIMU=ON
+    set CMAKE_ARGS=!CMAKE_ARGS! -DJSONCPP_WITH_TESTS=OFF
+    set CMAKE_ARGS=!CMAKE_ARGS! -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF
+    set CMAKE_ARGS=!CMAKE_ARGS! -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF
+    set CMAKE_ARGS=!CMAKE_ARGS! -DJSONCPP_WITH_CMAKE_PACKAGE=OFF
 
     if not exist "%PROJECT_ROOT%\external\jsoncpp" (
         git clone https://github.com/nkh-lab/jsoncpp.git external\jsoncpp -b Avoid-using-cmake-glob-vars
@@ -39,7 +42,11 @@ goto :start_args_check
 
 :end_args_check
 
+if not "%SIMU%" == "true" (
+    rd /s /q external\jsoncpp\ 2>nul
+)
 rd /s /q build\ 2>nul
+
 mkdir build && cd build
 
 cmake -G "Visual Studio 17 2022" %CMAKE_ARGS% ..
