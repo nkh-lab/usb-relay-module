@@ -36,7 +36,11 @@ do
     fi
 done
 
+if [ "$SIMU" != "true" ]; then
+    rm -rf external/jsoncpp
+fi
 rm -rf build/
+
 mkdir build && cd build
 
 cmake $CMAKE_ARGS ..
@@ -49,7 +53,7 @@ cp build/app-cli/getrelay $PORTABLE_DIR_REL_PATH
 cp build/app-cli/setrelay $PORTABLE_DIR_REL_PATH
 cp build/libusbrelaymodule/libusbrelaymodule.so $PORTABLE_DIR_REL_PATH
 cp build/external/hidapi/src/linux/libhidapi-hidraw.so* $PORTABLE_DIR_REL_PATH
-if [ $SIMU = "true" ]; then
+if [ "$SIMU" = "true" ]; then
     cp build/external/jsoncpp/src/lib_json/libjsoncpp.so* $PORTABLE_DIR_REL_PATH
 fi
 
