@@ -7,3 +7,5 @@
 [Tests](Tests.md)
 
 [Simulation mode](Simulation.md)
+
+[Debug](Debug.md)

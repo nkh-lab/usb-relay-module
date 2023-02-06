@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "getrelay",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/app-cli/getrelay",
+            "cwd": "${workspaceFolder}/build/app-cli/",
+            "externalConsole": false
+        },
+
+        {
+            "name": "setrelay",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/app-cli/setrelay",
+            "cwd": "${workspaceFolder}/build/app-cli/",
+            "externalConsole": false,
+            "args": ["R2_2=1"]
+        },
+
+        {
+            "name": "app-cli-unit-tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/app-cli/tests/unit/app-cli-unit-tests",
+            "cwd": "${workspaceFolder}/build/app-cli/tests/unit/",
+            "externalConsole": false
+        }
+    ]
+}

@@ -23,7 +23,10 @@ temp/
 
 # Folders
 .settings/
-.vscode/
+.vscode/*
+
+# Exclude
+!.vscode/launch.json
 
 # Project specific #
 
