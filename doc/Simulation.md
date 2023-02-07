@@ -15,10 +15,26 @@ git clone https://github.com/nkh-lab/jsoncpp.git ./external/jsoncpp -b Avoid-usi
 ```
 
 ## How to build
+Run `cmake` with `-Dusbrelaymodule_BUILD_SIMU=ON` option.
+
+### Linux
 ```
 cmake -Dusbrelaymodule_BUILD_SIMU=ON ..
 make
 ```
+
+### Windows
+```
+cmake -G "Visual Studio 17 2022" -Dusbrelaymodule_BUILD_SIMU=ON ..
+cmake --build . --config Release
+```
+
+### Portable
+Run the appropriate script according to your OS from the [tools](../tools) folder with the simu flag, for example:
+```
+./tools/build-portable-linux.sh simu
+```
+
 <!-- References -->
 [github-nkhlab-jsoncpp]: https://github.com/nkh-lab/jsoncpp/tree/Avoid-using-cmake-glob-vars
 [github-jsoncpp]: https://github.com/open-source-parsers/jsoncpp
