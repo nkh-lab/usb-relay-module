@@ -34,6 +34,11 @@ do
             git clone https://github.com/nkh-lab/jsoncpp.git ./external/jsoncpp -b Avoid-using-cmake-glob-vars
         fi
     fi
+    if [ "gui" = "$arg" ]; then
+        GUI="true"
+        CMAKE_ARGS="$CMAKE_ARGS \
+                    -Dusbrelaymodule_BUILD_GUI=ON"
+    fi
 done
 
 if [ "$SIMU" != "true" ]; then
@@ -55,6 +60,9 @@ cp build/libusbrelaymodule/libusbrelaymodule.so $PORTABLE_DIR_REL_PATH
 cp build/external/hidapi/src/linux/libhidapi-hidraw.so* $PORTABLE_DIR_REL_PATH
 if [ "$SIMU" = "true" ]; then
     cp build/external/jsoncpp/src/lib_json/libjsoncpp.so* $PORTABLE_DIR_REL_PATH
+fi
+if [ "$GUI" = "true" ]; then
+    cp build/app-gui/relaymaster $PORTABLE_DIR_REL_PATH
 fi
 
 cd $PORTABLE_DIR_REL_PATH

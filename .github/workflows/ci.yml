@@ -13,7 +13,7 @@ jobs:
         run: git submodule update --init --recursive
       - name: Install dependencies
         run: |
-          sudo apt-get install libudev-dev libgtest-dev libgmock-dev
+          sudo apt-get install libudev-dev libgtest-dev libgmock-dev libwxgtk3.0-gtk3-dev
       - name: Build with Tests
         run: |
           mkdir build && cd build
@@ -46,9 +46,9 @@ jobs:
         run: |
           build/portable/setrelay -v
           build/portable/setrelay -h
-      - name: Build Portable Simu
+      - name: Build Portable Simu and GUI
         run: |
-          tools/build-portable-linux.sh simu
+          tools/build-portable-linux.sh simu gui
       - name: Run Portable Simu CLI APP
         run: |
           build/portable/getrelay

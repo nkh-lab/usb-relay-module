@@ -24,6 +24,15 @@
         },
 
         {
+            "name": "relaymaster",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/app-gui/relaymaster",
+            "cwd": "${workspaceFolder}/build/app-gui/",
+            "externalConsole": false,
+        },
+
+        {
             "name": "app-cli-unit-tests",
             "type": "cppdbg",
             "request": "launch",

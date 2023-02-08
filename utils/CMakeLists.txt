@@ -24,7 +24,15 @@ endif()
 file(GLOB SRC_FILES "src/*.cpp")
 
 add_library(${PROJECT_NAME} STATIC
-    ${SRC_FILES})
+    ${SRC_FILES}
+    )
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC include)
+    PUBLIC include
+    )
+
+add_library(${PROJECT_NAME}-headers INTERFACE)
+
+target_include_directories(${PROJECT_NAME}-headers
+    INTERFACE include
+    )
