@@ -13,6 +13,7 @@ jobs:
         run: git submodule update --init --recursive
       - name: Install dependencies
         run: |
+          sudo apt-get update
           sudo apt-get install libudev-dev libgtest-dev libgmock-dev libwxgtk3.0-gtk3-dev
       - name: Build with Tests
         run: |
