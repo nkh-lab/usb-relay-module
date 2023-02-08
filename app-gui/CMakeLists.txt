@@ -29,6 +29,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(wxWidgets_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/prebuilt/wxwidgets/include)
     # Defines
     add_definitions(-DWXUSINGDLL)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
     # Link options
     add_link_options(/SUBSYSTEM:WINDOWS)
     #################

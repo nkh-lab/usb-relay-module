@@ -36,6 +36,32 @@ if "%1" == "simu" (
         git clone https://github.com/nkh-lab/jsoncpp.git external\jsoncpp -b Avoid-using-cmake-glob-vars
     )
 )
+if "%1" == "gui" (
+    set GUI=true
+    set CMAKE_ARGS=!CMAKE_ARGS! -Dusbrelaymodule_BUILD_GUI=ON
+
+    if not exist %PROJECT_ROOT%\prebuilt\wxwidgets (
+        mkdir .temp
+        cd .temp
+        curl -LO https://www.7-zip.org/a/7zr.exe
+        curl -LO https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxMSW-3.2.1_vc14x_x64_Dev.7z
+        curl -LO https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxMSW-3.2.1_vc14x_x64_ReleaseDLL.7z
+        curl -LO https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxWidgets-3.2.1-headers.7z
+
+        7zr.exe x *.7z -o*
+
+        mkdir %PROJECT_ROOT%\prebuilt\wxwidgets\lib\Debug
+        mkdir %PROJECT_ROOT%\prebuilt\wxwidgets\lib\Release
+        mkdir %PROJECT_ROOT%\prebuilt\wxwidgets\include
+
+        xcopy /s /e wxMSW-3.2.1_vc14x_x64_Dev\lib\vc14x_x64_dll %PROJECT_ROOT%\prebuilt\wxwidgets\lib\Debug
+        xcopy /s /e wxMSW-3.2.1_vc14x_x64_ReleaseDLL\lib\vc14x_x64_dll %PROJECT_ROOT%\prebuilt\wxwidgets\lib\Release
+        xcopy /s /e wxWidgets-3.2.1-headers\include %PROJECT_ROOT%\prebuilt\wxwidgets\include
+
+        cd %PROJECT_ROOT%
+        rd /s /q .temp\ 2>nul
+    )
+)
 
 shift
 goto :start_args_check
@@ -62,6 +88,11 @@ copy build\libusbrelaymodule\Release\libusbrelaymodule.dll %PORTABLE_DIR_REL_PAT
 copy build\external\hidapi\src\windows\Release\hidapi.dll %PORTABLE_DIR_REL_PATH%
 if "%SIMU%" == "true" (
     copy build\external\jsoncpp\src\lib_json\Release\jsoncpp.dll %PORTABLE_DIR_REL_PATH%
+)
+if "%GUI%" == "true" (
+    copy build\app-gui\Release\relaymaster.exe %PORTABLE_DIR_REL_PATH%
+    copy prebuilt\wxwidgets\lib\Release\wxbase32u_vc*_x64.dll %PORTABLE_DIR_REL_PATH%
+    copy prebuilt\wxwidgets\lib\Release\wxmsw32u_core_vc*_x64.dll %PORTABLE_DIR_REL_PATH%
 )
 
 cd %PORTABLE_DIR_REL_PATH%

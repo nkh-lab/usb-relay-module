@@ -97,9 +97,9 @@ jobs:
         run: |
           build/portable/setrelay.exe -v
           build/portable/setrelay.exe -h
-      - name: Build Portable Simu
+      - name: Build Portable Simu and GUI
         run: |
-          tools/build-portable-windows.bat simu
+          tools/build-portable-windows.bat simu gui
       - name: Run Portable Simu CLI APP
         run: |
           build/portable/getrelay.exe

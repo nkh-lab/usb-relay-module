@@ -17,7 +17,7 @@ make
 - Debug libraries: [wxMSW-3.2.1_vc14x_x64_Dev.7z](https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxMSW-3.2.1_vc14x_x64_Dev.7z)
 - Release libraries: [wxMSW-3.2.1_vc14x_x64_ReleaseDLL.7z](https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxMSW-3.2.1_vc14x_x64_ReleaseDLL.7z)
 - Headers: [wxWidgets-3.2.1-headers.7z](https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxWidgets-3.2.1-headers.7z) 
-2. Unpack and link downloaded stuff to project prebuilt folder:
+2. Unpack and copy/link downloaded stuff to project prebuilt folder:
 ```
 mkdir prebuilt\wxwidgets\lib && cd prebuilt\wxwidgets\lib
 mklink /D Debug d:\Downloads\wxMSW-3.2.1_vc14x_x64_Dev\lib\vc14x_x64_dll

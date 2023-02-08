@@ -45,11 +45,11 @@ bool App::OnInit()
 #endif
 
         // acording to wxWidjets spec window is suicide object, and we mast not use delete operator
-        MainWindow* m = new MainWindow(nullptr, wxID_ANY, "Hello World Title");
-        m->Show();
+        MainWindow* main_window = new MainWindow(nullptr, wxID_ANY, "Hello World Title");
+        main_window->Show();
 
         wxTextCtrl* text_ctrl = new wxTextCtrl(
-            m,
+            main_window,
             wxID_ANY,
             wxEmptyString,
             wxDefaultPosition,
