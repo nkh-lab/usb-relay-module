@@ -74,7 +74,11 @@ bool GetModuleInRootJson(
     return ret;
 }
 
-bool GetChannelInModuleJson(unsigned int requested_channel, Json::Value& jmodule, Json::Value& jchannel, unsigned int& jchannel_idx)
+bool GetChannelInModuleJson(
+    unsigned int requested_channel,
+    Json::Value& jmodule,
+    Json::Value& jchannel,
+    unsigned int& jchannel_idx)
 {
     bool ret = false;
 

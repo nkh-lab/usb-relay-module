@@ -103,7 +103,8 @@ bool RelayModuleSimu::SetChannel(size_t channel, bool state)
 
     if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
     {
-        if (simu::GetChannelInModuleJson(static_cast<unsigned int>(channel), jmodule, jchannel, jchannel_idx))
+        if (simu::GetChannelInModuleJson(
+                static_cast<unsigned int>(channel), jmodule, jchannel, jchannel_idx))
         {
             jchannel[simu::kJsonKeyChannelState] = state == true ? 1 : 0;
             jroot[simu::kJsonKeyModules][jmodule_idx][simu::kJsonKeyChannels][jchannel_idx] = jchannel;
