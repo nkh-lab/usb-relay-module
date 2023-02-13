@@ -48,7 +48,6 @@ bool App::OnInit()
         relay_manager_ = CreateHidapiManagerForDcttechModules();
 #endif
         MainWindow* main_window = new MainWindow(nullptr, wxID_ANY, "Relay Box");
-        main_window->Show();
 
         wxNotebook* notebook = new wxNotebook(main_window, wxID_ANY);
 
@@ -79,6 +78,8 @@ bool App::OnInit()
                     utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
             }
         }
+
+        main_window->Show();
 
         auto on_update_timeout = [&](wxTimerEvent& event) {
             std::lock_guard<std::mutex> lock(mutex_);

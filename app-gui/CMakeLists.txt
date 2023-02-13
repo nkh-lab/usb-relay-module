@@ -37,7 +37,7 @@ endif()
 
 find_package(wxWidgets REQUIRED)
 
-set(APP_GUI_NAME rbox)
+set(APP_GUI_NAME relaybox)
 
 set(${PROJECT_NAME}_BUILD_UTESTS ${usbrelaymodule_BUILD_UTESTS})
 

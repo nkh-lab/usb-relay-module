@@ -24,10 +24,10 @@
         },
 
         {
-            "name": "rbox",
+            "name": "relaybox",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/app-gui/rbox",
+            "program": "${workspaceFolder}/build/app-gui/relaybox",
             "cwd": "${workspaceFolder}/build/app-gui/",
             "externalConsole": false,
         },
