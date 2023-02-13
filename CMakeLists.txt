@@ -36,6 +36,8 @@ if(${PROJECT_NAME}_BUILD_SIMU)
     add_definitions(-DURM_SIMU)
 endif()
 
+set(LOGGER_BUILD_HEADER_LIB ON CACHE BOOL "Build the header only library")
+
 add_subdirectory(external)
 add_subdirectory(config)
 add_subdirectory(utils)

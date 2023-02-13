@@ -11,12 +11,16 @@
 
 #include "App.h"
 
-#include <iostream>
-
 #include <wx/textctrl.h>
+#include <wx/notebook.h>
 
 #include "MainWindow.h"
 #include "Utils.h"
+#include "widgets/WidgetChannel.h"
+#include "RelayManagerHelper.h"
+#include "nkh-lab/logger.hpp"
+
+std::mutex nlab::logger::gCoutMutex;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -24,12 +28,12 @@ namespace appgui {
 
 App::App()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    LOG_FNC;
 }
 
 bool App::OnInit()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    LOG_FNC;
 
     bool ret = false;
 
@@ -43,28 +47,59 @@ bool App::OnInit()
 #else
         relay_manager_ = CreateHidapiManagerForDcttechModules();
 #endif
-
-        // acording to wxWidjets spec window is suicide object, and we mast not use delete operator
-        MainWindow* main_window = new MainWindow(nullptr, wxID_ANY, "Hello World Title");
+        MainWindow* main_window = new MainWindow(nullptr, wxID_ANY, "Relay Box");
         main_window->Show();
 
-        wxTextCtrl* text_ctrl = new wxTextCtrl(
-            main_window,
-            wxID_ANY,
-            wxEmptyString,
-            wxDefaultPosition,
-            wxDefaultSize,
-            wxTE_MULTILINE | wxTE_READONLY | wxHSCROLL);
+        wxNotebook* notebook = new wxNotebook(main_window, wxID_ANY);
 
-        wxFont font = text_ctrl->GetFont();
-        font.SetFamily(wxFONTFAMILY_TELETYPE);
-        text_ctrl->SetFont(font);
+        // Add pages to the notebook
+        channel_panel_ = new WidgetChannelPanel(notebook, [&](const std::string& channel_name, bool state) {
+            std::lock_guard<std::mutex> lock(mutex_);
 
-        for (auto m : relay_manager_->GetModules())
+            LOG_INF << utils::Sprintf("channel_name: %s, state: %d", channel_name.c_str(), static_cast<int>(state));
+
+            RelayManagerHelper::SetChannel(relay_manager_.get(), channel_name, state);
+        });
+        notebook->AddPage(channel_panel_, "All channels");
+
+        auto modules = relay_manager_->GetModules();
+
+        for (auto m : modules)
         {
-            *text_ctrl << m->GetInfo();
-            *text_ctrl << "\n";
+            std::string module_name;
+            std::vector<bool> channels;
+
+            m->GetNameAndChannels(module_name, channels);
+
+            for(size_t c = 0; c < channels.size(); ++c)
+            {
+                channel_panel_->AddChannel(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+            }
         }
+
+        auto on_update_timeout = [&](wxTimerEvent& event) {
+            std::lock_guard<std::mutex> lock(mutex_);
+
+            UNUSED(event);
+
+            auto modules = relay_manager_->GetModules();
+
+            for (auto m : modules)
+            {
+                std::string module_name;
+                std::vector<bool> channels;
+
+                m->GetNameAndChannels(module_name, channels);
+
+                for(size_t c = 0; c < channels.size(); ++c)
+                {
+                    channel_panel_->SetChannelState(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+                }
+            }
+        };
+
+        Bind(wxEVT_TIMER, on_update_timeout, update_timer_.GetId());
+        update_timer_.Start(100);
 
         ret = true;
     }
@@ -74,15 +109,17 @@ bool App::OnInit()
 
 int App::OnExit()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    LOG_FNC;
 
     return wxApp::OnExit();
 }
 
 App::~App()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    LOG_FNC;
 }
+
+
 
 } // namespace appgui
 } // namespace usbrelaymodule

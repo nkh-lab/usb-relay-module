@@ -62,7 +62,7 @@ if [ "$SIMU" = "true" ]; then
     cp build/external/jsoncpp/src/lib_json/libjsoncpp.so* $PORTABLE_DIR_REL_PATH
 fi
 if [ "$GUI" = "true" ]; then
-    cp build/app-gui/relaymaster $PORTABLE_DIR_REL_PATH
+    cp build/app-gui/rbox $PORTABLE_DIR_REL_PATH
 fi
 
 cd $PORTABLE_DIR_REL_PATH

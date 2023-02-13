@@ -4,3 +4,6 @@
 [submodule "external/liblightargparser"]
 	path = external/liblightargparser
 	url = https://github.com/nkh-lab/liblightargparser.git
+[submodule "external/logger"]
+	path = external/logger
+	url = https://github.com/nkh-lab/logger.git

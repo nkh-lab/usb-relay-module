@@ -11,7 +11,7 @@
 
 #include "MainWindow.h"
 
-#include <iostream>
+#include "nkh-lab/logger.hpp"
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -31,7 +31,7 @@ MainWindow::MainWindow(
 
 MainWindow::~MainWindow()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    LOG_FNC;
 }
 
 } // namespace appgui

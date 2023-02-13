@@ -24,10 +24,10 @@
         },
 
         {
-            "name": "relaymaster",
+            "name": "rbox",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/app-gui/relaymaster",
+            "program": "${workspaceFolder}/build/app-gui/rbox",
             "cwd": "${workspaceFolder}/build/app-gui/",
             "externalConsole": false,
         },

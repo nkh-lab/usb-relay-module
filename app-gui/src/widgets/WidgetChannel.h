@@ -11,34 +11,28 @@
 
 #pragma once
 
-#include <mutex>
+#include <functional>
 
-#include <wx/app.h>
-#include <wx/timer.h>
-
-#include "RelayManager.h"
-#include "widgets/WidgetChannelPanel.h"
+#include <wx/wx.h>
+#include <wx/tglbtn.h>
 
 namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-class App : public wxApp
+class WidgetChannel : public wxPanel
 {
 public:
-    App();
-    ~App();
+    using ToggleChannelCb = std::function<void(const std::string& channel_name, bool state)>;
 
-    bool OnInit() override;
-    int OnExit() override;
-
+    WidgetChannel(wxWindow* parent, const std::string& name, bool state, ToggleChannelCb toggle_cb);
+    void SetChannelState(bool state);
 private:
-    std::mutex mutex_;
-    IRelayManagerPtr relay_manager_;
-    WidgetChannelPanel* channel_panel_;
-    wxTimer update_timer_;
+    wxStaticText* label_;
+    wxToggleButton* button_;
+    ToggleChannelCb toggle_cb_;
 };
 
-} // namespace appgui
-} // namespace usbrelaymodule
-} // namespace nkhlab
+}
+}
+}

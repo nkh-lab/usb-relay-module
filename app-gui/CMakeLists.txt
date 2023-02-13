@@ -37,7 +37,7 @@ endif()
 
 find_package(wxWidgets REQUIRED)
 
-set(APP_GUI_NAME relaymaster)
+set(APP_GUI_NAME rbox)
 
 set(${PROJECT_NAME}_BUILD_UTESTS ${usbrelaymodule_BUILD_UTESTS})
 
@@ -47,7 +47,10 @@ else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
-file(GLOB SRC_FILES "src/*.cpp")
+file(GLOB SRC_FILES
+    "src/*.cpp"
+    "src/widgets/*.cpp"
+    )
 
 add_executable(${APP_GUI_NAME}
     ${SRC_FILES}
@@ -62,6 +65,7 @@ target_link_libraries(${APP_GUI_NAME}
     PRIVATE libusbrelaymodule-utils
     PRIVATE ${wxWidgets_LIBRARIES}
     PRIVATE libusbrelaymodule
+    PRIVATE nkhlablogger
     )
 
 #add_subdirectory(tests)
