@@ -51,6 +51,11 @@ mkdir build && cd build
 cmake $CMAKE_ARGS ..
 make
 
+# Check if build return error
+if [ $? -ne 0 ]; then
+  exit $?
+fi
+
 cd $PROJECT_ROOT
 
 mkdir $PORTABLE_DIR_REL_PATH

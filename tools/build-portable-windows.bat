@@ -78,6 +78,11 @@ mkdir build && cd build
 cmake -G "Visual Studio 17 2022" %CMAKE_ARGS% ..
 cmake --build . --config Release
 
+@rem Check if build return error
+if %errorlevel% != 0 (
+    exit /b %errorlevel%
+)
+
 cd %PROJECT_ROOT%
 
 mkdir %PORTABLE_DIR_REL_PATH%
