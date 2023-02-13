@@ -13,8 +13,8 @@
 
 #include <functional>
 
-#include <wx/wx.h>
 #include <wx/tglbtn.h>
+#include <wx/wx.h>
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -27,12 +27,13 @@ public:
 
     WidgetChannel(wxWindow* parent, const std::string& name, bool state, ToggleChannelCb toggle_cb);
     void SetChannelState(bool state);
+
 private:
     wxStaticText* label_;
     wxToggleButton* button_;
     ToggleChannelCb toggle_cb_;
 };
 
-}
-}
-}
+} // namespace appgui
+} // namespace usbrelaymodule
+} // namespace nkhlab

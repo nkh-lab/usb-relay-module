@@ -11,14 +11,14 @@
 
 #include "App.h"
 
-#include <wx/textctrl.h>
 #include <wx/notebook.h>
+#include <wx/textctrl.h>
 
 #include "MainWindow.h"
-#include "Utils.h"
-#include "widgets/WidgetChannel.h"
 #include "RelayManagerHelper.h"
+#include "Utils.h"
 #include "nkh-lab/logger.hpp"
+#include "widgets/WidgetChannel.h"
 
 std::mutex nlab::logger::gCoutMutex;
 
@@ -53,13 +53,15 @@ bool App::OnInit()
         wxNotebook* notebook = new wxNotebook(main_window, wxID_ANY);
 
         // Add pages to the notebook
-        channel_panel_ = new WidgetChannelPanel(notebook, [&](const std::string& channel_name, bool state) {
-            std::lock_guard<std::mutex> lock(mutex_);
+        channel_panel_ =
+            new WidgetChannelPanel(notebook, [&](const std::string& channel_name, bool state) {
+                std::lock_guard<std::mutex> lock(mutex_);
 
-            LOG_INF << utils::Sprintf("channel_name: %s, state: %d", channel_name.c_str(), static_cast<int>(state));
+                LOG_INF << utils::Sprintf(
+                    "channel_name: %s, state: %d", channel_name.c_str(), static_cast<int>(state));
 
-            RelayManagerHelper::SetChannel(relay_manager_.get(), channel_name, state);
-        });
+                RelayManagerHelper::SetChannel(relay_manager_.get(), channel_name, state);
+            });
         notebook->AddPage(channel_panel_, "All channels");
 
         auto modules = relay_manager_->GetModules();
@@ -71,9 +73,10 @@ bool App::OnInit()
 
             m->GetNameAndChannels(module_name, channels);
 
-            for(size_t c = 0; c < channels.size(); ++c)
+            for (size_t c = 0; c < channels.size(); ++c)
             {
-                channel_panel_->AddChannel(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+                channel_panel_->AddChannel(
+                    utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
             }
         }
 
@@ -91,9 +94,10 @@ bool App::OnInit()
 
                 m->GetNameAndChannels(module_name, channels);
 
-                for(size_t c = 0; c < channels.size(); ++c)
+                for (size_t c = 0; c < channels.size(); ++c)
                 {
-                    channel_panel_->SetChannelState(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+                    channel_panel_->SetChannelState(
+                        utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
                 }
             }
         };
@@ -118,8 +122,6 @@ App::~App()
 {
     LOG_FNC;
 }
-
-
 
 } // namespace appgui
 } // namespace usbrelaymodule

@@ -15,7 +15,10 @@
 namespace nkhlab {
 namespace usbrelaymodule {
 
-RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(IRelayManager* relay_manager, const std::string& channel, bool state)
+RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
+    IRelayManager* relay_manager,
+    const std::string& channel,
+    bool state)
 {
     SetChannelResult ret = SetChannelResult::kNoRequestedModule;
     std::string req_module;
@@ -36,10 +39,10 @@ RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(IRelayManage
         {
             if (req_channel > 0 && req_channel <= channels.size())
             {
-                if (!m->SetChannel(req_channel, state))
-                    ret = SetChannelResult::kSetChannelError;
+                if (!m->SetChannel(req_channel, state)) ret = SetChannelResult::kSetChannelError;
             }
-            else ret = SetChannelResult::kNoRequestedChannel;
+            else
+                ret = SetChannelResult::kNoRequestedChannel;
             break;
         }
     }

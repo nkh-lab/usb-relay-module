@@ -30,9 +30,9 @@ bool WidgetChannelPanel::SetChannelState(const std::string& name, bool state)
 {
     bool ret = false;
 
-    //LOG_FNC;
+    // LOG_FNC;
 
-    if(DoesChannelExist(name))
+    if (DoesChannelExist(name))
     {
         channels_[name]->SetChannelState(state);
         ret = true;
@@ -45,9 +45,9 @@ bool WidgetChannelPanel::DoesChannelExist(const std::string& name)
 {
     bool ret = false;
 
-    //LOG_FNC;
+    // LOG_FNC;
 
-    if ( channels_.find(name) != channels_.end()) ret = true;
+    if (channels_.find(name) != channels_.end()) ret = true;
 
     return ret;
 }
@@ -58,17 +58,18 @@ bool WidgetChannelPanel::AddChannel(const std::string& name, bool state)
 
     LOG_FNC;
 
-    if(!DoesChannelExist(name))
+    if (!DoesChannelExist(name))
     {
-        WidgetChannel* widget = new WidgetChannel(this, name, state, [&](const std::string& channel_name, bool state) {
-            LOG_FNC;
+        WidgetChannel* widget =
+            new WidgetChannel(this, name, state, [&](const std::string& channel_name, bool state) {
+                LOG_FNC;
 
-            if(toggle_cb_) toggle_cb_(channel_name, state);
-        });
+                if (toggle_cb_) toggle_cb_(channel_name, state);
+            });
         sizer_->AddSpacer(10);
         sizer_->Add(widget);
 
-        channels_[name]=widget;
+        channels_[name] = widget;
         ret = true;
 
         this->SetSizerAndFit(sizer_);
@@ -84,6 +85,6 @@ bool WidgetChannelPanel::RemoveChannel(const std::string& /*name*/)
     return true;
 }
 
-}
-}
-}
+} // namespace appgui
+} // namespace usbrelaymodule
+} // namespace nkhlab

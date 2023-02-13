@@ -12,8 +12,8 @@
 #pragma once
 
 #include <functional>
-#include <mutex>
 #include <map>
+#include <mutex>
 
 #include <wx/wx.h>
 #include "WidgetChannel.h"
@@ -32,12 +32,13 @@ public:
     bool DoesChannelExist(const std::string& name);
     bool AddChannel(const std::string& name, bool state);
     bool RemoveChannel(const std::string& name);
+
 private:
     std::map<std::string, WidgetChannel*> channels_;
     ToggleChannelCb toggle_cb_;
     wxBoxSizer* sizer_;
 };
 
-}
-}
-}
+} // namespace appgui
+} // namespace usbrelaymodule
+} // namespace nkhlab

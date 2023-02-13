@@ -15,7 +15,8 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool state, ToggleChannelCb toggle_cb) : wxPanel(parent, wxID_ANY)
+WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool state, ToggleChannelCb toggle_cb)
+    : wxPanel(parent, wxID_ANY)
 {
     label_ = new wxStaticText(this, wxID_ANY, name);
     button_ = new wxToggleButton(this, wxID_ANY, state ? "1" : "0");
@@ -25,7 +26,7 @@ WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool sta
         bool state = event.IsChecked();
 
         button_->SetLabel(state ? "1" : "0");
-        if(toggle_cb) toggle_cb(name, state);
+        if (toggle_cb) toggle_cb(name, state);
     });
 
     // Use a box sizer to arrange the controls inside the panel
@@ -35,7 +36,7 @@ WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool sta
     sizer->AddSpacer(10);
     sizer->Add(button_, 0, wxALIGN_CENTER_VERTICAL);
 
-    //this->SetSizer(sizer);
+    // this->SetSizer(sizer);
     this->SetSizerAndFit(sizer);
 }
 
@@ -48,6 +49,6 @@ void WidgetChannel::SetChannelState(bool state)
     }
 }
 
-}
-}
-}
+} // namespace appgui
+} // namespace usbrelaymodule
+} // namespace nkhlab
