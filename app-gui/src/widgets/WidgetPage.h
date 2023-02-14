@@ -22,12 +22,12 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-class WidgetChannelPanel : public wxPanel
+class WidgetPage : public wxPanel
 {
 public:
     using ToggleChannelCb = std::function<void(const std::string& channel_name, bool state)>;
 
-    WidgetChannelPanel(wxWindow* parent, ToggleChannelCb toggle_cb);
+    WidgetPage(wxWindow* parent, ToggleChannelCb toggle_cb);
     bool SetChannelState(const std::string& name, bool state);
     bool DoesChannelExist(const std::string& name);
     bool AddChannel(const std::string& name, bool state);

@@ -9,7 +9,7 @@
  * but WITHOUT ANY WARRANTY.
  */
 
-#include "WidgetChannelPanel.h"
+#include "WidgetPage.h"
 
 #include "nkh-lab/logger.hpp"
 
@@ -17,7 +17,7 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-WidgetChannelPanel::WidgetChannelPanel(wxWindow* parent, ToggleChannelCb toggle_cb)
+WidgetPage::WidgetPage(wxWindow* parent, ToggleChannelCb toggle_cb)
     : wxPanel(parent, wxID_ANY)
     , toggle_cb_{toggle_cb}
     , sizer_{new wxBoxSizer(wxVERTICAL)}
@@ -26,7 +26,7 @@ WidgetChannelPanel::WidgetChannelPanel(wxWindow* parent, ToggleChannelCb toggle_
     this->SetSizer(sizer_);
 }
 
-bool WidgetChannelPanel::SetChannelState(const std::string& name, bool state)
+bool WidgetPage::SetChannelState(const std::string& name, bool state)
 {
     bool ret = false;
 
@@ -41,7 +41,7 @@ bool WidgetChannelPanel::SetChannelState(const std::string& name, bool state)
     return ret;
 }
 
-bool WidgetChannelPanel::DoesChannelExist(const std::string& name)
+bool WidgetPage::DoesChannelExist(const std::string& name)
 {
     bool ret = false;
 
@@ -52,7 +52,7 @@ bool WidgetChannelPanel::DoesChannelExist(const std::string& name)
     return ret;
 }
 
-bool WidgetChannelPanel::AddChannel(const std::string& name, bool state)
+bool WidgetPage::AddChannel(const std::string& name, bool state)
 {
     bool ret = false;
 
@@ -78,7 +78,7 @@ bool WidgetChannelPanel::AddChannel(const std::string& name, bool state)
     return ret;
 }
 
-bool WidgetChannelPanel::RemoveChannel(const std::string& /*name*/)
+bool WidgetPage::RemoveChannel(const std::string& /*name*/)
 {
     LOG_FNC;
 

@@ -9,23 +9,26 @@
  * but WITHOUT ANY WARRANTY.
  */
 
+#include <map>
 #include <string>
 
-enum class StateColor
+#include <wx/wx.h>
+
+struct AliasState
 {
-    Green,
-    Red,
+    std::string text;
+    wxColor* color;
 };
 
-struct StateAlias
+struct AliasChannel
 {
-    std::string label;
-    StateColor color;
+    std::string text;
+    AliasState state0;
+    AliasState state1;
 };
 
-struct ChannelAlias
+struct AliasPage
 {
-    std::string label;
-    StateAlias state0;
-    StateAlias state1;
+    std::string page_name;
+    std::map<std::string, AliasChannel> alias_chanels_;
 };

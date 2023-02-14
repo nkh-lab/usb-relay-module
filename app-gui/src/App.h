@@ -12,12 +12,15 @@
 #pragma once
 
 #include <mutex>
+#include <vector>
 
 #include <wx/app.h>
+#include <wx/notebook.h>
 #include <wx/timer.h>
 
+#include "Alias.h"
 #include "RelayManager.h"
-#include "widgets/WidgetChannelPanel.h"
+#include "widgets/WidgetPage.h"
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -34,10 +37,14 @@ public:
 
 private:
     void OnChannelToggled(const std::string& channel_name, bool state);
+    void OnUpdateTimeout(wxTimerEvent& event);
+    WidgetPage* CreateAllChannelsPage(wxWindow* parent);
+    WidgetPage* CreateAliasPage(wxWindow* parent, const AliasPage& alias_page);
 
     std::mutex mutex_;
     IRelayManagerPtr relay_manager_;
-    WidgetChannelPanel* channel_panel_;
+    std::vector<AliasPage> aliases_;
+    wxNotebook* notebook_;
     wxTimer update_timer_;
 };
 
