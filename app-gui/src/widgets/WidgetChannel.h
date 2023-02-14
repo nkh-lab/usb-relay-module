@@ -13,8 +13,9 @@
 
 #include <functional>
 
-#include <wx/tglbtn.h>
 #include <wx/wx.h>
+
+#include "WidgetToggleButton.h"
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -30,7 +31,7 @@ public:
 
 private:
     wxStaticText* label_;
-    wxToggleButton* button_;
+    WidgetToggleButton* button_;
     ToggleChannelCb toggle_cb_;
 };
 

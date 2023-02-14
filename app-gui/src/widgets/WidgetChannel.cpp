@@ -19,13 +19,7 @@ WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool sta
     : wxPanel(parent, wxID_ANY)
 {
     label_ = new wxStaticText(this, wxID_ANY, name);
-    button_ = new wxToggleButton(this, wxID_ANY, state ? "1" : "0");
-    button_->SetValue(state);
-
-    button_->Bind(wxEVT_TOGGLEBUTTON, [&, name, toggle_cb](wxCommandEvent& event) {
-        bool state = event.IsChecked();
-
-        button_->SetLabel(state ? "1" : "0");
+    button_ = new WidgetToggleButton(this, state, [name, toggle_cb](bool state) {
         if (toggle_cb) toggle_cb(name, state);
     });
 
@@ -36,7 +30,6 @@ WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool sta
     sizer->AddSpacer(10);
     sizer->Add(button_, 0, wxALIGN_CENTER_VERTICAL);
 
-    // this->SetSizer(sizer);
     this->SetSizerAndFit(sizer);
 }
 
@@ -45,7 +38,6 @@ void WidgetChannel::SetChannelState(bool state)
     if (button_->GetValue() != state)
     {
         button_->SetValue(state);
-        button_->SetLabel(state ? "1" : "0");
     }
 }
 
