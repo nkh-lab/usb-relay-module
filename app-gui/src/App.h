@@ -33,6 +33,8 @@ public:
     int OnExit() override;
 
 private:
+    void OnChannelToggled(const std::string& channel_name, bool state);
+
     std::mutex mutex_;
     IRelayManagerPtr relay_manager_;
     WidgetChannelPanel* channel_panel_;

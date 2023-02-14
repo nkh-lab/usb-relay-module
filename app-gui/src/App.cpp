@@ -12,7 +12,6 @@
 #include "App.h"
 
 #include <wx/notebook.h>
-#include <wx/textctrl.h>
 
 #include "MainWindow.h"
 #include "RelayManagerHelper.h"
@@ -25,6 +24,8 @@ std::mutex nlab::logger::gCoutMutex;
 namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
+
+using namespace std::placeholders;
 
 App::App()
 {
@@ -52,15 +53,7 @@ bool App::OnInit()
         wxNotebook* notebook = new wxNotebook(main_window, wxID_ANY);
 
         // Add pages to the notebook
-        channel_panel_ =
-            new WidgetChannelPanel(notebook, [&](const std::string& channel_name, bool state) {
-                std::lock_guard<std::mutex> lock(mutex_);
-
-                LOG_INF << utils::Sprintf(
-                    "channel_name: %s, state: %d", channel_name.c_str(), static_cast<int>(state));
-
-                RelayManagerHelper::SetChannel(relay_manager_.get(), channel_name, state);
-            });
+        channel_panel_ = new WidgetChannelPanel(notebook, std::bind(&App::OnChannelToggled, this, _1, _2));
         notebook->AddPage(channel_panel_, "All channels");
 
         auto modules = relay_manager_->GetModules();
@@ -110,6 +103,16 @@ bool App::OnInit()
     }
 
     return ret;
+}
+
+void App::OnChannelToggled(const std::string& channel_name, bool state)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    LOG_INF << utils::Sprintf(
+        "channel_name: %s, state: %d", channel_name.c_str(), static_cast<int>(state));
+
+    RelayManagerHelper::SetChannel(relay_manager_.get(), channel_name, state);
 }
 
 int App::OnExit()
