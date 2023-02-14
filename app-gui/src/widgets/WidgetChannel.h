@@ -15,6 +15,7 @@
 
 #include <wx/wx.h>
 
+#include "Alias.h"
 #include "WidgetToggleButton.h"
 
 namespace nkhlab {
@@ -26,7 +27,12 @@ class WidgetChannel : public wxPanel
 public:
     using ToggleChannelCb = std::function<void(const std::string& channel_name, bool state)>;
 
-    WidgetChannel(wxWindow* parent, const std::string& name, bool state, ToggleChannelCb toggle_cb);
+    WidgetChannel(
+        wxWindow* parent,
+        const std::string& name,
+        bool state,
+        ToggleChannelCb toggle_cb,
+        AliasChannel* alias = nullptr);
     void SetChannelState(bool state);
 
 private:

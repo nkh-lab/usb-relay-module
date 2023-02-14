@@ -20,14 +20,14 @@ WidgetToggleButton::WidgetToggleButton(
     bool init_state,
     WidgetButtonToggleCb toggle_cb,
     const std::string& state0_label,
-    wxColor* state0_color,
+    const wxColor* state0_color,
     const std::string& state1_label,
-    wxColor* state1_color)
+    const wxColor* state1_color)
     : wxToggleButton(parent, wxID_ANY, "")
     , state0_label_{state0_label}
-    , state0_color_{state0_color ? state0_color : wxGREEN}
+    , state0_color_{state0_color}
     , state1_label_{state1_label}
-    , state1_color_{state1_color ? state0_color : wxRED}
+    , state1_color_{state1_color}
 {
     StyleState(init_state);
 
@@ -38,17 +38,28 @@ WidgetToggleButton::WidgetToggleButton(
     });
 }
 
+void WidgetToggleButton::SetState(bool state)
+{
+    SetValue(state);
+    StyleState(state);
+}
+
+bool WidgetToggleButton::GetState()
+{
+    return GetValue();
+}
+
 void WidgetToggleButton::StyleState(bool state)
 {
     if (state)
     {
         SetLabel(state1_label_);
-        SetBackgroundColour(*state1_color_);
+        if (state1_color_) SetBackgroundColour(*state1_color_);
     }
     else
     {
         SetLabel(state0_label_);
-        SetBackgroundColour(*state0_color_);
+        if (state0_color_) SetBackgroundColour(*state0_color_);
     }
 }
 

@@ -52,6 +52,43 @@ bool App::OnInit()
 
         notebook_->AddPage(CreateAllChannelsPage(notebook_), "All channels");
 
+        // DBG
+        AliasState off_state;
+        off_state.text = "OFF";
+        off_state.color = wxRED;
+        AliasState on_state;
+        on_state.text = "ON";
+        on_state.color = wxGREEN;
+
+        AliasChannel power_channel;
+        power_channel.text = "PWR";
+        power_channel.state0 = on_state;
+        power_channel.state1 = off_state;
+
+        AliasChannel qfil_channel;
+        qfil_channel.text = "QFIL";
+        qfil_channel.state0 = off_state;
+        qfil_channel.state1 = on_state;
+
+        AliasChannel vip_channel;
+        vip_channel.text = "VIP ";
+        vip_channel.state0 = off_state;
+        vip_channel.state1 = on_state;
+
+        AliasPage rig_page;
+        rig_page.page_name = "Rig";
+        rig_page.chanels.push_back(std::make_pair("R1_2", power_channel));
+        rig_page.chanels.push_back(std::make_pair("R1_1", qfil_channel));
+        rig_page.chanels.push_back(std::make_pair("R2_1", vip_channel));
+
+        aliases_.push_back(rig_page);
+        //
+
+        for (auto p : aliases_)
+        {
+            notebook_->AddPage(CreateAliasPage(notebook_, p), p.page_name);
+        }
+
         main_window->Show();
 
         Bind(wxEVT_TIMER, &App::OnUpdateTimeout, this, update_timer_.GetId());
@@ -118,6 +155,18 @@ WidgetPage* App::CreateAllChannelsPage(wxWindow* parent)
         {
             page->AddChannel(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
         }
+    }
+
+    return page;
+}
+
+WidgetPage* App::CreateAliasPage(wxWindow* parent, const AliasPage& alias_page)
+{
+    WidgetPage* page = new WidgetPage(parent, std::bind(&App::OnChannelToggled, this, _1, _2));
+
+    for (auto c : alias_page.chanels)
+    {
+        page->AddChannel(c.first, false, &c.second);
     }
 
     return page;

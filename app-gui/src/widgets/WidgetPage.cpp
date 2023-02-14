@@ -32,27 +32,26 @@ bool WidgetPage::SetChannelState(const std::string& name, bool state)
 
     // LOG_FNC;
 
-    if (DoesChannelExist(name))
+    WidgetChannel* channel = DoesChannelExist(name);
+
+    if (channel)
     {
-        channels_[name]->SetChannelState(state);
+        channel->SetChannelState(state);
         ret = true;
     }
 
     return ret;
 }
 
-bool WidgetPage::DoesChannelExist(const std::string& name)
+WidgetChannel* WidgetPage::DoesChannelExist(const std::string& name)
 {
-    bool ret = false;
+    auto search = channels_.find(name);
 
-    // LOG_FNC;
-
-    if (channels_.find(name) != channels_.end()) ret = true;
-
-    return ret;
+    if (search != channels_.end()) return search->second;
+    return nullptr;
 }
 
-bool WidgetPage::AddChannel(const std::string& name, bool state)
+bool WidgetPage::AddChannel(const std::string& name, bool state, AliasChannel* alias_channel)
 {
     bool ret = false;
 
@@ -60,12 +59,16 @@ bool WidgetPage::AddChannel(const std::string& name, bool state)
 
     if (!DoesChannelExist(name))
     {
-        WidgetChannel* widget =
-            new WidgetChannel(this, name, state, [&](const std::string& channel_name, bool state) {
+        WidgetChannel* widget = new WidgetChannel(
+            this,
+            name,
+            state,
+            [&](const std::string& channel_name, bool state) {
                 LOG_FNC;
 
                 if (toggle_cb_) toggle_cb_(channel_name, state);
-            });
+            },
+            alias_channel);
         sizer_->AddSpacer(10);
         sizer_->Add(widget);
 

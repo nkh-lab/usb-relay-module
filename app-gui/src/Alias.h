@@ -9,15 +9,18 @@
  * but WITHOUT ANY WARRANTY.
  */
 
-#include <map>
+#pragma once
+
 #include <string>
+#include <utility>
+#include <vector>
 
 #include <wx/wx.h>
 
 struct AliasState
 {
     std::string text;
-    wxColor* color;
+    const wxColor* color;
 };
 
 struct AliasChannel
@@ -30,5 +33,5 @@ struct AliasChannel
 struct AliasPage
 {
     std::string page_name;
-    std::map<std::string, AliasChannel> alias_chanels_;
+    std::vector<std::pair<std::string, AliasChannel>> chanels;
 };

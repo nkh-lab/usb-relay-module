@@ -15,13 +15,26 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool state, ToggleChannelCb toggle_cb)
+WidgetChannel::WidgetChannel(
+    wxWindow* parent,
+    const std::string& name,
+    bool state,
+    ToggleChannelCb toggle_cb,
+    AliasChannel* alias)
     : wxPanel(parent, wxID_ANY)
 {
-    label_ = new wxStaticText(this, wxID_ANY, name);
-    button_ = new WidgetToggleButton(this, state, [name, toggle_cb](bool state) {
-        if (toggle_cb) toggle_cb(name, state);
-    });
+    label_ = new wxStaticText(this, wxID_ANY, alias ? alias->text : name);
+    label_->SetMinSize(wxSize(100, -1)); // set width to 200 pixels
+    button_ = new WidgetToggleButton(
+        this,
+        state,
+        [name, toggle_cb](bool state) {
+            if (toggle_cb) toggle_cb(name, state);
+        },
+        alias ? alias->state0.text : "0",
+        alias ? alias->state0.color : nullptr,
+        alias ? alias->state1.text : "1",
+        alias ? alias->state1.color : nullptr);
 
     // Use a box sizer to arrange the controls inside the panel
     wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -35,9 +48,9 @@ WidgetChannel::WidgetChannel(wxWindow* parent, const std::string& name, bool sta
 
 void WidgetChannel::SetChannelState(bool state)
 {
-    if (button_->GetValue() != state)
+    if (button_->GetState() != state)
     {
-        button_->SetValue(state);
+        button_->SetState(state);
     }
 }
 

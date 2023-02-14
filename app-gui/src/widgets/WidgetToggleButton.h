@@ -33,9 +33,12 @@ public:
         bool init_state,
         WidgetButtonToggleCb toggle_cb,
         const std::string& state0_label = "0",
-        wxColor* state0_color = nullptr,
+        const wxColor* state0_color = nullptr,
         const std::string& state1_label = "1",
-        wxColor* state1_color = nullptr);
+        const wxColor* state1_color = nullptr);
+
+    void SetState(bool state);
+    bool GetState();
 
 private:
     void StyleState(bool state);

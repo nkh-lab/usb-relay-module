@@ -29,8 +29,8 @@ public:
 
     WidgetPage(wxWindow* parent, ToggleChannelCb toggle_cb);
     bool SetChannelState(const std::string& name, bool state);
-    bool DoesChannelExist(const std::string& name);
-    bool AddChannel(const std::string& name, bool state);
+    WidgetChannel* DoesChannelExist(const std::string& name);
+    bool AddChannel(const std::string& name, bool state, AliasChannel* alias_channel = nullptr);
     bool RemoveChannel(const std::string& name);
 
 private:
