@@ -53,27 +53,20 @@ bool App::OnInit()
         notebook_->AddPage(CreateAllChannelsPage(notebook_), "All channels");
 
         // DBG
-        AliasState off_state;
-        off_state.text = "OFF";
-        off_state.color = wxRED;
-        AliasState on_state;
-        on_state.text = "ON";
-        on_state.color = wxGREEN;
-
         AliasChannel power_channel;
         power_channel.text = "PWR";
-        power_channel.state0 = on_state;
-        power_channel.state1 = off_state;
+        power_channel.state0 = {"ON", wxGREEN};
+        power_channel.state1 = {"OFF", wxRED};
 
         AliasChannel qfil_channel;
         qfil_channel.text = "QFIL";
-        qfil_channel.state0 = off_state;
-        qfil_channel.state1 = on_state;
+        qfil_channel.state0 = {"OFF", wxGREEN};
+        qfil_channel.state1 = {"ON", wxRED};
 
         AliasChannel vip_channel;
         vip_channel.text = "VIP ";
-        vip_channel.state0 = off_state;
-        vip_channel.state1 = on_state;
+        vip_channel.state0 = {"OFF", wxGREEN};
+        vip_channel.state1 = {"ON", wxRED};
 
         AliasPage rig_page;
         rig_page.page_name = "Rig";
