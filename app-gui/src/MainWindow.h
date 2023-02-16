@@ -11,10 +11,10 @@
 
 #pragma once
 
-#include <wx/wxprec.h>
-#ifndef WX_PRECOMP
+#include <wx/notebook.h>
 #include <wx/wx.h>
-#endif
+
+#include "widgets/WidgetPage.h"
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -32,6 +32,14 @@ public:
         long style = wxDEFAULT_FRAME_STYLE,
         const wxString& name = wxFrameNameStr);
     ~MainWindow();
+
+    wxWindow* GetPageParent();
+    void AddPage(WidgetPage* page);
+    const std::vector<WidgetPage*>& GetPages();
+
+private:
+    wxNotebook* notebook_;
+    std::vector<WidgetPage*> pages_;
 };
 
 } // namespace appgui

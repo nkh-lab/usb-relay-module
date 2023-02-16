@@ -15,10 +15,10 @@
 #include <vector>
 
 #include <wx/app.h>
-#include <wx/notebook.h>
 #include <wx/timer.h>
 
 #include "Alias.h"
+#include "MainWindow.h"
 #include "RelayManager.h"
 #include "widgets/WidgetPage.h"
 
@@ -44,7 +44,7 @@ private:
     std::mutex mutex_;
     IRelayManagerPtr relay_manager_;
     std::vector<AliasPage> aliases_;
-    wxNotebook* notebook_;
+    MainWindow* main_window_;
     wxTimer update_timer_;
 };
 

@@ -27,13 +27,16 @@ class WidgetPage : public wxPanel
 public:
     using ToggleChannelCb = std::function<void(const std::string& channel_name, bool state)>;
 
-    WidgetPage(wxWindow* parent, ToggleChannelCb toggle_cb);
+    WidgetPage(wxWindow* parent, const std::string& name, ToggleChannelCb toggle_cb);
     bool SetChannelState(const std::string& name, bool state);
     WidgetChannel* DoesChannelExist(const std::string& name);
     bool AddChannel(const std::string& name, bool state, AliasChannel* alias_channel = nullptr);
     bool RemoveChannel(const std::string& name);
 
+    const std::string& GetName();
+
 private:
+    std::string name_;
     std::map<std::string, WidgetChannel*> channels_;
     ToggleChannelCb toggle_cb_;
     wxBoxSizer* sizer_;

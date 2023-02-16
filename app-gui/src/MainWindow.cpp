@@ -27,6 +27,26 @@ MainWindow::MainWindow(
     const wxString& name)
     : wxFrame(parent, id, title, pos, size, style, name)
 {
+    LOG_FNC;
+
+    notebook_ = new wxNotebook(this, wxID_ANY);
+}
+
+wxWindow* MainWindow::GetPageParent()
+{
+    return notebook_;
+}
+
+void MainWindow::AddPage(WidgetPage* page)
+{
+    page->SetParent(notebook_);
+    notebook_->AddPage(page, page->GetName());
+    pages_.push_back(page);
+}
+
+const std::vector<WidgetPage*>& MainWindow::GetPages()
+{
+    return pages_;
 }
 
 MainWindow::~MainWindow()

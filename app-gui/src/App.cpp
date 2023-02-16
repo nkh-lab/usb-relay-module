@@ -11,7 +11,6 @@
 
 #include "App.h"
 
-#include "MainWindow.h"
 #include "RelayManagerHelper.h"
 #include "Utils.h"
 #include "nkh-lab/logger.hpp"
@@ -46,11 +45,9 @@ bool App::OnInit()
 #else
         relay_manager_ = CreateHidapiManagerForDcttechModules();
 #endif
-        MainWindow* main_window = new MainWindow(nullptr, wxID_ANY, "Relay Box");
-
-        notebook_ = new wxNotebook(main_window, wxID_ANY);
-
-        notebook_->AddPage(CreateAllChannelsPage(notebook_), "All channels");
+        main_window_ = new MainWindow(nullptr, wxID_ANY, "Relay Box");
+        auto page_parent = main_window_->GetPageParent();
+        main_window_->AddPage(CreateAllChannelsPage(page_parent));
 
         // DBG
         AliasChannel power_channel;
@@ -79,10 +76,10 @@ bool App::OnInit()
 
         for (auto p : aliases_)
         {
-            notebook_->AddPage(CreateAliasPage(notebook_, p), p.page_name);
+            main_window_->AddPage(CreateAliasPage(page_parent, p));
         }
 
-        main_window->Show();
+        main_window_->Show();
 
         Bind(wxEVT_TIMER, &App::OnUpdateTimeout, this, update_timer_.GetId());
         update_timer_.Start(100);
@@ -120,12 +117,9 @@ void App::OnUpdateTimeout(wxTimerEvent& event)
 
         for (size_t c = 0; c < channels.size(); ++c)
         {
-            for (size_t p = 0; p < notebook_->GetPageCount(); ++p)
+            for (auto p : main_window_->GetPages())
             {
-                WidgetPage* page = reinterpret_cast<WidgetPage*>(notebook_->GetPage(p));
-
-                page->SetChannelState(
-                    utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+                p->SetChannelState(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
             }
         }
     }
@@ -133,7 +127,8 @@ void App::OnUpdateTimeout(wxTimerEvent& event)
 
 WidgetPage* App::CreateAllChannelsPage(wxWindow* parent)
 {
-    WidgetPage* page = new WidgetPage(parent, std::bind(&App::OnChannelToggled, this, _1, _2));
+    WidgetPage* page =
+        new WidgetPage(parent, "All channels", std::bind(&App::OnChannelToggled, this, _1, _2));
 
     auto modules = relay_manager_->GetModules();
 
@@ -155,7 +150,8 @@ WidgetPage* App::CreateAllChannelsPage(wxWindow* parent)
 
 WidgetPage* App::CreateAliasPage(wxWindow* parent, const AliasPage& alias_page)
 {
-    WidgetPage* page = new WidgetPage(parent, std::bind(&App::OnChannelToggled, this, _1, _2));
+    WidgetPage* page =
+        new WidgetPage(parent, alias_page.page_name, std::bind(&App::OnChannelToggled, this, _1, _2));
 
     for (auto c : alias_page.chanels)
     {

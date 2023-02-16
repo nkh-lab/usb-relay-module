@@ -17,13 +17,19 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-WidgetPage::WidgetPage(wxWindow* parent, ToggleChannelCb toggle_cb)
+WidgetPage::WidgetPage(wxWindow* parent, const std::string& name, ToggleChannelCb toggle_cb)
     : wxPanel(parent, wxID_ANY)
+    , name_{name}
     , toggle_cb_{toggle_cb}
     , sizer_{new wxBoxSizer(wxVERTICAL)}
 {
     LOG_FNC;
     this->SetSizer(sizer_);
+}
+
+const std::string& WidgetPage::GetName()
+{
+    return name_;
 }
 
 bool WidgetPage::SetChannelState(const std::string& name, bool state)
