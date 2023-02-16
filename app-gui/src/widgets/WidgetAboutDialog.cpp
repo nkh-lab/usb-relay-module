@@ -36,6 +36,7 @@ WidgetAboutDialog::WidgetAboutDialog(wxWindow* parent)
     LOG_FNC;
 
     wxHyperlinkCtrl* project_link = new wxHyperlinkCtrl(this, wxID_ANY, kProjectUrl, kProjectUrl);
+    project_link->SetCanFocus(false);
 
     wxStaticText* text = new wxStaticText(
         this,
