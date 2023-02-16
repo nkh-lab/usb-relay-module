@@ -9,10 +9,13 @@
 # but WITHOUT ANY WARRANTY.
 #
 
-file(GLOB subdirs RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*")
-
-foreach(dir ${subdirs})
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${dir}/CMakeLists.txt)
-        add_subdirectory(${dir})
-    endif()
-endforeach()
+add_subdirectory(hidapi)
+if(${PROJECT_NAME}_BUILD_SIMU OR ${PROJECT_NAME}_BUILD_GUI)
+    set(JSONCPP_WITH_TESTS OFF CACHE BOOL "")
+    set(JSONCPP_WITH_POST_BUILD_UNITTEST OFF CACHE BOOL "")
+    set(JSONCPP_WITH_PKGCONFIG_SUPPORT OFF CACHE BOOL "")
+    set(JSONCPP_WITH_CMAKE_PACKAGE OFF CACHE BOOL "")
+    add_subdirectory(jsoncpp)
+endif()
+add_subdirectory(liblightargparser)
+add_subdirectory(logger)

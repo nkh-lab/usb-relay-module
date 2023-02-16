@@ -24,11 +24,7 @@ do
     if [ "simu" = "$arg" ]; then
         SIMU="true"
         CMAKE_ARGS="$CMAKE_ARGS \
-                    -Dusbrelaymodule_BUILD_SIMU=ON \
-                    -DJSONCPP_WITH_TESTS=OFF  \
-                    -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF \
-                    -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF \
-                    -DJSONCPP_WITH_CMAKE_PACKAGE=OFF"
+                    -Dusbrelaymodule_BUILD_SIMU=ON"
     fi
     if [ "gui" = "$arg" ]; then
         GUI="true"
