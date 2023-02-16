@@ -64,9 +64,6 @@ goto :start_args_check
 
 :end_args_check
 
-if not "%SIMU%" == "true" (
-    rd /s /q external\jsoncpp\ 2>nul
-)
 rd /s /q build\ 2>nul
 
 mkdir build && cd build

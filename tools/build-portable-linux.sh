@@ -37,9 +37,6 @@ do
     fi
 done
 
-if [ "$SIMU" != "true" ]; then
-    rm -rf external/jsoncpp
-fi
 rm -rf build/
 
 mkdir build && cd build
