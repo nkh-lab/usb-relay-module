@@ -29,10 +29,6 @@ do
                     -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF \
                     -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF \
                     -DJSONCPP_WITH_CMAKE_PACKAGE=OFF"
-
-        if [ ! -d "$PROJECT_ROOT/external/jsoncpp" ]; then
-            git clone https://github.com/nkh-lab/jsoncpp.git ./external/jsoncpp -b Avoid-using-cmake-glob-vars
-        fi
     fi
     if [ "gui" = "$arg" ]; then
         GUI="true"

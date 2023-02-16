@@ -31,10 +31,6 @@ if "%1" == "simu" (
     set CMAKE_ARGS=!CMAKE_ARGS! -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF
     set CMAKE_ARGS=!CMAKE_ARGS! -DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF
     set CMAKE_ARGS=!CMAKE_ARGS! -DJSONCPP_WITH_CMAKE_PACKAGE=OFF
-
-    if not exist "%PROJECT_ROOT%\external\jsoncpp" (
-        git clone https://github.com/nkh-lab/jsoncpp.git external\jsoncpp -b Avoid-using-cmake-glob-vars
-    )
 )
 if "%1" == "gui" (
     set GUI=true

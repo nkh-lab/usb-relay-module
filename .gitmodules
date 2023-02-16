@@ -7,3 +7,6 @@
 [submodule "external/logger"]
 	path = external/logger
 	url = https://github.com/nkh-lab/logger.git
+[submodule "external/jsoncpp"]
+	path = external/jsoncpp
+	url = https://github.com/nkh-lab/jsoncpp.git
