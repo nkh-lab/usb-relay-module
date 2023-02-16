@@ -65,6 +65,7 @@ target_link_libraries(${APP_GUI_NAME}
     PRIVATE libusbrelaymodule-utils
     PRIVATE ${wxWidgets_LIBRARIES}
     PRIVATE libusbrelaymodule
+    PRIVATE libusbrelaymodule-config
     PRIVATE nkhlablogger
     )
 

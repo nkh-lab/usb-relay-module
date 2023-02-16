@@ -11,7 +11,9 @@
 
 #include "MainWindow.h"
 
+#include "Utils.h"
 #include "nkh-lab/logger.hpp"
+#include "widgets/WidgetAboutDialog.h"
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -29,7 +31,29 @@ MainWindow::MainWindow(
 {
     LOG_FNC;
 
+    BuildMenuBar();
+
     notebook_ = new wxNotebook(this, wxID_ANY);
+}
+
+void MainWindow::BuildMenuBar()
+{
+    wxMenu* help_menu = new wxMenu();
+    help_menu->Append(wxID_ABOUT, "About");
+
+    Bind(
+        wxEVT_MENU,
+        [&](wxCommandEvent& event) {
+            UNUSED(event);
+            WidgetAboutDialog about(this); // not self suicide object
+            about.ShowModal();
+        },
+        wxID_ABOUT);
+
+    wxMenuBar* menu_bar = new wxMenuBar;
+    menu_bar->Append(help_menu, "Help");
+
+    SetMenuBar(menu_bar);
 }
 
 wxWindow* MainWindow::GetPageParent()

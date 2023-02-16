@@ -38,6 +38,8 @@ public:
     const std::vector<WidgetPage*>& GetPages();
 
 private:
+    void BuildMenuBar();
+
     wxNotebook* notebook_;
     std::vector<WidgetPage*> pages_;
 };
