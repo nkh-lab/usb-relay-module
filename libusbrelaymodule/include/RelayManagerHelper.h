@@ -38,7 +38,15 @@ public:
         kSetChannelError
     };
 
+    //
+    // channel - <module>_<channel_idx(from 1)>, e.g. "R2_1"
+    //
     static SetChannelResult SetChannel(IRelayManager* relay_manager, const std::string& channel, bool state);
+
+    //
+    // channel - <module>_<channel_idx(from 1)>, e.g. "R2_1"
+    //
+    static void SplitChannelName(const std::string& channel, std::string& module, size_t& channel_idx);
 };
 
 } // namespace usbrelaymodule

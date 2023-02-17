@@ -11,10 +11,13 @@
 
 #include "App.h"
 
+#include "Macros.h"
 #include "RelayManagerHelper.h"
-#include "Utils.h"
+#include "StringHelper.h"
 #include "nkh-lab/logger.hpp"
 #include "widgets/WidgetChannel.h"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 std::mutex nlab::logger::gCoutMutex;
 
@@ -108,7 +111,7 @@ void App::OnChannelToggled(const std::string& channel_name, bool state)
 {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    LOG_INF << utils::Sprintf(
+    LOG_INF << StringHelper::Sprintf(
         "channel_name: %s, state: %d", channel_name.c_str(), static_cast<int>(state));
 
     RelayManagerHelper::SetChannel(relay_manager_.get(), channel_name, state);
@@ -135,7 +138,8 @@ void App::OnUpdateTimeout(wxTimerEvent& event)
         {
             for (auto p : main_window_->GetPages())
             {
-                p->SetChannelState(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+                p->SetChannelState(
+                    StringHelper::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
             }
         }
     }
@@ -157,7 +161,7 @@ WidgetPage* App::CreateAllChannelsPage(wxWindow* parent)
 
         for (size_t c = 0; c < channels.size(); ++c)
         {
-            page->AddChannel(utils::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+            page->AddChannel(StringHelper::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
         }
     }
 

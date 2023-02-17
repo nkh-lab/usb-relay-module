@@ -14,9 +14,12 @@
 #include <wx/hyperlink.h>
 
 #include "Config.h"
-#include "Utils.h"
+#include "Macros.h"
+#include "StringHelper.h"
 #include "nkh-lab/logger.hpp"
 #include "widgets/WidgetHelper.h"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -41,7 +44,7 @@ WidgetAboutDialog::WidgetAboutDialog(wxWindow* parent)
     wxStaticText* text = new wxStaticText(
         this,
         wxID_ANY,
-        utils::Sprintf(
+        StringHelper::Sprintf(
             kAboutText, config::kProjectVerMajor, config::kProjectVerMinor, config::kProjectVerPatch));
 
     wxButton* ok_btn = new wxButton(this, wxID_OK, "OK");

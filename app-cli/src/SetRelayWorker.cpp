@@ -13,8 +13,9 @@
 
 #include "Config.h"
 #include "LightArgParser.h"
+#include "RelayManagerHelper.h"
+#include "StringHelper.h"
 #include "TextUserInterface.h"
-#include "Utils.h"
 
 using namespace nkhlab::lightargparser;
 using namespace nkhlab::usbrelaymodule::utils;
@@ -66,7 +67,7 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
             std::string req_module{};
             size_t req_channel = 0;
 
-            utils::SplitModuleChannelStr(data_args.begin()->first, req_module, req_channel);
+            RelayManagerHelper::SplitChannelName(data_args.begin()->first, req_module, req_channel);
 
             if (req_channel == 0 && !data_args.begin()->second.empty() &&
                 data_args.begin()->second[0] != '1' && data_args.begin()->second[0] != '0')
@@ -93,7 +94,7 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
 
 std::string SetRelayWorker::DoVersionText()
 {
-    return utils::Sprintf(
+    return StringHelper::Sprintf(
         TextUserInterface::kVersion,
         config::kProjectVerMajor,
         config::kProjectVerMinor,
@@ -112,14 +113,14 @@ std::string SetRelayWorker::DoWrongArgumentUsageText()
 
 std::string SetRelayWorker::DoBadArgumentText(const std::string& bad_arg)
 {
-    return utils::Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
+    return StringHelper::Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
 }
 
 bool SetRelayWorker::RenameModule(const std::string& module, const std::string& new_module, std::string& out)
 {
     bool ret = false;
 
-    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
+    out = StringHelper::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     auto modules = relay_manager_->GetModules();
 
@@ -145,7 +146,7 @@ bool SetRelayWorker::SetChannel(const std::string& module, size_t channel, bool 
 {
     bool ret = false;
 
-    out = utils::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
+    out = StringHelper::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     auto modules = relay_manager_->GetModules();
 
@@ -166,7 +167,7 @@ bool SetRelayWorker::SetChannel(const std::string& module, size_t channel, bool 
             else
             {
                 ret = false;
-                out = utils::Sprintf(
+                out = StringHelper::Sprintf(
                     TextUserInterface::kErrorNoRequestedChannel, channel, module.c_str());
             }
         }

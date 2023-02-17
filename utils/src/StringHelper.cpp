@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 https://github.com/nkh-lab
+ * Copyright (C) 2023 https://github.com/nkh-lab
  *
  * This is free software. You can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -9,7 +9,7 @@
  * but WITHOUT ANY WARRANTY.
  */
 
-#include "Utils.h"
+#include "StringHelper.h"
 
 #include <codecvt>
 #include <iomanip>
@@ -21,7 +21,7 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace utils {
 
-std::string PrintBytes(uint8_t* bytes, size_t size)
+std::string StringHelper::PrintBytes(uint8_t* bytes, size_t size)
 {
     std::stringstream ss;
 
@@ -35,7 +35,7 @@ std::string PrintBytes(uint8_t* bytes, size_t size)
     return ss.str();
 }
 
-std::string GetStrFromBytes(uint8_t* bytes, size_t size)
+std::string StringHelper::GetStrFromBytes(uint8_t* bytes, size_t size)
 {
     size_t actual_str_size{size};
 
@@ -51,7 +51,7 @@ std::string GetStrFromBytes(uint8_t* bytes, size_t size)
     return std::string(std::string(reinterpret_cast<char*>(&bytes[0]), actual_str_size));
 }
 
-std::string PwstrToStr(wchar_t* pwstr)
+std::string StringHelper::PwstrToStr(wchar_t* pwstr)
 {
     std::string str = "(null)";
     if (pwstr)
@@ -64,7 +64,7 @@ std::string PwstrToStr(wchar_t* pwstr)
     return str;
 }
 
-std::string Sprintf(const char* fmt, ...)
+std::string StringHelper::Sprintf(const char* fmt, ...)
 {
     const int LOG_BUFFER_SIZE = 512;
 
@@ -75,24 +75,6 @@ std::string Sprintf(const char* fmt, ...)
     va_end(args);
 
     return std::string(buffer);
-}
-
-void SplitModuleChannelStr(const std::string& module_channel, std::string& module, size_t& channel)
-{
-    const char* kModuleChannelDelimiter = "_";
-
-    size_t delimiter_pos = module_channel.find_first_of(kModuleChannelDelimiter);
-
-    if (delimiter_pos != std::string::npos)
-    {
-        module = module_channel.substr(0, delimiter_pos);
-        channel = std::stoi(module_channel.substr(delimiter_pos + 1));
-    }
-    else
-    {
-        module = module_channel;
-        channel = 0;
-    }
 }
 
 } // namespace utils

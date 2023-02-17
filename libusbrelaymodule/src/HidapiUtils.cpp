@@ -11,7 +11,7 @@
 
 #include "HidapiUtils.h"
 
-#include "Utils.h"
+#include "StringHelper.h"
 
 #include <iomanip>
 #include <sstream>
@@ -31,10 +31,10 @@ std::string HidDeviceInfoToStr(hid_device_info* dev)
     ss << "vendor_id:        0x" << std::setfill('0') << std::setw(4) << dev->vendor_id << "\n";
     ss << "product_id:       0x" << std::setfill('0') << std::setw(4) << dev->product_id << "\n";
     ss << std::dec; // back to dec
-    ss << "serial_number:    " << PwstrToStr(dev->serial_number) << "\n";
+    ss << "serial_number:    " << StringHelper::PwstrToStr(dev->serial_number) << "\n";
     ss << "release_number:   " << dev->release_number << "\n";
-    ss << "manufacturer:     " << PwstrToStr(dev->manufacturer_string) << "\n";
-    ss << "product:          " << PwstrToStr(dev->product_string) << "\n";
+    ss << "manufacturer:     " << StringHelper::PwstrToStr(dev->manufacturer_string) << "\n";
+    ss << "product:          " << StringHelper::PwstrToStr(dev->product_string) << "\n";
     ss << "interface_number: " << dev->interface_number << "\n";
 
     return ss.str();

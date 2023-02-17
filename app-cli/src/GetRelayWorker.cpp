@@ -13,8 +13,9 @@
 
 #include "Config.h"
 #include "LightArgParser.h"
+#include "RelayManagerHelper.h"
+#include "StringHelper.h"
 #include "TextUserInterface.h"
-#include "Utils.h"
 
 using namespace nkhlab::lightargparser;
 using namespace nkhlab::usbrelaymodule::utils;
@@ -76,7 +77,7 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
             }
             else if (data_args.size() == 1 && data_args.begin()->second.empty())
             {
-                SplitModuleChannelStr(data_args.begin()->first, req_relay, req_channel);
+                RelayManagerHelper::SplitChannelName(data_args.begin()->first, req_relay, req_channel);
                 ret = true;
             }
 
@@ -95,7 +96,8 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
 
 std::string GetRelayWorker::DoVersionText()
 {
-    return Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch);
+    return StringHelper::Sprintf(
+        TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch);
 }
 
 std::string GetRelayWorker::DoHelpText()
@@ -110,7 +112,7 @@ std::string GetRelayWorker::DoWrongArgumentUsageText()
 
 std::string GetRelayWorker::DoBadArgumentText(const std::string& bad_arg)
 {
-    return Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
+    return StringHelper::Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
 }
 
 bool GetRelayWorker::GetState(const std::string& module, size_t channel, std::string& out)
@@ -150,18 +152,18 @@ bool GetRelayWorker::GetStatesAllModules(const IRelayModulePtrs& modules, std::s
         {
             for (size_t i = 0; i < channels.size(); ++i)
             {
-                channels_out += Sprintf(
+                channels_out += StringHelper::Sprintf(
                     TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
             }
         }
         else
         {
-            module_name = Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
+            module_name = StringHelper::Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
 
             if (ret) ret = false;
         }
 
-        out += Sprintf(
+        out += StringHelper::Sprintf(
             TextUserInterface::kGetRelayInfoAndState,
             m->GetInfo().c_str(),
             module_name.c_str(),
@@ -179,7 +181,7 @@ bool GetRelayWorker::GetStatesRequestedModule(
     std::string& out)
 {
     bool ret = false;
-    out = Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
+    out = StringHelper::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     for (auto m : modules)
     {
@@ -194,11 +196,11 @@ bool GetRelayWorker::GetStatesRequestedModule(
 
             for (size_t i = 0; i < channels.size(); ++i)
             {
-                channels_out += Sprintf(
+                channels_out += StringHelper::Sprintf(
                     TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
             }
 
-            out = Sprintf(
+            out = StringHelper::Sprintf(
                 TextUserInterface::kGetRelayInfoAndState,
                 m->GetInfo().c_str(),
                 module_name.c_str(),
@@ -218,7 +220,7 @@ bool GetRelayWorker::GetStateRequestedChannel(
     std::string& out)
 {
     bool ret = false;
-    out = Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
+    out = StringHelper::Sprintf(TextUserInterface::kErrorNoRequestedModule, module.c_str());
 
     for (auto m : modules)
     {
@@ -231,13 +233,14 @@ bool GetRelayWorker::GetStateRequestedChannel(
         {
             if (channel <= channels.size())
             {
-                out = Sprintf(
+                out = StringHelper::Sprintf(
                     TextUserInterface::kGetChannelState, static_cast<int>(channels[channel - 1]));
                 ret = true;
             }
             else
             {
-                out = Sprintf(TextUserInterface::kErrorNoRequestedChannel, channel, module.c_str());
+                out = StringHelper::Sprintf(
+                    TextUserInterface::kErrorNoRequestedChannel, channel, module.c_str());
             }
         }
     }

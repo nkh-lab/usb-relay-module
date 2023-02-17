@@ -17,8 +17,10 @@
 #include "IRelayManager.h"
 #include "RelayModuleSimu.h"
 #include "SimuHelper.h"
+#include "StringHelper.h"
 #include "SynchronizedResource.h"
-#include "Utils.h"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -76,7 +78,7 @@ public:
             Json::Value& jmodule = jroot[simu::kJsonKeyModules][i];
 
             auto jchannels_size = jmodule[simu::kJsonKeyChannels].size();
-            auto info = utils::Sprintf(kModuleInfo, i + 1, jchannels_size);
+            auto info = StringHelper::Sprintf(kModuleInfo, i + 1, jchannels_size);
 
             modules.emplace_back(std::make_shared<RelayModuleSimu>(
                 simu_file_, info, jmodule[simu::kJsonKeyModuleName].asString()));

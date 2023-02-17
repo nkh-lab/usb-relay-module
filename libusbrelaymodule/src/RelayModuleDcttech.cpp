@@ -16,7 +16,9 @@
 
 #include "hidapi.h"
 
-#include "Utils.h"
+#include "StringHelper.h"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -60,10 +62,10 @@ bool RelayModuleDcttech::GetNameAndChannels(std::string& module_name, std::vecto
         if (hid_ret != -1)
         {
 #ifdef __linux__
-            module_name = utils::GetStrFromBytes(&data[0], kNameSizeBytes);
+            module_name = StringHelper::GetStrFromBytes(&data[0], kNameSizeBytes);
             uint8_t& relays_state = data[7];
 #else
-            module_name = utils::GetStrFromBytes(&data[1], kNameSizeBytes);
+            module_name = StringHelper::GetStrFromBytes(&data[1], kNameSizeBytes);
             uint8_t& relays_state = data[8];
 #endif
             auto channels_states = std::bitset<8>(relays_state);

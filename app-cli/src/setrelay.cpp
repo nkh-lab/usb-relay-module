@@ -13,7 +13,6 @@
 
 #include "RelayManager.h"
 #include "SetRelayWorker.h"
-#include "Utils.h"
 
 using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;

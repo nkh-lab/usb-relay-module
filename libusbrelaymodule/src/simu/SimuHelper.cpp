@@ -11,7 +11,9 @@
 
 #include "SimuHelper.h"
 
-#include "Utils.h"
+#include "StringHelper.h"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -29,7 +31,7 @@ Json::Value BuildJsonTemplate()
     for (unsigned int m_idx = 0; m_idx < kJsonTemplateModuleSize; ++m_idx)
     {
         Json::Value module;
-        module[kJsonKeyModuleName] = utils::Sprintf(kJsonTemplateModuleName, m_idx + 1);
+        module[kJsonKeyModuleName] = StringHelper::Sprintf(kJsonTemplateModuleName, m_idx + 1);
 
         for (unsigned int c_idx = 0; c_idx < kJsonTemplateChannelSize; ++c_idx)
         {

@@ -18,7 +18,9 @@
 #include "HidapiUtils.h"
 #include "IRelayManager.h"
 #include "RelayModuleDcttech.h"
-#include "Utils.h"
+#include "StringHelper.h"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -42,7 +44,7 @@ public:
         while (next)
         {
             size_t channels_size =
-                static_cast<size_t>(atoi(&utils::PwstrToStr(next->product_string).back()));
+                static_cast<size_t>(atoi(&StringHelper::PwstrToStr(next->product_string).back()));
 
             modules.emplace_back(std::make_shared<RelayModuleDcttech>(
                 HidDeviceInfoToStr(next), next->path, channels_size));

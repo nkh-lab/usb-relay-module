@@ -11,8 +11,10 @@
 
 #include "AppGuiConfig.h"
 
-#include "Utils.h"
+#include "StringHelper.h"
 #include "nkh-lab/logger.hpp"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -44,14 +46,14 @@ const wxPoint& AppGuiConfig::GetStartAppPosition()
 
 void AppGuiConfig::SetStartAppSize(const wxSize& size)
 {
-    LOG_DBG << utils::Sprintf("w: %d, h: %d", size.GetWidth(), size.GetHeight());
+    LOG_DBG << StringHelper::Sprintf("w: %d, h: %d", size.GetWidth(), size.GetHeight());
 
     start_app_size_ = size;
 }
 
 void AppGuiConfig::SetStartAppPosition(const wxPoint& pos)
 {
-    LOG_DBG << utils::Sprintf("x: %d, y: %d", pos.x, pos.y);
+    LOG_DBG << StringHelper::Sprintf("x: %d, y: %d", pos.x, pos.y);
 
     start_app_pos_ = pos;
 }
