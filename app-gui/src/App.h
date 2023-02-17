@@ -18,6 +18,7 @@
 #include <wx/timer.h>
 
 #include "Alias.h"
+#include "AppGuiConfig.h"
 #include "MainWindow.h"
 #include "RelayManager.h"
 #include "widgets/WidgetPage.h"
@@ -38,6 +39,7 @@ public:
 private:
     void OnChannelToggled(const std::string& channel_name, bool state);
     void OnUpdateTimeout(wxTimerEvent& event);
+    void OnMainWindowClose(wxCloseEvent& event);
     WidgetPage* CreateAllChannelsPage(wxWindow* parent);
     WidgetPage* CreateAliasPage(wxWindow* parent, const AliasPage& alias_page);
 
@@ -46,6 +48,7 @@ private:
     std::vector<AliasPage> aliases_;
     MainWindow* main_window_;
     wxTimer update_timer_;
+    AppGuiConfig config_;
 };
 
 } // namespace appgui

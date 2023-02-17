@@ -45,8 +45,11 @@ bool App::OnInit()
 #else
         relay_manager_ = CreateHidapiManagerForDcttechModules();
 #endif
-        main_window_ = new MainWindow(nullptr, wxID_ANY, "Relay Box");
+        main_window_ = new MainWindow(
+            nullptr, wxID_ANY, "Relay Box", config_.GetStartAppPosition(), config_.GetStartAppSize());
         auto page_parent = main_window_->GetPageParent();
+        main_window_->Bind(wxEVT_CLOSE_WINDOW, &App::OnMainWindowClose, this);
+
         main_window_->AddPage(CreateAllChannelsPage(page_parent));
 
         // DBG
@@ -81,13 +84,24 @@ bool App::OnInit()
 
         main_window_->Show();
 
-        Bind(wxEVT_TIMER, &App::OnUpdateTimeout, this, update_timer_.GetId());
+        update_timer_.Bind(wxEVT_TIMER, &App::OnUpdateTimeout, this);
         update_timer_.Start(100);
 
         ret = true;
     }
 
     return ret;
+}
+
+void App::OnMainWindowClose(wxCloseEvent& event)
+{
+    LOG_FNC;
+
+    auto rect = main_window_->GetRect();
+    config_.SetStartAppPosition(rect.GetPosition());
+    config_.SetStartAppSize(rect.GetSize());
+
+    event.Skip(); // Allow the frame to close normally
 }
 
 void App::OnChannelToggled(const std::string& channel_name, bool state)
@@ -102,9 +116,11 @@ void App::OnChannelToggled(const std::string& channel_name, bool state)
 
 void App::OnUpdateTimeout(wxTimerEvent& event)
 {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // LOG_FNC;
 
     UNUSED(event);
+
+    std::lock_guard<std::mutex> lock(mutex_);
 
     auto modules = relay_manager_->GetModules();
 
