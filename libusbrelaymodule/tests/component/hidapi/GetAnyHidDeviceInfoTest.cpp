@@ -14,7 +14,7 @@
 #include "hidapi.h"
 
 #include "HidapiUtils.h"
-#include "Utils.h"
+#include "Macros.h"
 
 using namespace nkhlab::usbrelaymodule::impl;
 

@@ -15,8 +15,8 @@
 #include "MockRelayManager.h"
 #include "MockRelayModule.h"
 #include "SetRelayWorker.h"
+#include "StringHelper.h"
 #include "TextUserInterface.h"
-#include "Utils.h"
 
 using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;
@@ -75,7 +75,8 @@ TEST_F(SetRelayWorkerTest, VersionShortArg)
 
     EXPECT_EQ(
         out,
-        Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
+        StringHelper::Sprintf(
+            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
     EXPECT_TRUE(ret);
 }
 
@@ -96,7 +97,8 @@ TEST_F(SetRelayWorkerTest, VersionLongArg)
 
     EXPECT_EQ(
         out,
-        Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
+        StringHelper::Sprintf(
+            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
     EXPECT_TRUE(ret);
 }
 
@@ -153,7 +155,7 @@ TEST_F(SetRelayWorkerTest, BadArg)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, Sprintf(TextUserInterface::kErrorBadArgument, argv[1]));
+    EXPECT_EQ(out, StringHelper::Sprintf(TextUserInterface::kErrorBadArgument, argv[1]));
     EXPECT_FALSE(ret);
 }
 
@@ -329,7 +331,8 @@ TEST_F(SetRelayWorkerTest, SetUnexistingChannelToValidValue)
 
     bool ret = worker.Run(argc, argv, out);
 
-    std::string expected_out = Sprintf(TextUserInterface::kErrorNoRequestedChannel, 3, "module2");
+    std::string expected_out =
+        StringHelper::Sprintf(TextUserInterface::kErrorNoRequestedChannel, 3, "module2");
 
     /* Debug
     std::cout << "=================================================\n";

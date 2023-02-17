@@ -15,8 +15,9 @@
 #include "hidapi.h"
 
 #include "HidapiUtils.h"
+#include "Macros.h"
 #include "RelayModuleDcttech.h"
-#include "Utils.h"
+#include "StringHelper.h"
 
 using namespace nkhlab::usbrelaymodule::impl;
 using namespace nkhlab::usbrelaymodule::utils;
@@ -39,12 +40,13 @@ int main(int argc, char const* argv[])
             data[0] = RelayModuleDcttech::kReportIDGet;
 
             std::cout << "==============================\n";
-            std::cout << "hid_get_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
+            std::cout << "hid_get_feature_report(" << StringHelper::PrintBytes(data, sizeof(data))
+                      << ") ";
             int ret = hid_get_feature_report(handle, data, sizeof(data));
             std::cout << "returned " << ret << "\n";
             if (ret != -1)
             {
-                std::cout << PrintBytes(data, sizeof(data)) << "\n";
+                std::cout << StringHelper::PrintBytes(data, sizeof(data)) << "\n";
 #ifdef __linux__
                 std::string module_name(
                     reinterpret_cast<char*>(&data[0]), RelayModuleDcttech::kNameSizeBytes);

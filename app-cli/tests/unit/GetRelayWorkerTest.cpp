@@ -15,8 +15,8 @@
 #include "GetRelayWorker.h"
 #include "MockRelayManager.h"
 #include "MockRelayModule.h"
+#include "StringHelper.h"
 #include "TextUserInterface.h"
-#include "Utils.h"
 
 using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;
@@ -95,7 +95,8 @@ TEST_F(GetRelayWorkerTest, VersionShortArg)
 
     EXPECT_EQ(
         out,
-        Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
+        StringHelper::Sprintf(
+            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
     EXPECT_TRUE(ret);
 }
 
@@ -116,7 +117,8 @@ TEST_F(GetRelayWorkerTest, VersionLongArg)
 
     EXPECT_EQ(
         out,
-        Sprintf(TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
+        StringHelper::Sprintf(
+            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
     EXPECT_TRUE(ret);
 }
 
@@ -173,7 +175,7 @@ TEST_F(GetRelayWorkerTest, BadArg)
 
     bool ret = worker.Run(argc, argv, out);
 
-    EXPECT_EQ(out, Sprintf(TextUserInterface::kErrorBadArgument, argv[1]));
+    EXPECT_EQ(out, StringHelper::Sprintf(TextUserInterface::kErrorBadArgument, argv[1]));
     EXPECT_FALSE(ret);
 }
 
@@ -279,11 +281,11 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModule)
 
     for (size_t i = 0; i < channels.size(); ++i)
     {
-        expected_channels_out +=
-            Sprintf(TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
+        expected_channels_out += StringHelper::Sprintf(
+            TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
     }
 
-    expected_out = Sprintf(
+    expected_out = StringHelper::Sprintf(
         TextUserInterface::kGetRelayInfoAndState,
         kModuleInfo1,
         module_name.c_str(),
@@ -305,7 +307,7 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModuleAndFailedGetNameAndChannels)
 {
     const char* argv[] = {""};
     int argc = arraySize(argv);
-    std::string module_name = Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
+    std::string module_name = StringHelper::Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
     std::vector<bool> channels{};
 
     // Mocking
@@ -327,11 +329,11 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModuleAndFailedGetNameAndChannels)
 
     for (size_t i = 0; i < channels.size(); ++i)
     {
-        expected_channels_out +=
-            Sprintf(TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
+        expected_channels_out += StringHelper::Sprintf(
+            TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(channels[i]));
     }
 
-    expected_out = Sprintf(
+    expected_out = StringHelper::Sprintf(
         TextUserInterface::kGetRelayInfoAndState,
         kModuleInfo1,
         module_name.c_str(),
@@ -383,11 +385,11 @@ TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
 
     for (size_t i = 0; i < module1_channels.size(); ++i)
     {
-        expected_channels_out += Sprintf(
+        expected_channels_out += StringHelper::Sprintf(
             TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(module1_channels[i]));
     }
 
-    expected_out = Sprintf(
+    expected_out = StringHelper::Sprintf(
         TextUserInterface::kGetRelayInfoAndState,
         kModuleInfo1,
         module1_name.c_str(),
@@ -397,13 +399,13 @@ TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
 
     for (size_t i = 0; i < module2_channels.size(); ++i)
     {
-        expected_channels_out += Sprintf(
+        expected_channels_out += StringHelper::Sprintf(
             TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(module2_channels[i]));
     }
 
     expected_out += "\n";
 
-    expected_out += Sprintf(
+    expected_out += StringHelper::Sprintf(
         TextUserInterface::kGetRelayInfoAndState,
         kModuleInfo2,
         module2_name.c_str(),
@@ -454,11 +456,11 @@ TEST_F(GetRelayWorkerTest, RequestExistingModule)
 
     for (size_t i = 0; i < module2_channels.size(); ++i)
     {
-        expected_channels_out += Sprintf(
+        expected_channels_out += StringHelper::Sprintf(
             TextUserInterface::kChannelNameAndState, i + 1, static_cast<int>(module2_channels[i]));
     }
 
-    expected_out += Sprintf(
+    expected_out += StringHelper::Sprintf(
         TextUserInterface::kGetRelayInfoAndState,
         kModuleInfo2,
         module2_name.c_str(),
@@ -503,7 +505,8 @@ TEST_F(GetRelayWorkerTest, RequestUnexistingModule)
 
     bool ret = worker.Run(argc, argv, out);
 
-    std::string expected_out = Sprintf(TextUserInterface::kErrorNoRequestedModule, "module3");
+    std::string expected_out =
+        StringHelper::Sprintf(TextUserInterface::kErrorNoRequestedModule, "module3");
 
     /* Debug
     std::cout << "=================================================\n";
@@ -544,8 +547,8 @@ TEST_F(GetRelayWorkerTest, RequestExistingChannel)
 
     bool ret = worker.Run(argc, argv, out);
 
-    std::string expected_out =
-        Sprintf(TextUserInterface::kGetChannelState, static_cast<int>(module2_channels[2 - 1]));
+    std::string expected_out = StringHelper::Sprintf(
+        TextUserInterface::kGetChannelState, static_cast<int>(module2_channels[2 - 1]));
 
     /* Debug
     std::cout << "=================================================\n";
@@ -586,7 +589,8 @@ TEST_F(GetRelayWorkerTest, RequestNonexistingChannel)
 
     bool ret = worker.Run(argc, argv, out);
 
-    std::string expected_out = Sprintf(TextUserInterface::kErrorNoRequestedChannel, 3, "module2");
+    std::string expected_out =
+        StringHelper::Sprintf(TextUserInterface::kErrorNoRequestedChannel, 3, "module2");
 
     /* Debug
     std::cout << "=================================================\n";

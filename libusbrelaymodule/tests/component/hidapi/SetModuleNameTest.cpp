@@ -17,7 +17,7 @@
 #include "hidapi.h"
 
 #include "RelayModuleDcttech.h"
-#include "Utils.h"
+#include "StringHelper.h"
 
 using namespace nkhlab::usbrelaymodule::impl;
 using namespace nkhlab::usbrelaymodule::utils;
@@ -51,13 +51,14 @@ int main(int argc, char const* argv[])
                 data[1] = RelayModuleDcttech::kCmdSetModuleName;
                 std::copy(new_module_name, new_module_name + name_size_to_copy, &data[2]);
 
-                std::cout << "hid_send_feature_report(" << PrintBytes(data, sizeof(data)) << ") ";
+                std::cout << "hid_send_feature_report("
+                          << StringHelper::PrintBytes(data, sizeof(data)) << ") ";
                 // int ret = hid_write(handle, data, sizeof(data)); // On Ubuntu it works as well
                 int ret = hid_send_feature_report(handle, data, sizeof(data));
                 std::cout << "returned " << ret << "\n";
                 if (ret != -1)
                 {
-                    std::cout << PrintBytes(data, sizeof(data)) << "\n";
+                    std::cout << StringHelper::PrintBytes(data, sizeof(data)) << "\n";
                 }
                 else
                     main_ret = EXIT_FAILURE;
