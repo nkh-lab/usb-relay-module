@@ -14,6 +14,7 @@
 #include <fstream>
 #include <memory>
 
+#include "FileHelper.h"
 #include "IRelayManager.h"
 #include "RelayModuleSimu.h"
 #include "SimuHelper.h"
@@ -93,14 +94,9 @@ private:
         simu_file_->GetLock();
         std::string file_path = simu_file_->GetResource();
 
-        std::fstream file(file_path, std::ios::in);
-
-        if (!file.good())
+        if (!FileHelper::ExistFile(file_path))
         {
-            file.close();
-            file.open(file_path, std::ios::out);
-
-            file << simu::BuildJsonTemplate();
+            FileHelper::WriteFile(file_path, Json::StyledWriter().write(simu::BuildJsonTemplate()));
         }
     }
 

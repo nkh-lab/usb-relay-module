@@ -13,7 +13,10 @@
 
 #include <json/json.h>
 
+#include "FileHelper.h"
 #include "SimuHelper.h"
+
+using namespace nkhlab::usbrelaymodule::utils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -40,10 +43,9 @@ bool RelayModuleSimu::GetNameAndChannels(std::string& module_name, std::vector<b
 
     simu_file_->GetLock();
     std::string file_path = simu_file_->GetResource();
-    std::fstream file(file_path, std::ios::in);
     Json::Value jroot, jmodule;
     unsigned int jmodule_idx;
-    file >> jroot;
+    FileHelper::ReadFile(file_path) >> jroot;
 
     if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
     {
@@ -68,10 +70,9 @@ bool RelayModuleSimu::SetName(const std::string& name)
 
     simu_file_->GetLock();
     std::string file_path = simu_file_->GetResource();
-    std::fstream file(file_path, std::ios::in);
     Json::Value jroot, jmodule;
     unsigned int jmodule_idx;
-    file >> jroot;
+    FileHelper::ReadFile(file_path) >> jroot;
 
     if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
     {
@@ -80,9 +81,7 @@ bool RelayModuleSimu::SetName(const std::string& name)
 
         name_ = name;
 
-        file.close();
-        file.open(file_path, std::ios::out | std::ios::trunc);
-        file << jroot;
+        FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
 
         ret = true;
     }
@@ -96,10 +95,9 @@ bool RelayModuleSimu::SetChannel(size_t channel, bool state)
 
     simu_file_->GetLock();
     std::string file_path = simu_file_->GetResource();
-    std::fstream file(file_path, std::ios::in);
     Json::Value jroot, jmodule, jchannel;
     unsigned int jmodule_idx, jchannel_idx;
-    file >> jroot;
+    FileHelper::ReadFile(file_path) >> jroot;
 
     if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
     {
@@ -109,9 +107,7 @@ bool RelayModuleSimu::SetChannel(size_t channel, bool state)
             jchannel[simu::kJsonKeyChannelState] = state == true ? 1 : 0;
             jroot[simu::kJsonKeyModules][jmodule_idx][simu::kJsonKeyChannels][jchannel_idx] = jchannel;
 
-            file.close();
-            file.open(file_path, std::ios::out | std::ios::trunc);
-            file << jroot;
+            FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
 
             ret = true;
         }
