@@ -11,6 +11,9 @@
 
 #include "AppGuiConfig.h"
 
+#include <json/json.h>
+
+#include "FileHelper.h"
 #include "StringHelper.h"
 #include "nkh-lab/logger.hpp"
 
@@ -27,11 +30,13 @@ AppGuiConfig::AppGuiConfig(const std::string& config_file)
     , is_hide_all_channels_page_{false}
 {
     LOG_FNC;
+    ReadConfigFromFile();
 }
 
 AppGuiConfig::~AppGuiConfig()
 {
     LOG_FNC;
+    WriteConfigToFile();
 }
 
 const wxSize& AppGuiConfig::GetStartAppSize()
@@ -66,6 +71,19 @@ bool AppGuiConfig::IsHideAllChannelsPage()
 std::vector<AliasPage> AppGuiConfig::GetAliasPages()
 {
     return {};
+}
+
+void AppGuiConfig::WriteConfigToFile()
+{
+    Json::Value jroot;
+
+    jroot["appStartSize"] = 123;
+
+    FileHelper::WriteFile(config_file_, Json::StyledWriter().write(jroot));
+}
+
+void AppGuiConfig::ReadConfigFromFile()
+{
 }
 
 } // namespace appgui

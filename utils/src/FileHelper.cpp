@@ -56,6 +56,12 @@ std::string FileHelper::GetFileName(const std::string& file)
     return file.substr(found);
 }
 
+std::string FileHelper::RemoveFileExtension(const std::string& file)
+{
+    std::size_t found = file.find_last_of(".");
+    return found ? file.substr(0, found) : file;
+}
+
 } // namespace utils
 } // namespace usbrelaymodule
 } // namespace nkhlab

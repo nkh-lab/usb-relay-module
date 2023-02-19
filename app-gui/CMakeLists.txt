@@ -67,6 +67,7 @@ target_link_libraries(${APP_GUI_NAME}
     PRIVATE libusbrelaymodule
     PRIVATE libusbrelaymodule-config
     PRIVATE nkhlablogger
+    PRIVATE jsoncpp_lib
     )
 
 #add_subdirectory(tests)

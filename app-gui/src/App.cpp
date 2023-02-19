@@ -11,6 +11,7 @@
 
 #include "App.h"
 
+#include "FileHelper.h"
 #include "Macros.h"
 #include "RelayManagerHelper.h"
 #include "StringHelper.h"
@@ -40,16 +41,23 @@ bool App::OnInit()
 
     if (wxApp::OnInit())
     {
+        std::string app_file = argv[0].ToStdString();
+        std::string app_path = FileHelper::GetDir(app_file);
+        std::string app_name = FileHelper::GetFileName(app_file);
+
+        LOG_DBG << StringHelper::Sprintf(
+            "app_path: %s, app_name: %s", app_path.c_str(), app_name.c_str());
+
 #ifdef URM_SIMU
-        std::string path = argv[0].ToStdString();
-        std::size_t found = path.find_last_of("/\\") + 1;
-        path = path.substr(0, found);
-        relay_manager_ = CreateSimuManager(path);
+        relay_manager_ = CreateSimuManager(app_path);
 #else
         relay_manager_ = CreateHidapiManagerForDcttechModules();
 #endif
+        config_ =
+            std::make_unique<AppGuiConfig>(FileHelper::RemoveFileExtension(app_file) + "-cfg.json");
+
         main_window_ = new MainWindow(
-            nullptr, wxID_ANY, "Relay Box", config_.GetStartAppPosition(), config_.GetStartAppSize());
+            nullptr, wxID_ANY, "Relay Box", config_->GetStartAppPosition(), config_->GetStartAppSize());
         auto page_parent = main_window_->GetPageParent();
         main_window_->Bind(wxEVT_CLOSE_WINDOW, &App::OnMainWindowClose, this);
 
@@ -101,8 +109,8 @@ void App::OnMainWindowClose(wxCloseEvent& event)
     LOG_FNC;
 
     auto rect = main_window_->GetRect();
-    config_.SetStartAppPosition(rect.GetPosition());
-    config_.SetStartAppSize(rect.GetSize());
+    config_->SetStartAppPosition(rect.GetPosition());
+    config_->SetStartAppSize(rect.GetSize());
 
     event.Skip(); // Allow the frame to close normally
 }

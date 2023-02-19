@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <memory>
 #include <mutex>
 #include <vector>
 
@@ -48,7 +49,7 @@ private:
     std::vector<AliasPage> aliases_;
     MainWindow* main_window_;
     wxTimer update_timer_;
-    AppGuiConfig config_;
+    std::unique_ptr<AppGuiConfig> config_;
 };
 
 } // namespace appgui

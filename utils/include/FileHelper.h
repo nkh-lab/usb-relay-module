@@ -30,6 +30,7 @@ public:
 
     static std::string GetDir(const std::string& file);
     static std::string GetFileName(const std::string& file);
+    static std::string RemoveFileExtension(const std::string& file);
 };
 
 } // namespace utils

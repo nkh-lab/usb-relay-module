@@ -27,7 +27,7 @@ constexpr char kDefaultConfigFile[] = "relaybox-cfg.json";
 class AppGuiConfig
 {
 public:
-    AppGuiConfig(const std::string& config_file = kDefaultConfigFile);
+    AppGuiConfig(const std::string& config_file);
     ~AppGuiConfig();
 
     const wxSize& GetStartAppSize();
@@ -40,6 +40,9 @@ public:
     std::vector<AliasPage> GetAliasPages();
 
 private:
+    void WriteConfigToFile();
+    void ReadConfigFromFile();
+
     std::string config_file_;
     wxPoint start_app_pos_;
     wxSize start_app_size_;
