@@ -11,19 +11,19 @@
 
 #include <iostream>
 
+#include "FileHelper.h"
 #include "RelayManager.h"
 #include "SetRelayWorker.h"
 
 using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;
+using namespace nkhlab::usbrelaymodule::utils;
 
-int main(int argc, char const* argv[])
+int main(int argc, const char* argv[])
 {
 #ifdef URM_SIMU
-    std::string path = argv[0];
-    std::size_t found = path.find_last_of("/\\") + 1;
-    path = path.substr(0, found);
-    SetRelayWorker worker(CreateSimuManager(path));
+    std::string app_path = FileHelper::GetDir(argv[0]);
+    SetRelayWorker worker(CreateSimuManager(app_path));
 #else
     SetRelayWorker worker(CreateHidapiManagerForDcttechModules());
 #endif

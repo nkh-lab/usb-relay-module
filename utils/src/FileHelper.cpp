@@ -44,6 +44,18 @@ void FileHelper::WriteFile(const std::string& file, const std::string& data)
     ofs << data;
 }
 
+std::string FileHelper::GetDir(const std::string& file)
+{
+    std::size_t found = file.find_last_of("/\\") + 1;
+    return file.substr(0, found);
+}
+
+std::string FileHelper::GetFileName(const std::string& file)
+{
+    std::size_t found = file.find_last_of("/\\") + 1;
+    return file.substr(found);
+}
+
 } // namespace utils
 } // namespace usbrelaymodule
 } // namespace nkhlab

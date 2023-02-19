@@ -27,6 +27,9 @@ public:
 
     static std::stringstream ReadFile(const std::string& file);
     static void WriteFile(const std::string& file, const std::string& data);
+
+    static std::string GetDir(const std::string& file);
+    static std::string GetFileName(const std::string& file);
 };
 
 } // namespace utils
