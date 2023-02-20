@@ -22,8 +22,6 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-constexpr char kDefaultConfigFile[] = "relaybox-cfg.json";
-
 class AppGuiConfig
 {
 public:
@@ -41,8 +39,6 @@ public:
     std::vector<AliasPage> GetAliasPages();
 
 private:
-    void SetAppMinSize(const wxSize& size);
-
     void WriteConfigToFile();
     void ReadConfigFromFile();
 

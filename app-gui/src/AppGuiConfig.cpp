@@ -33,6 +33,7 @@ constexpr char kJsonKeyH[] = "h";
 constexpr char kJsonKeyAppStartPos[] = "appStartPosition";
 constexpr char kJsonKeyAppStartSize[] = "appStartSize";
 constexpr char kJsonKeyAppMinSize[] = "appMinSize";
+constexpr char kJsonKeyHideAllChannelsPage[] = "hideAllChannelsPage";
 
 AppGuiConfig::AppGuiConfig(const std::string& config_file)
     : config_file_{config_file}
@@ -74,13 +75,6 @@ void AppGuiConfig::SetAppStartSize(const wxSize& size)
     app_start_size_ = size;
 }
 
-void AppGuiConfig::SetAppMinSize(const wxSize& size)
-{
-    LOG_DBG << StringHelper::Sprintf("w: %d, h: %d", size.GetWidth(), size.GetHeight());
-
-    app_min_size_ = size;
-}
-
 void AppGuiConfig::SetAppStartPosition(const wxPoint& pos)
 {
     LOG_DBG << StringHelper::Sprintf("x: %d, y: %d", pos.x, pos.y);
@@ -104,22 +98,19 @@ void AppGuiConfig::WriteConfigToFile()
 
     jvalue[kJsonKeyX] = app_start_pos_.x;
     jvalue[kJsonKeyY] = app_start_pos_.y;
-
     jroot[kJsonKeyAppStartPos] = jvalue;
 
     jvalue.clear();
-
     jvalue[kJsonKeyW] = app_start_size_.GetWidth();
     jvalue[kJsonKeyH] = app_start_size_.GetHeight();
-
     jroot[kJsonKeyAppStartSize] = jvalue;
 
     jvalue.clear();
-
     jvalue[kJsonKeyW] = app_min_size_.GetWidth();
     jvalue[kJsonKeyH] = app_min_size_.GetHeight();
-
     jroot[kJsonKeyAppMinSize] = jvalue;
+
+    jroot[kJsonKeyHideAllChannelsPage] = is_hide_all_channels_page_;
 
     FileHelper::WriteFile(config_file_, Json::StyledWriter().write(jroot));
 }
@@ -133,18 +124,17 @@ void AppGuiConfig::ReadConfigFromFile()
 
     x = jroot[kJsonKeyAppStartPos][kJsonKeyX].asInt();
     y = jroot[kJsonKeyAppStartPos][kJsonKeyY].asInt();
-
-    SetAppStartPosition(wxPoint(x, y));
+    app_start_pos_ = {x, y};
 
     w = jroot[kJsonKeyAppStartSize][kJsonKeyW].asInt();
     h = jroot[kJsonKeyAppStartSize][kJsonKeyH].asInt();
-
-    SetAppStartSize(wxSize(w, h));
+    app_start_size_ = {w, h};
 
     w = jroot[kJsonKeyAppMinSize][kJsonKeyW].asInt();
     h = jroot[kJsonKeyAppMinSize][kJsonKeyH].asInt();
+    app_min_size_ = {w, h};
 
-    SetAppMinSize(wxSize(w, h));
+    is_hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
 }
 
 } // namespace appgui

@@ -66,7 +66,8 @@ bool App::OnInit()
         auto page_parent = main_window_->GetPageParent();
         main_window_->Bind(wxEVT_CLOSE_WINDOW, &App::OnMainWindowClose, this);
 
-        main_window_->AddPage(CreateAllChannelsPage(page_parent));
+        if (!config_->IsHideAllChannelsPage())
+            main_window_->AddPage(CreateAllChannelsPage(page_parent));
 
         // DBG
         AliasChannel power_channel;
