@@ -26,10 +26,6 @@ namespace appgui {
 constexpr int kAppMinSizeW = 250;
 constexpr int kAppMinSizeH = 300;
 
-constexpr char kJsonKeyX[] = "x";
-constexpr char kJsonKeyY[] = "y";
-constexpr char kJsonKeyW[] = "w";
-constexpr char kJsonKeyH[] = "h";
 constexpr char kJsonKeyAppStartPos[] = "appStartPosition";
 constexpr char kJsonKeyAppStartSize[] = "appStartSize";
 constexpr char kJsonKeyAppMinSize[] = "appMinSize";
@@ -96,18 +92,21 @@ void AppGuiConfig::WriteConfigToFile()
 {
     Json::Value jroot, jvalue;
 
-    jvalue[kJsonKeyX] = app_start_pos_.x;
-    jvalue[kJsonKeyY] = app_start_pos_.y;
+    // jvalue.setType(Json::arrayValue);
+    jvalue.append(app_start_pos_.x);
+    jvalue.append(app_start_pos_.y);
     jroot[kJsonKeyAppStartPos] = jvalue;
 
     jvalue.clear();
-    jvalue[kJsonKeyW] = app_start_size_.GetWidth();
-    jvalue[kJsonKeyH] = app_start_size_.GetHeight();
+    // jvalue.setType(Json::arrayValue);
+    jvalue.append(app_start_size_.GetWidth());
+    jvalue.append(app_start_size_.GetHeight());
     jroot[kJsonKeyAppStartSize] = jvalue;
 
     jvalue.clear();
-    jvalue[kJsonKeyW] = app_min_size_.GetWidth();
-    jvalue[kJsonKeyH] = app_min_size_.GetHeight();
+    // jvalue.setType(Json::arrayValue);
+    jvalue.append(app_min_size_.GetWidth());
+    jvalue.append(app_min_size_.GetHeight());
     jroot[kJsonKeyAppMinSize] = jvalue;
 
     jroot[kJsonKeyHideAllChannelsPage] = is_hide_all_channels_page_;
@@ -122,16 +121,16 @@ void AppGuiConfig::ReadConfigFromFile()
 
     FileHelper::ReadFile(config_file_) >> jroot;
 
-    x = jroot[kJsonKeyAppStartPos][kJsonKeyX].asInt();
-    y = jroot[kJsonKeyAppStartPos][kJsonKeyY].asInt();
+    x = jroot[kJsonKeyAppStartPos][0].asInt();
+    y = jroot[kJsonKeyAppStartPos][1].asInt();
     app_start_pos_ = {x, y};
 
-    w = jroot[kJsonKeyAppStartSize][kJsonKeyW].asInt();
-    h = jroot[kJsonKeyAppStartSize][kJsonKeyH].asInt();
+    w = jroot[kJsonKeyAppStartSize][0].asInt();
+    h = jroot[kJsonKeyAppStartSize][1].asInt();
     app_start_size_ = {w, h};
 
-    w = jroot[kJsonKeyAppMinSize][kJsonKeyW].asInt();
-    h = jroot[kJsonKeyAppMinSize][kJsonKeyH].asInt();
+    w = jroot[kJsonKeyAppMinSize][0].asInt();
+    h = jroot[kJsonKeyAppMinSize][1].asInt();
     app_min_size_ = {w, h};
 
     is_hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
