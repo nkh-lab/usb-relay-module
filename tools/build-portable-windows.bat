@@ -82,11 +82,12 @@ copy build\app-cli\Release\getrelay.exe %PORTABLE_DIR_REL_PATH%
 copy build\app-cli\Release\setrelay.exe %PORTABLE_DIR_REL_PATH%
 copy build\libusbrelaymodule\Release\libusbrelaymodule.dll %PORTABLE_DIR_REL_PATH%
 copy build\external\hidapi\src\windows\Release\hidapi.dll %PORTABLE_DIR_REL_PATH%
-if "%SIMU%" == "true" || "%GUI%" == "true" (
+if "%SIMU%" == "true" (
     copy build\external\jsoncpp\src\lib_json\Release\jsoncpp.dll %PORTABLE_DIR_REL_PATH%
 )
 if "%GUI%" == "true" (
     copy build\app-gui\Release\relaybox.exe %PORTABLE_DIR_REL_PATH%
+    copy build\external\jsoncpp\src\lib_json\Release\jsoncpp.dll %PORTABLE_DIR_REL_PATH%
     copy prebuilt\wxwidgets\lib\Release\wxbase32u_vc*_x64.dll %PORTABLE_DIR_REL_PATH%
     copy prebuilt\wxwidgets\lib\Release\wxmsw32u_core_vc*_x64.dll %PORTABLE_DIR_REL_PATH%
 )

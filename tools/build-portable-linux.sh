@@ -54,11 +54,12 @@ cp build/app-cli/getrelay $PORTABLE_DIR_REL_PATH
 cp build/app-cli/setrelay $PORTABLE_DIR_REL_PATH
 cp build/libusbrelaymodule/libusbrelaymodule.so $PORTABLE_DIR_REL_PATH
 cp build/external/hidapi/src/linux/libhidapi-hidraw.so* $PORTABLE_DIR_REL_PATH
-if [ "$SIMU" = "true" ] || [ "$GUI" = "true" ]; then
+if [ "$SIMU" = "true" ]; then
     cp build/external/jsoncpp/src/lib_json/libjsoncpp.so* $PORTABLE_DIR_REL_PATH
 fi
 if [ "$GUI" = "true" ]; then
     cp build/app-gui/relaybox $PORTABLE_DIR_REL_PATH
+    cp build/external/jsoncpp/src/lib_json/libjsoncpp.so* $PORTABLE_DIR_REL_PATH
 fi
 
 cd $PORTABLE_DIR_REL_PATH
