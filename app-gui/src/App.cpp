@@ -57,7 +57,12 @@ bool App::OnInit()
             std::make_unique<AppGuiConfig>(FileHelper::RemoveFileExtension(app_file) + "-cfg.json");
 
         main_window_ = new MainWindow(
-            nullptr, wxID_ANY, "Relay Box", config_->GetStartAppPosition(), config_->GetStartAppSize());
+            nullptr,
+            wxID_ANY,
+            "Relay Box",
+            config_->GetAppStartPosition(),
+            config_->GetAppStartSize(),
+            config_->GetAppMinSize());
         auto page_parent = main_window_->GetPageParent();
         main_window_->Bind(wxEVT_CLOSE_WINDOW, &App::OnMainWindowClose, this);
 
@@ -109,8 +114,8 @@ void App::OnMainWindowClose(wxCloseEvent& event)
     LOG_FNC;
 
     auto rect = main_window_->GetRect();
-    config_->SetStartAppPosition(rect.GetPosition());
-    config_->SetStartAppSize(rect.GetSize());
+    config_->SetAppStartPosition(rect.GetPosition());
+    config_->SetAppStartSize(rect.GetSize());
 
     event.Skip(); // Allow the frame to close normally
 }

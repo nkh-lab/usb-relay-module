@@ -23,14 +23,27 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
+constexpr int kAppMinSizeW = 250;
+constexpr int kAppMinSizeH = 300;
+
+constexpr char kJsonKeyX[] = "x";
+constexpr char kJsonKeyY[] = "y";
+constexpr char kJsonKeyW[] = "w";
+constexpr char kJsonKeyH[] = "h";
+constexpr char kJsonKeyAppStartPos[] = "appStartPosition";
+constexpr char kJsonKeyAppStartSize[] = "appStartSize";
+constexpr char kJsonKeyAppMinSize[] = "appMinSize";
+
 AppGuiConfig::AppGuiConfig(const std::string& config_file)
     : config_file_{config_file}
-    , start_app_pos_{wxDefaultPosition}
-    , start_app_size_{wxDefaultSize}
+    , app_start_pos_{wxDefaultPosition}
+    , app_start_size_{wxDefaultSize}
+    , app_min_size_{kAppMinSizeW, kAppMinSizeH}
     , is_hide_all_channels_page_{false}
 {
     LOG_FNC;
-    ReadConfigFromFile();
+
+    if (FileHelper::ExistFile(config_file_)) ReadConfigFromFile();
 }
 
 AppGuiConfig::~AppGuiConfig()
@@ -39,28 +52,40 @@ AppGuiConfig::~AppGuiConfig()
     WriteConfigToFile();
 }
 
-const wxSize& AppGuiConfig::GetStartAppSize()
+const wxSize& AppGuiConfig::GetAppStartSize()
 {
-    return start_app_size_;
+    return app_start_size_;
 }
 
-const wxPoint& AppGuiConfig::GetStartAppPosition()
+const wxSize& AppGuiConfig::GetAppMinSize()
 {
-    return start_app_pos_;
+    return app_min_size_;
 }
 
-void AppGuiConfig::SetStartAppSize(const wxSize& size)
+const wxPoint& AppGuiConfig::GetAppStartPosition()
+{
+    return app_start_pos_;
+}
+
+void AppGuiConfig::SetAppStartSize(const wxSize& size)
 {
     LOG_DBG << StringHelper::Sprintf("w: %d, h: %d", size.GetWidth(), size.GetHeight());
 
-    start_app_size_ = size;
+    app_start_size_ = size;
 }
 
-void AppGuiConfig::SetStartAppPosition(const wxPoint& pos)
+void AppGuiConfig::SetAppMinSize(const wxSize& size)
+{
+    LOG_DBG << StringHelper::Sprintf("w: %d, h: %d", size.GetWidth(), size.GetHeight());
+
+    app_min_size_ = size;
+}
+
+void AppGuiConfig::SetAppStartPosition(const wxPoint& pos)
 {
     LOG_DBG << StringHelper::Sprintf("x: %d, y: %d", pos.x, pos.y);
 
-    start_app_pos_ = pos;
+    app_start_pos_ = pos;
 }
 
 bool AppGuiConfig::IsHideAllChannelsPage()
@@ -75,15 +100,51 @@ std::vector<AliasPage> AppGuiConfig::GetAliasPages()
 
 void AppGuiConfig::WriteConfigToFile()
 {
-    Json::Value jroot;
+    Json::Value jroot, jvalue;
 
-    jroot["appStartSize"] = 123;
+    jvalue[kJsonKeyX] = app_start_pos_.x;
+    jvalue[kJsonKeyY] = app_start_pos_.y;
+
+    jroot[kJsonKeyAppStartPos] = jvalue;
+
+    jvalue.clear();
+
+    jvalue[kJsonKeyW] = app_start_size_.GetWidth();
+    jvalue[kJsonKeyH] = app_start_size_.GetHeight();
+
+    jroot[kJsonKeyAppStartSize] = jvalue;
+
+    jvalue.clear();
+
+    jvalue[kJsonKeyW] = app_min_size_.GetWidth();
+    jvalue[kJsonKeyH] = app_min_size_.GetHeight();
+
+    jroot[kJsonKeyAppMinSize] = jvalue;
 
     FileHelper::WriteFile(config_file_, Json::StyledWriter().write(jroot));
 }
 
 void AppGuiConfig::ReadConfigFromFile()
 {
+    Json::Value jroot;
+    int x, y, w, h;
+
+    FileHelper::ReadFile(config_file_) >> jroot;
+
+    x = jroot[kJsonKeyAppStartPos][kJsonKeyX].asInt();
+    y = jroot[kJsonKeyAppStartPos][kJsonKeyY].asInt();
+
+    SetAppStartPosition(wxPoint(x, y));
+
+    w = jroot[kJsonKeyAppStartSize][kJsonKeyW].asInt();
+    h = jroot[kJsonKeyAppStartSize][kJsonKeyH].asInt();
+
+    SetAppStartSize(wxSize(w, h));
+
+    w = jroot[kJsonKeyAppMinSize][kJsonKeyW].asInt();
+    h = jroot[kJsonKeyAppMinSize][kJsonKeyH].asInt();
+
+    SetAppMinSize(wxSize(w, h));
 }
 
 } // namespace appgui

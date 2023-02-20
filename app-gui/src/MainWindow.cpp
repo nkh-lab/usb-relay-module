@@ -22,13 +22,14 @@ MainWindow::MainWindow(
     wxWindow* parent,
     wxWindowID id,
     const wxString& title,
-    const wxPoint& pos,
-    const wxSize& size,
-    long style,
-    const wxString& name)
-    : wxFrame(parent, id, title, pos, size, style, name)
+    const wxPoint& start_pos,
+    const wxSize& start_size,
+    const wxSize& min_size)
+    : wxFrame(parent, id, title, start_pos, start_size, wxDEFAULT_FRAME_STYLE, wxFrameNameStr)
 {
     LOG_FNC;
+
+    SetMinSize(min_size);
 
     BuildMenuBar();
 

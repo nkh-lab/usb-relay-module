@@ -27,10 +27,9 @@ public:
         wxWindow* parent,
         wxWindowID id,
         const wxString& title,
-        const wxPoint& pos = wxDefaultPosition,
-        const wxSize& size = wxDefaultSize,
-        long style = wxDEFAULT_FRAME_STYLE,
-        const wxString& name = wxFrameNameStr);
+        const wxPoint& start_pos,
+        const wxSize& start_size,
+        const wxSize& min_size);
     ~MainWindow();
 
     wxWindow* GetPageParent();

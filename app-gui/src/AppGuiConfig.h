@@ -30,22 +30,26 @@ public:
     AppGuiConfig(const std::string& config_file);
     ~AppGuiConfig();
 
-    const wxSize& GetStartAppSize();
-    const wxPoint& GetStartAppPosition();
+    const wxSize& GetAppStartSize();
+    const wxSize& GetAppMinSize();
+    const wxPoint& GetAppStartPosition();
 
-    void SetStartAppSize(const wxSize& size);
-    void SetStartAppPosition(const wxPoint& pos);
+    void SetAppStartSize(const wxSize& size);
+    void SetAppStartPosition(const wxPoint& pos);
 
     bool IsHideAllChannelsPage();
     std::vector<AliasPage> GetAliasPages();
 
 private:
+    void SetAppMinSize(const wxSize& size);
+
     void WriteConfigToFile();
     void ReadConfigFromFile();
 
     std::string config_file_;
-    wxPoint start_app_pos_;
-    wxSize start_app_size_;
+    wxPoint app_start_pos_;
+    wxSize app_start_size_;
+    wxSize app_min_size_;
     bool is_hide_all_channels_page_;
 };
 
