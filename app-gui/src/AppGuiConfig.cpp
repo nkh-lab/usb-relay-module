@@ -30,6 +30,7 @@ constexpr char kJsonKeyAppStartPos[] = "appStartPosition";
 constexpr char kJsonKeyAppStartSize[] = "appStartSize";
 constexpr char kJsonKeyAppMinSize[] = "appMinSize";
 constexpr char kJsonKeyHideAllChannelsPage[] = "hideAllChannelsPage";
+constexpr char kJsonKeyAliasColors[] = "aliasColors";
 
 AppGuiConfig::AppGuiConfig(const std::string& config_file)
     : config_file_{config_file}
@@ -40,7 +41,10 @@ AppGuiConfig::AppGuiConfig(const std::string& config_file)
 {
     LOG_FNC;
 
-    if (FileHelper::ExistFile(config_file_)) ReadConfigFromFile();
+    if (FileHelper::ExistFile(config_file_))
+        ReadConfigFromFile();
+    else
+        BuildAliasExample();
 }
 
 AppGuiConfig::~AppGuiConfig()
@@ -92,24 +96,30 @@ void AppGuiConfig::WriteConfigToFile()
 {
     Json::Value jroot, jvalue;
 
-    // jvalue.setType(Json::arrayValue);
     jvalue.append(app_start_pos_.x);
     jvalue.append(app_start_pos_.y);
     jroot[kJsonKeyAppStartPos] = jvalue;
 
     jvalue.clear();
-    // jvalue.setType(Json::arrayValue);
     jvalue.append(app_start_size_.GetWidth());
     jvalue.append(app_start_size_.GetHeight());
     jroot[kJsonKeyAppStartSize] = jvalue;
 
     jvalue.clear();
-    // jvalue.setType(Json::arrayValue);
     jvalue.append(app_min_size_.GetWidth());
     jvalue.append(app_min_size_.GetHeight());
     jroot[kJsonKeyAppMinSize] = jvalue;
 
     jroot[kJsonKeyHideAllChannelsPage] = is_hide_all_channels_page_;
+
+    for (const auto& c : alias_colors_)
+    {
+        jvalue.clear();
+        jvalue.append(c.second.Red());
+        jvalue.append(c.second.Green());
+        jvalue.append(c.second.Blue());
+        jroot[kJsonKeyAliasColors][c.first] = jvalue;
+    }
 
     FileHelper::WriteFile(config_file_, Json::StyledWriter().write(jroot));
 }
@@ -134,6 +144,21 @@ void AppGuiConfig::ReadConfigFromFile()
     app_min_size_ = {w, h};
 
     is_hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
+
+    for (const std::string& k : jroot[kJsonKeyAliasColors].getMemberNames())
+    {
+        const Json::Value& v = jroot[kJsonKeyAliasColors][k];
+        alias_colors_[k] = wxColor(v[0].asInt(), v[1].asInt(), v[2].asInt());
+
+        LOG_DBG << StringHelper::Sprintf(
+            "color: %s, (%d, %d, %d)", k.c_str(), v[0].asInt(), v[1].asInt(), v[2].asInt());
+    }
+}
+
+void AppGuiConfig::BuildAliasExample()
+{
+    alias_colors_["green"] = *wxGREEN;
+    alias_colors_["red"] = *wxRED;
 }
 
 } // namespace appgui

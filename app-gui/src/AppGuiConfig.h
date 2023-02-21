@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -41,12 +42,14 @@ public:
 private:
     void WriteConfigToFile();
     void ReadConfigFromFile();
+    void BuildAliasExample();
 
     std::string config_file_;
     wxPoint app_start_pos_;
     wxSize app_start_size_;
     wxSize app_min_size_;
     bool is_hide_all_channels_page_;
+    std::map<std::string, wxColor> alias_colors_;
 };
 
 } // namespace appgui
