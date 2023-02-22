@@ -37,6 +37,9 @@ public:
     bool OnInit() override;
     int OnExit() override;
 
+    void OnInitCmdLine(wxCmdLineParser& parser) override;
+    bool OnCmdLineParsed(wxCmdLineParser& parser) override;
+
 private:
     void OnChannelToggled(const std::string& channel_name, bool state);
     void OnUpdateTimeout(wxTimerEvent& event);
@@ -50,6 +53,7 @@ private:
     MainWindow* main_window_;
     wxTimer update_timer_;
     std::unique_ptr<AppGuiConfig> config_;
+    std::string config_file_;
 };
 
 } // namespace appgui

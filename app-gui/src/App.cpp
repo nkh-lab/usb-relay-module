@@ -11,6 +11,8 @@
 
 #include "App.h"
 
+#include <wx/cmdline.h>
+
 #include "FileHelper.h"
 #include "Macros.h"
 #include "RelayManagerHelper.h"
@@ -44,17 +46,18 @@ bool App::OnInit()
         std::string app_file = argv[0].ToStdString();
         std::string app_path = FileHelper::GetDir(app_file);
         std::string app_name = FileHelper::GetFileName(app_file);
+        if (config_file_.empty())
+            config_file_ = FileHelper::RemoveFileExtension(app_file) + "-cfg.json";
 
-        LOG_DBG << StringHelper::Sprintf(
-            "app_path: %s, app_name: %s", app_path.c_str(), app_name.c_str());
+        LOG_INF << StringHelper::Sprintf("app_file:    %s", app_file.c_str());
+        LOG_INF << StringHelper::Sprintf("config_file: %s", config_file_.c_str());
 
 #ifdef URM_SIMU
         relay_manager_ = CreateSimuManager(app_path);
 #else
         relay_manager_ = CreateHidapiManagerForDcttechModules();
 #endif
-        config_ =
-            std::make_unique<AppGuiConfig>(FileHelper::RemoveFileExtension(app_file) + "-cfg.json");
+        config_ = std::make_unique<AppGuiConfig>(config_file_);
 
         main_window_ = new MainWindow(
             nullptr,
@@ -83,6 +86,29 @@ bool App::OnInit()
     }
 
     return ret;
+}
+
+void App::OnInitCmdLine(wxCmdLineParser& parser)
+{
+    LOG_FNC;
+
+    const wxCmdLineEntryDesc cmds[] = {
+        {wxCMD_LINE_SWITCH, "h", "help", "Display this help text", wxCMD_LINE_VAL_NONE, wxCMD_LINE_OPTION_HELP},
+        {wxCMD_LINE_OPTION, "c", "config", "Path to config file", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
+
+        wxCMD_LINE_DESC_END};
+
+    parser.SetDesc(cmds);
+}
+
+bool App::OnCmdLineParsed(wxCmdLineParser& parser)
+{
+    LOG_FNC;
+
+    wxString config_file;
+
+    if (parser.Found("config", &config_file)) config_file_ = config_file.ToStdString();
+    return true;
 }
 
 void App::OnMainWindowClose(wxCloseEvent& event)
