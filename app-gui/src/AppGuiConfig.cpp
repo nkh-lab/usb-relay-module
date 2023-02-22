@@ -11,8 +11,6 @@
 
 #include "AppGuiConfig.h"
 
-#include <json/json.h>
-
 #include "FileHelper.h"
 #include "StringHelper.h"
 #include "nkh-lab/logger.hpp"
@@ -31,6 +29,9 @@ constexpr char kJsonKeyAppStartSize[] = "appStartSize";
 constexpr char kJsonKeyAppMinSize[] = "appMinSize";
 constexpr char kJsonKeyHideAllChannelsPage[] = "hideAllChannelsPage";
 constexpr char kJsonKeyAliasColors[] = "aliasColors";
+constexpr char kJsonKeyAliasPages[] = "aliasPages";
+constexpr char kJsonKeyAliasPageName[] = "name";
+constexpr char kJsonKeyAliasChannels[] = "channels";
 
 AppGuiConfig::AppGuiConfig(const std::string& config_file)
     : config_file_{config_file}
@@ -87,14 +88,24 @@ bool AppGuiConfig::IsHideAllChannelsPage()
     return is_hide_all_channels_page_;
 }
 
-std::vector<AliasPage> AppGuiConfig::GetAliasPages()
+const std::vector<AliasPage>& AppGuiConfig::GetAliasPages()
 {
-    return {};
+    return alias_pages_;
 }
 
 void AppGuiConfig::WriteConfigToFile()
 {
-    Json::Value jroot, jvalue;
+    Json::Value jroot;
+
+    GeneralSettingsToJson(jroot);
+    AliasSettingsToJson(jroot);
+
+    FileHelper::WriteFile(config_file_, Json::StyledWriter().write(jroot));
+}
+
+void AppGuiConfig::GeneralSettingsToJson(Json::Value& jroot)
+{
+    Json::Value jvalue;
 
     jvalue.append(app_start_pos_.x);
     jvalue.append(app_start_pos_.y);
@@ -111,25 +122,53 @@ void AppGuiConfig::WriteConfigToFile()
     jroot[kJsonKeyAppMinSize] = jvalue;
 
     jroot[kJsonKeyHideAllChannelsPage] = is_hide_all_channels_page_;
+}
 
+void AppGuiConfig::AliasSettingsToJson(Json::Value& jroot)
+{
     for (const auto& c : alias_colors_)
     {
-        jvalue.clear();
+        Json::Value jvalue;
         jvalue.append(c.second.Red());
         jvalue.append(c.second.Green());
         jvalue.append(c.second.Blue());
         jroot[kJsonKeyAliasColors][c.first] = jvalue;
     }
 
-    FileHelper::WriteFile(config_file_, Json::StyledWriter().write(jroot));
+    for (const auto& p : alias_pages_)
+    {
+        Json::Value jp;
+        jp[kJsonKeyAliasPageName] = p.page_name;
+
+        for (const auto& c : p.channels)
+        {
+            Json::Value jc;
+            jc[c.first].append(c.second.text);
+            jc[c.first].append(c.second.state0.text);
+            jc[c.first].append(c.second.state0.color_name);
+            jc[c.first].append(c.second.state1.text);
+            jc[c.first].append(c.second.state1.color_name);
+
+            jp[kJsonKeyAliasChannels].append(jc);
+        }
+
+        jroot[kJsonKeyAliasPages].append(jp);
+    }
 }
 
 void AppGuiConfig::ReadConfigFromFile()
 {
     Json::Value jroot;
-    int x, y, w, h;
 
     FileHelper::ReadFile(config_file_) >> jroot;
+
+    JsonToGeneralSettings(jroot);
+    JsonToAliasSettings(jroot);
+}
+
+void AppGuiConfig::JsonToGeneralSettings(const Json::Value& jroot)
+{
+    int x, y, w, h;
 
     x = jroot[kJsonKeyAppStartPos][0].asInt();
     y = jroot[kJsonKeyAppStartPos][1].asInt();
@@ -144,7 +183,10 @@ void AppGuiConfig::ReadConfigFromFile()
     app_min_size_ = {w, h};
 
     is_hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
+}
 
+void AppGuiConfig::JsonToAliasSettings(const Json::Value& jroot)
+{
     for (const std::string& k : jroot[kJsonKeyAliasColors].getMemberNames())
     {
         const Json::Value& v = jroot[kJsonKeyAliasColors][k];
@@ -153,12 +195,54 @@ void AppGuiConfig::ReadConfigFromFile()
         LOG_DBG << StringHelper::Sprintf(
             "color: %s, (%d, %d, %d)", k.c_str(), v[0].asInt(), v[1].asInt(), v[2].asInt());
     }
+
+    for (const Json::Value& jp : jroot[kJsonKeyAliasPages])
+    {
+        AliasPage p;
+        p.page_name = jp[kJsonKeyAliasPageName].asString();
+
+        for (const Json::Value& jc : jp[kJsonKeyAliasChannels])
+        {
+            const std::string k = jc.getMemberNames()[0];
+            const Json::Value& v = jc[k];
+
+            AliasChannel c;
+            c.text = v[0].asString();
+            std::string s_text = v[1].asString();
+            std::string s_color_name = v[2].asString();
+            c.state0 = {s_text, s_color_name, &alias_colors_[s_color_name]};
+            s_text = v[3].asString();
+            s_color_name = v[4].asString();
+            c.state1 = {s_text, s_color_name, &alias_colors_[s_color_name]};
+
+            p.channels.push_back(std::make_pair(k, c));
+        }
+        alias_pages_.push_back(p);
+    }
 }
 
 void AppGuiConfig::BuildAliasExample()
 {
     alias_colors_["green"] = *wxGREEN;
     alias_colors_["red"] = *wxRED;
+
+    // DBG
+    AliasChannel r1_1_channel;
+    r1_1_channel.text = "Light";
+    r1_1_channel.state0 = {"0", "green", &alias_colors_["green"]};
+    r1_1_channel.state1 = {"1", "red", &alias_colors_["red"]};
+
+    AliasChannel r1_2_channel;
+    r1_2_channel.text = "PWR";
+    r1_2_channel.state0 = {"ON", "green", &alias_colors_["green"]};
+    r1_2_channel.state1 = {"OFF", "red", &alias_colors_["red"]};
+
+    AliasPage alias_example_page;
+    alias_example_page.page_name = "Alias Example";
+    alias_example_page.channels.push_back(std::make_pair("R1_1", r1_1_channel));
+    alias_example_page.channels.push_back(std::make_pair("R1_2", r1_2_channel));
+
+    alias_pages_.push_back(alias_example_page);
 }
 
 } // namespace appgui

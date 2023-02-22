@@ -20,6 +20,7 @@
 struct AliasState
 {
     std::string text;
+    std::string color_name;
     const wxColor* color;
 };
 
@@ -33,5 +34,5 @@ struct AliasChannel
 struct AliasPage
 {
     std::string page_name;
-    std::vector<std::pair<std::string, AliasChannel>> chanels;
+    std::vector<std::pair<std::string, AliasChannel>> channels;
 };

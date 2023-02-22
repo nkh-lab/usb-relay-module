@@ -69,32 +69,7 @@ bool App::OnInit()
         if (!config_->IsHideAllChannelsPage())
             main_window_->AddPage(CreateAllChannelsPage(page_parent));
 
-        // DBG
-        AliasChannel power_channel;
-        power_channel.text = "PWR";
-        power_channel.state0 = {"ON", wxGREEN};
-        power_channel.state1 = {"OFF", wxRED};
-
-        AliasChannel qfil_channel;
-        qfil_channel.text = "QFIL";
-        qfil_channel.state0 = {"OFF", wxGREEN};
-        qfil_channel.state1 = {"ON", wxRED};
-
-        AliasChannel vip_channel;
-        vip_channel.text = "VIP ";
-        vip_channel.state0 = {"OFF", wxGREEN};
-        vip_channel.state1 = {"ON", wxRED};
-
-        AliasPage rig_page;
-        rig_page.page_name = "Rig";
-        rig_page.chanels.push_back(std::make_pair("R1_2", power_channel));
-        rig_page.chanels.push_back(std::make_pair("R1_1", qfil_channel));
-        rig_page.chanels.push_back(std::make_pair("R2_1", vip_channel));
-
-        aliases_.push_back(rig_page);
-        //
-
-        for (auto p : aliases_)
+        for (auto p : config_->GetAliasPages())
         {
             main_window_->AddPage(CreateAliasPage(page_parent, p));
         }
@@ -187,7 +162,7 @@ WidgetPage* App::CreateAliasPage(wxWindow* parent, const AliasPage& alias_page)
     WidgetPage* page =
         new WidgetPage(parent, alias_page.page_name, std::bind(&App::OnChannelToggled, this, _1, _2));
 
-    for (auto c : alias_page.chanels)
+    for (auto c : alias_page.channels)
     {
         page->AddChannel(c.first, false, &c.second);
     }
