@@ -16,10 +16,10 @@
 #include "hidapi.h"
 
 #include "RelayModuleDcttech.h"
-#include "StringHelper.h"
+#include "cpp-utils/StringHelper.h"
 
 using namespace nkhlab::usbrelaymodule::impl;
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 int main(int argc, char const* argv[])
 {
@@ -49,13 +49,13 @@ int main(int argc, char const* argv[])
                 data[2] = relay_idx;
 
                 std::cout << "hid_send_feature_report("
-                          << StringHelper::PrintBytes(data, sizeof(data)) << ") ";
+                          << StringHelper::BytesToStr(data, sizeof(data)) << ") ";
                 // int ret = hid_write(handle, data, sizeof(data)); // On Ubuntu it works as well
                 int ret = hid_send_feature_report(handle, data, sizeof(data));
                 std::cout << "returned " << ret << "\n";
                 if (ret != -1)
                 {
-                    std::cout << StringHelper::PrintBytes(data, sizeof(data)) << "\n";
+                    std::cout << StringHelper::BytesToStr(data, sizeof(data)) << "\n";
                 }
                 else
                     main_ret = EXIT_FAILURE;

@@ -14,11 +14,11 @@
 #include "Config.h"
 #include "LightArgParser.h"
 #include "RelayManagerHelper.h"
-#include "StringHelper.h"
 #include "TextUserInterface.h"
+#include "cpp-utils/StringHelper.h"
 
 using namespace nkhlab::lightargparser;
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 using namespace nkhlab::usbrelaymodule::config;
 
 namespace {

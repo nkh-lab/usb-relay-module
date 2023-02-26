@@ -13,10 +13,10 @@
 
 #include <json/json.h>
 
-#include "FileHelper.h"
 #include "SimuHelper.h"
+#include "cpp-utils/FileHelper.h"
 
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 namespace nkhlab {
 namespace usbrelaymodule {

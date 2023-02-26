@@ -62,7 +62,7 @@ target_include_directories(${APP_GUI_NAME}
     )
 
 target_link_libraries(${APP_GUI_NAME}
-    PRIVATE libusbrelaymodule-utils
+    PRIVATE libcpputils
     PRIVATE ${wxWidgets_LIBRARIES}
     PRIVATE libusbrelaymodule
     PRIVATE libusbrelaymodule-config

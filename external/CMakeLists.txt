@@ -9,6 +9,7 @@
 # but WITHOUT ANY WARRANTY.
 #
 
+add_subdirectory(cpp-utils)
 add_subdirectory(hidapi)
 if(${PROJECT_NAME}_BUILD_SIMU OR ${PROJECT_NAME}_BUILD_GUI)
     set(JSONCPP_WITH_TESTS OFF CACHE BOOL "")

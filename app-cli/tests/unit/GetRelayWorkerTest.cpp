@@ -15,23 +15,18 @@
 #include "GetRelayWorker.h"
 #include "MockRelayManager.h"
 #include "MockRelayModule.h"
-#include "StringHelper.h"
 #include "TextUserInterface.h"
+#include "cpp-utils/Macros.h"
+#include "cpp-utils/StringHelper.h"
 
 using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;
 using namespace nkhlab::usbrelaymodule::tests;
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 using namespace nkhlab::usbrelaymodule::config;
 
 using ::testing::Return;
 using namespace ::testing;
-
-template <typename T, size_t N>
-constexpr size_t arraySize(T (&)[N])
-{
-    return N;
-}
 
 class GetRelayWorkerTest : public ::testing::Test
 {
@@ -81,7 +76,7 @@ protected:
 TEST_F(GetRelayWorkerTest, VersionShortArg)
 {
     const char* argv[] = {"", "-v"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -103,7 +98,7 @@ TEST_F(GetRelayWorkerTest, VersionShortArg)
 TEST_F(GetRelayWorkerTest, VersionLongArg)
 {
     const char* argv[] = {"", "--version"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -125,7 +120,7 @@ TEST_F(GetRelayWorkerTest, VersionLongArg)
 TEST_F(GetRelayWorkerTest, HelpShortArg)
 {
     const char* argv[] = {"", "-h"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -144,7 +139,7 @@ TEST_F(GetRelayWorkerTest, HelpShortArg)
 TEST_F(GetRelayWorkerTest, HelpLongArg)
 {
     const char* argv[] = {"", "--help"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -163,7 +158,7 @@ TEST_F(GetRelayWorkerTest, HelpLongArg)
 TEST_F(GetRelayWorkerTest, BadArg)
 {
     const char* argv[] = {"", "--h"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -182,7 +177,7 @@ TEST_F(GetRelayWorkerTest, BadArg)
 TEST_F(GetRelayWorkerTest, WrongArgUsage1)
 {
     const char* argv[] = {"", "--bla"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -201,7 +196,7 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage1)
 TEST_F(GetRelayWorkerTest, WrongArgUsage2)
 {
     const char* argv[] = {"", "--version --help"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -220,7 +215,7 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage2)
 TEST_F(GetRelayWorkerTest, WrongArgUsage3)
 {
     const char* argv[] = {"", "-vh"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -239,7 +234,7 @@ TEST_F(GetRelayWorkerTest, WrongArgUsage3)
 TEST_F(GetRelayWorkerTest, NoArgsNoModules)
 {
     const char* argv[] = {""};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size0_));
@@ -258,7 +253,7 @@ TEST_F(GetRelayWorkerTest, NoArgsNoModules)
 TEST_F(GetRelayWorkerTest, NoArgsOneModule)
 {
     const char* argv[] = {""};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module_name{"module1"};
     std::vector<bool> channels{0, 1};
 
@@ -306,7 +301,7 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModule)
 TEST_F(GetRelayWorkerTest, NoArgsOneModuleAndFailedGetNameAndChannels)
 {
     const char* argv[] = {""};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module_name = StringHelper::Sprintf("< %s >", TextUserInterface::kErrorInaccessible);
     std::vector<bool> channels{};
 
@@ -354,7 +349,7 @@ TEST_F(GetRelayWorkerTest, NoArgsOneModuleAndFailedGetNameAndChannels)
 TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
 {
     const char* argv[] = {""};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};
@@ -426,7 +421,7 @@ TEST_F(GetRelayWorkerTest, NoArgsTwoModules)
 TEST_F(GetRelayWorkerTest, RequestExistingModule)
 {
     const char* argv[] = {"", "module2"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};
@@ -481,7 +476,7 @@ TEST_F(GetRelayWorkerTest, RequestExistingModule)
 TEST_F(GetRelayWorkerTest, RequestUnexistingModule)
 {
     const char* argv[] = {"", "module3"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};
@@ -523,7 +518,7 @@ TEST_F(GetRelayWorkerTest, RequestUnexistingModule)
 TEST_F(GetRelayWorkerTest, RequestExistingChannel)
 {
     const char* argv[] = {"", "module2_2"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};
@@ -565,7 +560,7 @@ TEST_F(GetRelayWorkerTest, RequestExistingChannel)
 TEST_F(GetRelayWorkerTest, RequestNonexistingChannel)
 {
     const char* argv[] = {"", "module2_3"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};
@@ -607,7 +602,7 @@ TEST_F(GetRelayWorkerTest, RequestNonexistingChannel)
 TEST_F(GetRelayWorkerTest, WrongArgUsage)
 {
     const char* argv[] = {"", "module1_1=1"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);

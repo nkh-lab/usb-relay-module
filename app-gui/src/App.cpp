@@ -13,14 +13,14 @@
 
 #include <wx/cmdline.h>
 
-#include "FileHelper.h"
-#include "Macros.h"
 #include "RelayManagerHelper.h"
-#include "StringHelper.h"
+#include "cpp-utils/FileHelper.h"
+#include "cpp-utils/Macros.h"
+#include "cpp-utils/StringHelper.h"
 #include "nkh-lab/logger.hpp"
 #include "widgets/WidgetChannel.h"
 
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 std::mutex nlab::logger::gCoutMutex;
 

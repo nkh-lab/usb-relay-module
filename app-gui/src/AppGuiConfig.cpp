@@ -11,11 +11,11 @@
 
 #include "AppGuiConfig.h"
 
-#include "FileHelper.h"
-#include "StringHelper.h"
+#include "cpp-utils/FileHelper.h"
+#include "cpp-utils/StringHelper.h"
 #include "nkh-lab/logger.hpp"
 
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 namespace nkhlab {
 namespace usbrelaymodule {

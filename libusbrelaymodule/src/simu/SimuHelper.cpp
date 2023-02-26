@@ -11,9 +11,9 @@
 
 #include "SimuHelper.h"
 
-#include "StringHelper.h"
+#include "cpp-utils/StringHelper.h"
 
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 namespace nkhlab {
 namespace usbrelaymodule {

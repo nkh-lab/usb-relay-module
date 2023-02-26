@@ -14,14 +14,14 @@
 #include <fstream>
 #include <memory>
 
-#include "FileHelper.h"
 #include "IRelayManager.h"
 #include "RelayModuleSimu.h"
 #include "SimuHelper.h"
-#include "StringHelper.h"
 #include "SynchronizedResource.h"
+#include "cpp-utils/FileHelper.h"
+#include "cpp-utils/StringHelper.h"
 
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 namespace nkhlab {
 namespace usbrelaymodule {

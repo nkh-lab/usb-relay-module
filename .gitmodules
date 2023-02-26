@@ -10,3 +10,6 @@
 [submodule "external/jsoncpp"]
 	path = external/jsoncpp
 	url = https://github.com/nkh-lab/jsoncpp.git
+[submodule "external/cpp-utils"]
+	path = external/cpp-utils
+	url = https://github.com/nkh-lab/cpp-utils.git

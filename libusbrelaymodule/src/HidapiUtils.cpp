@@ -11,12 +11,16 @@
 
 #include "HidapiUtils.h"
 
-#include "StringHelper.h"
+#include "cpp-utils/StringHelper.h"
 
 #include <iomanip>
 #include <sstream>
 
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
+
+namespace {
+constexpr char kNullText[] = "(null)";
+}
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -31,10 +35,14 @@ std::string HidDeviceInfoToStr(hid_device_info* dev)
     ss << "vendor_id:        0x" << std::setfill('0') << std::setw(4) << dev->vendor_id << "\n";
     ss << "product_id:       0x" << std::setfill('0') << std::setw(4) << dev->product_id << "\n";
     ss << std::dec; // back to dec
-    ss << "serial_number:    " << StringHelper::PwstrToStr(dev->serial_number) << "\n";
+    ss << "serial_number:    "
+       << (dev->serial_number ? StringHelper::WstrToStr(dev->serial_number) : kNullText) << "\n";
     ss << "release_number:   " << dev->release_number << "\n";
-    ss << "manufacturer:     " << StringHelper::PwstrToStr(dev->manufacturer_string) << "\n";
-    ss << "product:          " << StringHelper::PwstrToStr(dev->product_string) << "\n";
+    ss << "manufacturer:     "
+       << (dev->manufacturer_string ? StringHelper::WstrToStr(dev->manufacturer_string) : kNullText)
+       << "\n";
+    ss << "product:          "
+       << (dev->product_string ? StringHelper::WstrToStr(dev->product_string) : kNullText) << "\n";
     ss << "interface_number: " << dev->interface_number << "\n";
 
     return ss.str();

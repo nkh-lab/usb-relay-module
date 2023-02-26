@@ -15,23 +15,18 @@
 #include "MockRelayManager.h"
 #include "MockRelayModule.h"
 #include "SetRelayWorker.h"
-#include "StringHelper.h"
 #include "TextUserInterface.h"
+#include "cpp-utils/Macros.h"
+#include "cpp-utils/StringHelper.h"
 
 using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;
 using namespace nkhlab::usbrelaymodule::tests;
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 using namespace nkhlab::usbrelaymodule::config;
 
 using ::testing::Return;
 using namespace ::testing;
-
-template <typename T, size_t N>
-constexpr size_t arraySize(T (&)[N])
-{
-    return N;
-}
 
 class SetRelayWorkerTest : public ::testing::Test
 {
@@ -61,7 +56,7 @@ protected:
 TEST_F(SetRelayWorkerTest, VersionShortArg)
 {
     const char* argv[] = {"", "-v"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -83,7 +78,7 @@ TEST_F(SetRelayWorkerTest, VersionShortArg)
 TEST_F(SetRelayWorkerTest, VersionLongArg)
 {
     const char* argv[] = {"", "--version"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -105,7 +100,7 @@ TEST_F(SetRelayWorkerTest, VersionLongArg)
 TEST_F(SetRelayWorkerTest, HelpShortArg)
 {
     const char* argv[] = {"", "-h"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -124,7 +119,7 @@ TEST_F(SetRelayWorkerTest, HelpShortArg)
 TEST_F(SetRelayWorkerTest, HelpLongArg)
 {
     const char* argv[] = {"", "--help"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -143,7 +138,7 @@ TEST_F(SetRelayWorkerTest, HelpLongArg)
 TEST_F(SetRelayWorkerTest, BadArg)
 {
     const char* argv[] = {"", "--h"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -162,7 +157,7 @@ TEST_F(SetRelayWorkerTest, BadArg)
 TEST_F(SetRelayWorkerTest, WrongArgUsage1)
 {
     const char* argv[] = {"", "--bla"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -181,7 +176,7 @@ TEST_F(SetRelayWorkerTest, WrongArgUsage1)
 TEST_F(SetRelayWorkerTest, WrongArgUsage2)
 {
     const char* argv[] = {"", "--version --help"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -200,7 +195,7 @@ TEST_F(SetRelayWorkerTest, WrongArgUsage2)
 TEST_F(SetRelayWorkerTest, WrongArgUsage3)
 {
     const char* argv[] = {"", "-vh"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -219,7 +214,7 @@ TEST_F(SetRelayWorkerTest, WrongArgUsage3)
 TEST_F(SetRelayWorkerTest, NoArgsNoModules)
 {
     const char* argv[] = {""};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -238,7 +233,7 @@ TEST_F(SetRelayWorkerTest, NoArgsNoModules)
 TEST_F(SetRelayWorkerTest, SetExistingChannelToValidValue)
 {
     const char* argv[] = {"", "module2_1=0"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};
@@ -277,7 +272,7 @@ TEST_F(SetRelayWorkerTest, SetExistingChannelToValidValue)
 TEST_F(SetRelayWorkerTest, SetExistingChannelToUnvalidValue)
 {
     const char* argv[] = {"", "module2_1=3"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -306,7 +301,7 @@ TEST_F(SetRelayWorkerTest, SetExistingChannelToUnvalidValue)
 TEST_F(SetRelayWorkerTest, SetUnexistingChannelToValidValue)
 {
     const char* argv[] = {"", "module2_3=0"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};
@@ -349,7 +344,7 @@ TEST_F(SetRelayWorkerTest, SetUnexistingChannelToValidValue)
 TEST_F(SetRelayWorkerTest, SetChannel0ToValidValue)
 {
     const char* argv[] = {"", "module2_0=0"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
 
     // Mocking
     EXPECT_CALL(*relay_manager_, GetModules()).Times(0);
@@ -378,7 +373,7 @@ TEST_F(SetRelayWorkerTest, SetChannel0ToValidValue)
 TEST_F(SetRelayWorkerTest, RenameModule)
 {
     const char* argv[] = {"", "module2=module2_new"};
-    int argc = arraySize(argv);
+    int argc = ARRAY_SIZE(argv);
     std::string module1_name{"module1"};
     std::vector<bool> module1_channels{0, 1};
     std::string module2_name{"module2"};

@@ -40,7 +40,6 @@ set(LOGGER_BUILD_HEADER_LIB ON CACHE BOOL "Build the header only library")
 
 add_subdirectory(external)
 add_subdirectory(config)
-add_subdirectory(utils)
 add_subdirectory(libusbrelaymodule)
 add_subdirectory(app-cli)
 if(${PROJECT_NAME}_BUILD_GUI)

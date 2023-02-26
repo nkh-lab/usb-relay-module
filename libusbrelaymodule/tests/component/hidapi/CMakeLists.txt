@@ -21,7 +21,7 @@ add_executable(GetAnyHidDeviceInfoTest
 
 target_link_libraries(GetAnyHidDeviceInfoTest
     hidapi::hidapi
-    libusbrelaymodule-utils
+    libcpputils
     )
 
 add_executable(GetModuleInfoAndRelaysStateTest
@@ -31,17 +31,17 @@ add_executable(GetModuleInfoAndRelaysStateTest
 
 target_link_libraries(GetModuleInfoAndRelaysStateTest
     hidapi::hidapi
-    libusbrelaymodule-utils
+    libcpputils
     )
 
 add_executable(SetRelayStateTest SetRelayStateTest.cpp)
 target_link_libraries(SetRelayStateTest
     hidapi::hidapi
-    libusbrelaymodule-utils
+    libcpputils
     )
 
 add_executable(SetModuleNameTest SetModuleNameTest.cpp)
 target_link_libraries(SetModuleNameTest
     hidapi::hidapi
-    libusbrelaymodule-utils
+    libcpputils
     )

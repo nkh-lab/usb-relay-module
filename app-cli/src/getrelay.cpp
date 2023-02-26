@@ -11,13 +11,13 @@
 
 #include <iostream>
 
-#include "FileHelper.h"
 #include "GetRelayWorker.h"
 #include "RelayManager.h"
+#include "cpp-utils/FileHelper.h"
 
 using namespace nkhlab::usbrelaymodule;
 using namespace nkhlab::usbrelaymodule::appcli;
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 int main(int argc, const char* argv[])
 {

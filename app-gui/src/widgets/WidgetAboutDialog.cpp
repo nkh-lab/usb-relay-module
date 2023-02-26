@@ -14,12 +14,12 @@
 #include <wx/hyperlink.h>
 
 #include "Config.h"
-#include "Macros.h"
-#include "StringHelper.h"
+#include "cpp-utils/Macros.h"
+#include "cpp-utils/StringHelper.h"
 #include "nkh-lab/logger.hpp"
 #include "widgets/WidgetHelper.h"
 
-using namespace nkhlab::usbrelaymodule::utils;
+using namespace nkhlab::cpputils;
 
 namespace nkhlab {
 namespace usbrelaymodule {

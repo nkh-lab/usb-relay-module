@@ -26,7 +26,7 @@ add_executable(getrelay
     )
 
 target_link_libraries(getrelay
-    libusbrelaymodule-utils
+    libcpputils
     libusbrelaymodule-config
     libusbrelaymodule
     liblightargparser
@@ -39,7 +39,7 @@ add_executable(setrelay
     )
 
 target_link_libraries(setrelay
-    libusbrelaymodule-utils
+    libcpputils
     libusbrelaymodule-config
     libusbrelaymodule
     liblightargparser

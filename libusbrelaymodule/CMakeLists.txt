@@ -42,7 +42,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE hidapi::hidapi
-    PRIVATE libusbrelaymodule-utils
+    PRIVATE libcpputils
     PRIVATE ${SIMU_LIBS}
     )
 

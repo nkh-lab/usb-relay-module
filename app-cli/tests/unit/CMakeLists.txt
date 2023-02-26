@@ -29,7 +29,7 @@ target_link_libraries(${PROJECT_NAME}-unit-tests
     liblightargparser
     libusbrelaymodule
     libusbrelaymodule-mock
-    libusbrelaymodule-utils
+    libcpputils
     libusbrelaymodule-config
     )
 

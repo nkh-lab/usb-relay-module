@@ -10,7 +10,7 @@
  */
 
 #include "MainWindow.h"
-#include "Macros.h"
+#include "cpp-utils/Macros.h"
 #include "nkh-lab/logger.hpp"
 #include "widgets/WidgetAboutDialog.h"
 
