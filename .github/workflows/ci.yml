@@ -22,7 +22,7 @@ jobs:
           make
       - name: Build with Tests
         run: |
-          rm -rf *
+          cd build && rm -rf *
           cmake -Dusbrelaymodule_BUILD_GUI=ON -Dusbrelaymodule_BUILD_UTESTS=ON -Dusbrelaymodule_BUILD_CTESTS=ON ..
           make
       - name: Run Unit Tests
