@@ -70,4 +70,4 @@ target_link_libraries(${APP_GUI_NAME}
     PRIVATE jsoncpp_lib
     )
 
-#add_subdirectory(tests)
+add_subdirectory(tests)

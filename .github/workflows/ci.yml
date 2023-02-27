@@ -15,14 +15,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libudev-dev libgtest-dev libgmock-dev libwxgtk3.0-gtk3-dev
-      - name: Build with Tests
+      - name: Build
         run: |
           mkdir build && cd build
-          cmake -Dusbrelaymodule_BUILD_UTESTS=on -Dusbrelaymodule_BUILD_CTESTS=on ..
+          cmake ..
+          make
+      - name: Build with Tests
+        run: |
+          rm -rf *
+          cmake -Dusbrelaymodule_BUILD_GUI=ON -Dusbrelaymodule_BUILD_UTESTS=ON -Dusbrelaymodule_BUILD_CTESTS=ON ..
           make
       - name: Run Unit Tests
         run: |
-          build/app-cli/tests/unit/app-cli-unit-tests
+          build/app-cli/tests/unit/app-cli-unit-tests --gtest_repeat=10
+          build/app-gui/tests/unit/app-gui-unit-tests --gtest_repeat=10
       - name: Run Component Tests
         run: |
           build/libusbrelaymodule/tests/component/hidapi/GetAnyHidDeviceInfoTest

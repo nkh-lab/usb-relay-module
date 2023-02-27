@@ -24,11 +24,27 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
+constexpr int kAppMinSizeW = 250;
+constexpr int kAppMinSizeH = 300;
+
+constexpr char kJsonKeyAppStartPos[] = "appStartPosition";
+constexpr char kJsonKeyAppStartSize[] = "appStartSize";
+constexpr char kJsonKeyAppMinSize[] = "appMinSize";
+constexpr char kJsonKeyHideAllChannelsPage[] = "hideAllChannelsPage";
+constexpr char kJsonKeyAliasColors[] = "aliasColors";
+constexpr char kJsonKeyAliasPages[] = "aliasPages";
+constexpr char kJsonKeyAliasPageName[] = "name";
+constexpr char kJsonKeyAliasChannels[] = "channels";
+
 class AppGuiConfig
 {
 public:
+    AppGuiConfig();
     AppGuiConfig(const std::string& config_file);
     ~AppGuiConfig();
+
+    void ReadConfigFromJsonStr(const std::string& str);
+    std::string WriteConfigToJsonStr();
 
     const wxSize& GetAppStartSize();
     const wxSize& GetAppMinSize();

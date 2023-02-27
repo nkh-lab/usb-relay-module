@@ -21,17 +21,17 @@ namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
 
-constexpr int kAppMinSizeW = 250;
-constexpr int kAppMinSizeH = 300;
+AppGuiConfig::AppGuiConfig()
+    : config_file_{}
+    , app_start_pos_{wxDefaultPosition}
+    , app_start_size_{wxDefaultSize}
+    , app_min_size_{kAppMinSizeW, kAppMinSizeH}
+    , is_hide_all_channels_page_{false}
+{
+    LOG_FNC;
 
-constexpr char kJsonKeyAppStartPos[] = "appStartPosition";
-constexpr char kJsonKeyAppStartSize[] = "appStartSize";
-constexpr char kJsonKeyAppMinSize[] = "appMinSize";
-constexpr char kJsonKeyHideAllChannelsPage[] = "hideAllChannelsPage";
-constexpr char kJsonKeyAliasColors[] = "aliasColors";
-constexpr char kJsonKeyAliasPages[] = "aliasPages";
-constexpr char kJsonKeyAliasPageName[] = "name";
-constexpr char kJsonKeyAliasChannels[] = "channels";
+    BuildAliasExample();
+}
 
 AppGuiConfig::AppGuiConfig(const std::string& config_file)
     : config_file_{config_file}
@@ -43,15 +43,44 @@ AppGuiConfig::AppGuiConfig(const std::string& config_file)
     LOG_FNC;
 
     if (FileHelper::ExistFile(config_file_))
-        ReadConfigFromFile();
+        ReadConfigFromJsonStr(FileHelper::ReadFile(config_file_).str());
     else
         BuildAliasExample();
+}
+
+void AppGuiConfig::ReadConfigFromJsonStr(const std::string& str)
+{
+    LOG_FNC;
+
+    Json::Value jroot;
+    Json::Reader jreader;
+
+    bool parsed = jreader.parse(str, jroot);
+
+    if (parsed)
+    {
+        JsonToGeneralSettings(jroot);
+        JsonToAliasSettings(jroot);
+    }
+}
+
+std::string AppGuiConfig::WriteConfigToJsonStr()
+{
+    LOG_FNC;
+
+    Json::Value jroot;
+
+    GeneralSettingsToJson(jroot);
+    AliasSettingsToJson(jroot);
+
+    return Json::StyledWriter().write(jroot);
 }
 
 AppGuiConfig::~AppGuiConfig()
 {
     LOG_FNC;
-    WriteConfigToFile();
+
+    if (!config_file_.empty()) FileHelper::WriteFile(config_file_, WriteConfigToJsonStr());
 }
 
 const wxSize& AppGuiConfig::GetAppStartSize()
@@ -168,25 +197,69 @@ void AppGuiConfig::ReadConfigFromFile()
 
 void AppGuiConfig::JsonToGeneralSettings(const Json::Value& jroot)
 {
-    int x, y, w, h;
+    if (jroot.isMember(kJsonKeyAppStartPos) && jroot[kJsonKeyAppStartPos].size() == 2)
+    {
+        try
+        {
+            int x, y;
+            x = jroot[kJsonKeyAppStartPos][0].asInt();
+            y = jroot[kJsonKeyAppStartPos][1].asInt();
+            app_start_pos_ = {x, y};
+        }
+        catch (const std::exception& e)
+        {
+            LOG_ERR << e.what() << '\n';
+        }
+    }
 
-    x = jroot[kJsonKeyAppStartPos][0].asInt();
-    y = jroot[kJsonKeyAppStartPos][1].asInt();
-    app_start_pos_ = {x, y};
+    if (jroot.isMember(kJsonKeyAppStartSize) && jroot[kJsonKeyAppStartSize].size() == 2)
+    {
+        try
+        {
+            int w, h;
+            w = jroot[kJsonKeyAppStartSize][0].asInt();
+            h = jroot[kJsonKeyAppStartSize][1].asInt();
+            app_start_size_ = {w, h};
+        }
+        catch (const std::exception& e)
+        {
+            LOG_ERR << e.what() << '\n';
+        }
+    }
 
-    w = jroot[kJsonKeyAppStartSize][0].asInt();
-    h = jroot[kJsonKeyAppStartSize][1].asInt();
-    app_start_size_ = {w, h};
+    if (jroot.isMember(kJsonKeyAppMinSize) && jroot[kJsonKeyAppMinSize].size() == 2)
+    {
+        try
+        {
+            int w, h;
+            w = jroot[kJsonKeyAppMinSize][0].asInt();
+            h = jroot[kJsonKeyAppMinSize][1].asInt();
+            app_min_size_ = {w, h};
+        }
+        catch (const std::exception& e)
+        {
+            LOG_ERR << e.what() << '\n';
+        }
+    }
 
-    w = jroot[kJsonKeyAppMinSize][0].asInt();
-    h = jroot[kJsonKeyAppMinSize][1].asInt();
-    app_min_size_ = {w, h};
-
-    is_hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
+    if (jroot.isMember(kJsonKeyHideAllChannelsPage))
+    {
+        try
+        {
+            is_hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
+        }
+        catch (const std::exception& e)
+        {
+            LOG_ERR << e.what() << '\n';
+        }
+    }
 }
 
 void AppGuiConfig::JsonToAliasSettings(const Json::Value& jroot)
 {
+    alias_colors_.clear();
+    alias_pages_.clear();
+
     for (const std::string& k : jroot[kJsonKeyAliasColors].getMemberNames())
     {
         const Json::Value& v = jroot[kJsonKeyAliasColors][k];

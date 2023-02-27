@@ -39,6 +39,15 @@
             "program": "${workspaceFolder}/build/app-cli/tests/unit/app-cli-unit-tests",
             "cwd": "${workspaceFolder}/build/app-cli/tests/unit/",
             "externalConsole": false
+        },
+
+        {
+            "name": "app-gui-unit-tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/app-gui/tests/unit/app-gui-unit-tests",
+            "cwd": "${workspaceFolder}/build/app-gui/tests/unit/",
+            "externalConsole": false
         }
     ]
 }
