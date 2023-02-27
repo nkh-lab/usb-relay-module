@@ -12,8 +12,10 @@
 #include <gtest/gtest.h>
 
 #include "AppGuiConfig.h"
+#include "cpp-utils/StringHelper.h"
 
 using namespace nkhlab::usbrelaymodule::appgui;
+using namespace nkhlab::cpputils;
 
 TEST(AppGuiConfigTest, HideAllChannelsPageEmpty)
 {
@@ -26,24 +28,27 @@ TEST(AppGuiConfigTest, HideAllChannelsPageEmpty)
 TEST(AppGuiConfigTest, HideAllChannelsPageFalse)
 {
     AppGuiConfig cfg;
+    std::string js = StringHelper::Sprintf(R"({"%s" : false})", kJsonKeyHideAllChannelsPage);
 
-    cfg.ReadConfigFromJsonStr(R"({"hideAllChannelsPage" : false})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_FALSE(cfg.IsHideAllChannelsPage());
 }
 
 TEST(AppGuiConfigTest, HideAllChannelsPageTrue)
 {
     AppGuiConfig cfg;
+    std::string js = StringHelper::Sprintf(R"({"%s" : true})", kJsonKeyHideAllChannelsPage);
 
-    cfg.ReadConfigFromJsonStr(R"({"hideAllChannelsPage" : true})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_TRUE(cfg.IsHideAllChannelsPage());
 }
 
 TEST(AppGuiConfigTest, HideAllChannelsPageException)
 {
     AppGuiConfig cfg;
+    std::string js = StringHelper::Sprintf(R"({"%s" : "exception"})", kJsonKeyHideAllChannelsPage);
 
-    cfg.ReadConfigFromJsonStr(R"({"hideAllChannelsPage" : "exception"})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_FALSE(cfg.IsHideAllChannelsPage());
 }
 
@@ -59,18 +64,20 @@ TEST(AppGuiConfigTest, AppStartSizeEmpty)
 TEST(AppGuiConfigTest, AppStartSizePositive)
 {
     AppGuiConfig cfg;
+    int w = 250, h = 300;
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, %d ]})", kJsonKeyAppStartSize, w, h);
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartSize" : [ 250, 300 ]})");
-    EXPECT_EQ(250, cfg.GetAppStartSize().GetWidth());
-    EXPECT_EQ(300, cfg.GetAppStartSize().GetHeight());
-    ;
+    cfg.ReadConfigFromJsonStr(js);
+    EXPECT_EQ(w, cfg.GetAppStartSize().GetWidth());
+    EXPECT_EQ(h, cfg.GetAppStartSize().GetHeight());
 }
 
 TEST(AppGuiConfigTest, AppStartSizeNegative1)
 {
     AppGuiConfig cfg;
+    int w = 250;
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartSize" : [ 300 ]})");
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d ]})", kJsonKeyAppStartSize, w);
     EXPECT_EQ(wxDefaultSize.GetWidth(), cfg.GetAppStartSize().GetWidth());
     EXPECT_EQ(wxDefaultSize.GetHeight(), cfg.GetAppStartSize().GetHeight());
 }
@@ -78,8 +85,10 @@ TEST(AppGuiConfigTest, AppStartSizeNegative1)
 TEST(AppGuiConfigTest, AppStartSizeNegative3)
 {
     AppGuiConfig cfg;
+    int w = 250, h = 300, z = 400;
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartSize" : [ 250, 300, 400 ]})");
+    std::string js =
+        StringHelper::Sprintf(R"({"%s" : [ %d, %d, %d ]})", kJsonKeyAppStartSize, w, h, z);
     EXPECT_EQ(wxDefaultSize.GetWidth(), cfg.GetAppStartSize().GetWidth());
     EXPECT_EQ(wxDefaultSize.GetHeight(), cfg.GetAppStartSize().GetHeight());
 }
@@ -87,8 +96,9 @@ TEST(AppGuiConfigTest, AppStartSizeNegative3)
 TEST(AppGuiConfigTest, AppStartSizeException)
 {
     AppGuiConfig cfg;
+    int w = 250;
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartSize" : [ 250, "exception" ]})");
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, "exception" ]})", kJsonKeyAppStartSize, w);
     EXPECT_EQ(wxDefaultSize.GetWidth(), cfg.GetAppStartSize().GetWidth());
     EXPECT_EQ(wxDefaultSize.GetHeight(), cfg.GetAppStartSize().GetHeight());
 }
@@ -105,18 +115,21 @@ TEST(AppGuiConfigTest, AppMinSizeEmpty)
 TEST(AppGuiConfigTest, AppMinSizePositive)
 {
     AppGuiConfig cfg;
+    int w = 250, h = 300;
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, %d ]})", kJsonKeyAppMinSize, w, h);
 
-    cfg.ReadConfigFromJsonStr(R"({"appMinSize" : [ 250, 300 ]})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_EQ(250, cfg.GetAppMinSize().GetWidth());
     EXPECT_EQ(300, cfg.GetAppMinSize().GetHeight());
-    ;
 }
 
 TEST(AppGuiConfigTest, AppMinSizeNegative1)
 {
     AppGuiConfig cfg;
+    int w = 250;
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d ]})", kJsonKeyAppMinSize, w);
 
-    cfg.ReadConfigFromJsonStr(R"({"appMinSize" : [ 300 ]})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_EQ(kAppMinSizeW, cfg.GetAppMinSize().GetWidth());
     EXPECT_EQ(kAppMinSizeH, cfg.GetAppMinSize().GetHeight());
 }
@@ -124,8 +137,9 @@ TEST(AppGuiConfigTest, AppMinSizeNegative1)
 TEST(AppGuiConfigTest, AppMinSizeNegative3)
 {
     AppGuiConfig cfg;
+    int w = 250, h = 300, z = 400;
 
-    cfg.ReadConfigFromJsonStr(R"({"appMinSize" : [ 250, 300, 400 ]})");
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, %d, %d ]})", kJsonKeyAppMinSize, w, h, z);
     EXPECT_EQ(kAppMinSizeW, cfg.GetAppMinSize().GetWidth());
     EXPECT_EQ(kAppMinSizeH, cfg.GetAppMinSize().GetHeight());
 }
@@ -133,8 +147,9 @@ TEST(AppGuiConfigTest, AppMinSizeNegative3)
 TEST(AppGuiConfigTest, AppMinSizeException)
 {
     AppGuiConfig cfg;
+    int w = 250;
 
-    cfg.ReadConfigFromJsonStr(R"({"appMinSize" : [ 250, "exception" ]})");
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, "exception" ]})", kJsonKeyAppMinSize, w);
     EXPECT_EQ(kAppMinSizeW, cfg.GetAppMinSize().GetWidth());
     EXPECT_EQ(kAppMinSizeH, cfg.GetAppMinSize().GetHeight());
 }
@@ -151,18 +166,21 @@ TEST(AppGuiConfigTest, AppStartPositionEmpty)
 TEST(AppGuiConfigTest, AppStartPositionPositive)
 {
     AppGuiConfig cfg;
+    int x = 250, y = 300;
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, %d ]})", kJsonKeyAppStartPos, x, y);
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartPosition" : [ 250, 300 ]})");
-    EXPECT_EQ(250, cfg.GetAppStartPosition().x);
-    EXPECT_EQ(300, cfg.GetAppStartPosition().y);
-    ;
+    cfg.ReadConfigFromJsonStr(js);
+    EXPECT_EQ(x, cfg.GetAppStartPosition().x);
+    EXPECT_EQ(y, cfg.GetAppStartPosition().y);
 }
 
 TEST(AppGuiConfigTest, AppStartPositionNegative1)
 {
     AppGuiConfig cfg;
+    int x = 250;
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d ]})", kJsonKeyAppStartPos, x);
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartPosition" : [ 300 ]})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_EQ(wxDefaultPosition.x, cfg.GetAppStartPosition().x);
     EXPECT_EQ(wxDefaultPosition.y, cfg.GetAppStartPosition().y);
 }
@@ -170,8 +188,10 @@ TEST(AppGuiConfigTest, AppStartPositionNegative1)
 TEST(AppGuiConfigTest, AppStartPositionNegative3)
 {
     AppGuiConfig cfg;
+    int x = 250, y = 300, z = 400;
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, %d, %d ]})", kJsonKeyAppStartPos, x, y, z);
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartPosition" : [ 250, 300, 400 ]})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_EQ(wxDefaultPosition.x, cfg.GetAppStartPosition().x);
     EXPECT_EQ(wxDefaultPosition.y, cfg.GetAppStartPosition().y);
 }
@@ -179,8 +199,10 @@ TEST(AppGuiConfigTest, AppStartPositionNegative3)
 TEST(AppGuiConfigTest, AppStartPositionException)
 {
     AppGuiConfig cfg;
+    int x = 250;
+    std::string js = StringHelper::Sprintf(R"({"%s" : [ %d, "exception" ]})", kJsonKeyAppStartPos, x);
 
-    cfg.ReadConfigFromJsonStr(R"({"appStartPosition" : [ 250, "exception" ]})");
+    cfg.ReadConfigFromJsonStr(js);
     EXPECT_EQ(wxDefaultPosition.x, cfg.GetAppStartPosition().x);
     EXPECT_EQ(wxDefaultPosition.y, cfg.GetAppStartPosition().y);
 }
