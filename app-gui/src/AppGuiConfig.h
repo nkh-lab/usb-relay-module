@@ -43,7 +43,7 @@ public:
     AppGuiConfig(const std::string& config_file);
     ~AppGuiConfig();
 
-    void ReadConfigFromJsonStr(const std::string& str);
+    bool ReadConfigFromJsonStr(const std::string& str);
     std::string WriteConfigToJsonStr();
 
     const wxSize& GetAppStartSize();

@@ -48,9 +48,11 @@ AppGuiConfig::AppGuiConfig(const std::string& config_file)
         BuildAliasExample();
 }
 
-void AppGuiConfig::ReadConfigFromJsonStr(const std::string& str)
+bool AppGuiConfig::ReadConfigFromJsonStr(const std::string& str)
 {
     LOG_FNC;
+
+    bool ret = true;
 
     Json::Value jroot;
     Json::Reader jreader;
@@ -62,6 +64,13 @@ void AppGuiConfig::ReadConfigFromJsonStr(const std::string& str)
         JsonToGeneralSettings(jroot);
         JsonToAliasSettings(jroot);
     }
+    else
+    {
+        ret = false;
+        LOG_ERR << jreader.getFormattedErrorMessages();
+    }
+
+    return ret;
 }
 
 std::string AppGuiConfig::WriteConfigToJsonStr()
@@ -260,37 +269,76 @@ void AppGuiConfig::JsonToAliasSettings(const Json::Value& jroot)
     alias_colors_.clear();
     alias_pages_.clear();
 
-    for (const std::string& k : jroot[kJsonKeyAliasColors].getMemberNames())
+    if (jroot.isMember(kJsonKeyAliasColors) && !jroot[kJsonKeyAliasColors].empty())
     {
-        const Json::Value& v = jroot[kJsonKeyAliasColors][k];
-        alias_colors_[k] = wxColor(v[0].asInt(), v[1].asInt(), v[2].asInt());
+        for (const std::string& k : jroot[kJsonKeyAliasColors].getMemberNames())
+        {
+            const Json::Value& v = jroot[kJsonKeyAliasColors][k];
 
-        LOG_DBG << StringHelper::Sprintf(
-            "color: %s, (%d, %d, %d)", k.c_str(), v[0].asInt(), v[1].asInt(), v[2].asInt());
+            if (v.size() == 3)
+            {
+                try
+                {
+                    alias_colors_[k] = wxColor(v[0].asInt(), v[1].asInt(), v[2].asInt());
+
+                    LOG_DBG << StringHelper::Sprintf(
+                        "color: %s, (%d, %d, %d)", k.c_str(), v[0].asInt(), v[1].asInt(), v[2].asInt());
+                }
+                catch (const std::exception& e)
+                {
+                    LOG_ERR << e.what() << '\n';
+                }
+            }
+        }
     }
 
-    for (const Json::Value& jp : jroot[kJsonKeyAliasPages])
+    if (!alias_colors_.empty())
     {
-        AliasPage p;
-        p.page_name = jp[kJsonKeyAliasPageName].asString();
-
-        for (const Json::Value& jc : jp[kJsonKeyAliasChannels])
+        for (const Json::Value& jp : jroot[kJsonKeyAliasPages])
         {
-            const std::string k = jc.getMemberNames()[0];
-            const Json::Value& v = jc[k];
+            if (jp.isMember(kJsonKeyAliasPageName))
+            {
+                try
+                {
+                    AliasPage p;
+                    p.page_name = jp[kJsonKeyAliasPageName].asString();
 
-            AliasChannel c;
-            c.text = v[0].asString();
-            std::string s_text = v[1].asString();
-            std::string s_color_name = v[2].asString();
-            c.state0 = {s_text, s_color_name, &alias_colors_[s_color_name]};
-            s_text = v[3].asString();
-            s_color_name = v[4].asString();
-            c.state1 = {s_text, s_color_name, &alias_colors_[s_color_name]};
+                    for (const Json::Value& jc : jp[kJsonKeyAliasChannels])
+                    {
+                        if (!jc.getMemberNames().empty())
+                        {
+                            const std::string k = jc.getMemberNames()[0];
+                            const Json::Value& v = jc[k];
 
-            p.channels.push_back(std::make_pair(k, c));
+                            if (v.size() == 5)
+                            {
+                                AliasChannel c;
+                                c.text = v[0].asString();
+                                std::string s_text = v[1].asString();
+                                std::string s_color_name = v[2].asString();
+
+                                if (alias_colors_.count(s_color_name) == 0) break;
+
+                                c.state0 = {s_text, s_color_name, &alias_colors_[s_color_name]};
+                                s_text = v[3].asString();
+                                s_color_name = v[4].asString();
+
+                                if (alias_colors_.count(s_color_name) == 0) break;
+
+                                c.state1 = {s_text, s_color_name, &alias_colors_[s_color_name]};
+
+                                p.channels.push_back(std::make_pair(k, c));
+                            }
+                        }
+                    }
+                    if (!p.channels.empty()) alias_pages_.push_back(p);
+                }
+                catch (const std::exception& e)
+                {
+                    LOG_ERR << e.what() << '\n';
+                }
+            }
         }
-        alias_pages_.push_back(p);
     }
 }
 
