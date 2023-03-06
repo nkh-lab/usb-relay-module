@@ -27,6 +27,7 @@ jobs:
           make
       - name: Run Unit Tests
         run: |
+          build/libusbrelaymodule/tests/unit/libusbrelaymodule-unit-tests --gtest_repeat=10
           build/app-cli/tests/unit/app-cli-unit-tests --gtest_repeat=10
           build/app-gui/tests/unit/app-gui-unit-tests --gtest_repeat=10
       - name: Run Component Tests

@@ -9,6 +9,29 @@
 # but WITHOUT ANY WARRANTY.
 #
 
+find_package(GTest REQUIRED)
+
+file(GLOB SRC_FILES
+    "*.cpp"
+    "../../src/simu/SimuJsonHelper.cpp"
+    libusbrelaymodule/src/simu/SimuJsonHelper.cpp
+    )
+
+add_executable(${PROJECT_NAME}-unit-tests
+    ${SRC_FILES}
+    )
+
+target_link_libraries(${PROJECT_NAME}-unit-tests
+    GTest::Main
+    gmock
+    libcpputils
+    jsoncpp_lib
+    )
+
+target_include_directories(${PROJECT_NAME}-unit-tests
+    PRIVATE "../../src"
+    )
+
 add_library(${PROJECT_NAME}-mock INTERFACE)
 
 target_include_directories(${PROJECT_NAME}-mock  INTERFACE

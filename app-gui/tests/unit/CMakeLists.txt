@@ -28,7 +28,6 @@ target_link_libraries(${PROJECT_NAME}-unit-tests
     libcpputils
     nkhlablogger
     jsoncpp_lib
-    libcpputils
     )
 
 target_include_directories(${PROJECT_NAME}-unit-tests

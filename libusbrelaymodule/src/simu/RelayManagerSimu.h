@@ -16,7 +16,7 @@
 
 #include "IRelayManager.h"
 #include "RelayModuleSimu.h"
-#include "SimuHelper.h"
+#include "SimuJsonHelper.h"
 #include "SynchronizedResource.h"
 #include "cpp-utils/FileHelper.h"
 #include "cpp-utils/StringHelper.h"
@@ -68,23 +68,21 @@ public:
         std::list<IRelayModulePtr> modules;
         simu_file_->GetLock();
         std::string file_path = simu_file_->GetResource();
-        std::fstream file(file_path, std::ios::in);
+        Json::Reader jreader;
         Json::Value jroot;
-        file >> jroot;
 
-        auto jmodules_size = jroot[simu::kJsonKeyModules].size();
+        bool parsed = jreader.parse(FileHelper::ReadFile(file_path).str(), jroot);
 
-        for (unsigned int i = 0; i < jmodules_size; ++i)
+        if (parsed)
         {
-            Json::Value& jmodule = jroot[simu::kJsonKeyModules][i];
-
-            auto jchannels_size = jmodule[simu::kJsonKeyChannels].size();
-            auto info = StringHelper::Sprintf(kModuleInfo, i + 1, jchannels_size);
-
-            modules.emplace_back(std::make_shared<RelayModuleSimu>(
-                simu_file_, info, jmodule[simu::kJsonKeyModuleName].asString()));
+            size_t i = 1;
+            for (const auto& p : simu::SimuJsonHelper::JsonToModules(jroot))
+            {
+                auto info = StringHelper::Sprintf(kModuleInfo, i, p.second.size());
+                modules.emplace_back(std::make_shared<RelayModuleSimu>(simu_file_, info, p.first));
+                ++i;
+            }
         }
-
         return modules;
     }
 
@@ -96,7 +94,8 @@ private:
 
         if (!FileHelper::ExistFile(file_path))
         {
-            FileHelper::WriteFile(file_path, Json::StyledWriter().write(simu::BuildJsonTemplate()));
+            FileHelper::WriteFile(
+                file_path, Json::StyledWriter().write(simu::SimuJsonHelper::BuildJsonTemplate()));
         }
     }
 

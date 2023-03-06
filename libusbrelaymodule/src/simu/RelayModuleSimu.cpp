@@ -13,7 +13,7 @@
 
 #include <json/json.h>
 
-#include "SimuHelper.h"
+#include "SimuJsonHelper.h"
 #include "cpp-utils/FileHelper.h"
 
 using namespace nkhlab::cpputils;
@@ -43,22 +43,22 @@ bool RelayModuleSimu::GetNameAndChannels(std::string& module_name, std::vector<b
 
     simu_file_->GetLock();
     std::string file_path = simu_file_->GetResource();
-    Json::Value jroot, jmodule;
-    unsigned int jmodule_idx;
-    FileHelper::ReadFile(file_path) >> jroot;
+    Json::Reader jreader;
+    Json::Value jroot;
 
-    if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
+    bool parsed = jreader.parse(FileHelper::ReadFile(file_path).str(), jroot);
+
+    if (parsed)
     {
-        module_name = jmodule[simu::kJsonKeyModuleName].asString();
-        auto channels_size = jmodule[simu::kJsonKeyChannels].size();
+        auto parsed_modules = simu::SimuJsonHelper::JsonToModules(jroot);
 
-        for (unsigned int i = 0; i < channels_size; ++i)
+        if (parsed_modules.count(name_))
         {
-            channels.emplace_back(
-                jmodule[simu::kJsonKeyChannels][i][simu::kJsonKeyChannelState].asBool());
-        }
+            module_name = name_;
+            channels = parsed_modules[name_];
 
-        ret = true;
+            ret = true;
+        }
     }
 
     return ret;
@@ -70,20 +70,18 @@ bool RelayModuleSimu::SetName(const std::string& name)
 
     simu_file_->GetLock();
     std::string file_path = simu_file_->GetResource();
-    Json::Value jroot, jmodule;
-    unsigned int jmodule_idx;
-    FileHelper::ReadFile(file_path) >> jroot;
+    Json::Reader jreader;
+    Json::Value jroot;
 
-    if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
+    bool parsed = jreader.parse(FileHelper::ReadFile(file_path).str(), jroot);
+
+    if (parsed)
     {
-        jmodule[simu::kJsonKeyModuleName] = name;
-        jroot[simu::kJsonKeyModules][jmodule_idx] = jmodule;
-
-        name_ = name;
-
-        FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
-
-        ret = true;
+        if (simu::SimuJsonHelper::ChangeModuleNameInJson(jroot, name, name_))
+        {
+            name_ = name;
+            ret = true;
+        }
     }
 
     return ret;
@@ -95,22 +93,16 @@ bool RelayModuleSimu::SetChannel(size_t channel, bool state)
 
     simu_file_->GetLock();
     std::string file_path = simu_file_->GetResource();
-    Json::Value jroot, jmodule, jchannel;
-    unsigned int jmodule_idx, jchannel_idx;
-    FileHelper::ReadFile(file_path) >> jroot;
+    Json::Reader jreader;
+    Json::Value jroot;
 
-    if (simu::GetModuleInRootJson(name_, jroot, jmodule, jmodule_idx))
+    bool parsed = jreader.parse(FileHelper::ReadFile(file_path).str(), jroot);
+
+    if (parsed)
     {
-        if (simu::GetChannelInModuleJson(
-                static_cast<unsigned int>(channel), jmodule, jchannel, jchannel_idx))
-        {
-            jchannel[simu::kJsonKeyChannelState] = state == true ? 1 : 0;
-            jroot[simu::kJsonKeyModules][jmodule_idx][simu::kJsonKeyChannels][jchannel_idx] = jchannel;
+        ret = simu::SimuJsonHelper::SetChannelStateInJson(jroot, name_, channel, state);
 
-            FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
-
-            ret = true;
-        }
+        FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
     }
 
     return ret;
