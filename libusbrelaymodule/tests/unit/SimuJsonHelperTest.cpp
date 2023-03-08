@@ -86,17 +86,17 @@ TEST(SimuJsonHelperTest, SetChannelStateInJson)
         EXPECT_FALSE(parsed_modules["R1"][0]);
         EXPECT_FALSE(parsed_modules["R1"][1]);
 
+        EXPECT_TRUE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 0, true));
         EXPECT_TRUE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 1, true));
-        EXPECT_TRUE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 2, true));
-        EXPECT_FALSE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 3, true));
+        EXPECT_FALSE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 2, true));
 
         parsed_modules = SimuJsonHelper::JsonToModules(jroot);
 
         EXPECT_TRUE(parsed_modules["R1"][0]);
         EXPECT_TRUE(parsed_modules["R1"][1]);
 
+        EXPECT_TRUE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 0, false));
         EXPECT_TRUE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 1, false));
-        EXPECT_TRUE(SimuJsonHelper::SetChannelStateInJson(jroot, "R1", 2, false));
 
         parsed_modules = SimuJsonHelper::JsonToModules(jroot);
 

@@ -86,14 +86,14 @@ bool SimuJsonHelper::ChangeModuleNameInJson(
 bool SimuJsonHelper::SetChannelStateInJson(
     Json::Value& jroot,
     const std::string& module,
-    size_t channel,
+    size_t channel_idx,
     bool state)
 {
     bool ret = false;
 
-    if (channel > 0 && jroot.isMember(module) && jroot[module].size() > channel - 1)
+    if (jroot.isMember(module) && jroot[module].size() > channel_idx)
     {
-        jroot[module][static_cast<int>(channel - 1)] = static_cast<int>(state);
+        jroot[module][static_cast<int>(channel_idx)] = static_cast<int>(state);
 
         ret = true;
     }

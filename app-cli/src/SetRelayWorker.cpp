@@ -65,7 +65,7 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
         else if (conf_args.size() == 0 && data_args.size() == 1)
         {
             std::string req_module{};
-            size_t req_channel = 0;
+            size_t req_channel = 0; // 0 = no, begins from 1, eg REL_1=1
 
             RelayManagerHelper::SplitChannelName(data_args.begin()->first, req_module, req_channel);
 
@@ -161,7 +161,7 @@ bool SetRelayWorker::SetChannel(const std::string& module, size_t channel, bool 
         {
             if (channel <= channels.size())
             {
-                ret = m->SetChannel(channel, state);
+                ret = m->SetChannel(channel - 1, state);
                 out.clear();
             }
             else

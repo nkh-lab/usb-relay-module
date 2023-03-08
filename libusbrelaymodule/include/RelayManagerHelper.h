@@ -22,6 +22,15 @@
 #define DLL_EXPORT __declspec(dllexport)
 #endif
 
+//
+// About the naming used:
+//
+// channel_name = <module>_<channel>, channel begins from 1
+// channel_idx  = channel - 1, begins from 0
+//
+// Example: channel_name = "R2_1" --> module = "R2", channel = 1, channel_idx = 0
+//
+
 namespace nkhlab {
 namespace usbrelaymodule {
 
@@ -39,14 +48,17 @@ public:
     };
 
     //
-    // channel - <module>_<channel_idx(from 1)>, e.g. "R2_1"
+    // channel_name - <module>_<channel(from 1)>, e.g. "R2_1"
     //
-    static SetChannelResult SetChannel(IRelayManager* relay_manager, const std::string& channel, bool state);
+    static SetChannelResult SetChannel(
+        IRelayManager* relay_manager,
+        const std::string& channel_name,
+        bool state);
 
     //
-    // channel - <module>_<channel_idx(from 1)>, e.g. "R2_1"
+    // channel_name - <module>_<channel(from 1)>, e.g. "R2_1"
     //
-    static void SplitChannelName(const std::string& channel, std::string& module, size_t& channel_idx);
+    static void SplitChannelName(const std::string& channel_name, std::string& module, size_t& channel);
 };
 
 } // namespace usbrelaymodule

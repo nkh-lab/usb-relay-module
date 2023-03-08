@@ -35,9 +35,9 @@ public:
     virtual bool SetName(const std::string& name) = 0;
 
     //
-    // channel - channel number starts from 1
+    // channel_idx - starts from 0
     //
-    virtual bool SetChannel(size_t channel, bool state) = 0;
+    virtual bool SetChannel(size_t channel_idx, bool state) = 0;
 };
 
 } // namespace usbrelaymodule

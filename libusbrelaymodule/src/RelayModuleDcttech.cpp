@@ -109,7 +109,7 @@ bool RelayModuleDcttech::SetName(const std::string& name)
     return ret;
 }
 
-bool RelayModuleDcttech::SetChannel(size_t channel, bool state)
+bool RelayModuleDcttech::SetChannel(size_t channel_idx, bool state)
 {
     bool ret = false;
 
@@ -120,7 +120,7 @@ bool RelayModuleDcttech::SetChannel(size_t channel, bool state)
         uint8_t data[kDataSizeBytes] = {0};
         data[0] = kReportIDSet;
         data[1] = state ? kCmdRelayOn : kCmdRelayOff;
-        data[2] = static_cast<uint8_t>(channel);
+        data[2] = static_cast<uint8_t>(channel_idx + 1);
 
         int hid_ret = hid_send_feature_report(handle, data, sizeof(data));
 

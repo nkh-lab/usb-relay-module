@@ -34,7 +34,7 @@ public:
     std::string GetInfo() override;
     bool GetNameAndChannels(std::string& module_name, std::vector<bool>& channels) override;
     bool SetName(const std::string& name) override;
-    bool SetChannel(size_t channel, bool state) override;
+    bool SetChannel(size_t channel_idx, bool state) override;
 
 private:
     std::shared_ptr<SynchronizedString> simu_file_;

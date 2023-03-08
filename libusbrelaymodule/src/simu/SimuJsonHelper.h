@@ -40,7 +40,11 @@ public:
         Json::Value& jroot,
         const std::string& old_module_name,
         const std::string& new_module_name);
-    static bool SetChannelStateInJson(Json::Value& jroot, const std::string& module, size_t channel, bool state);
+    static bool SetChannelStateInJson(
+        Json::Value& jroot,
+        const std::string& module,
+        size_t channel_idx,
+        bool state);
 };
 
 } // namespace simu

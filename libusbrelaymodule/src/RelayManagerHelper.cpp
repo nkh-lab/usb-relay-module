@@ -16,14 +16,14 @@ namespace usbrelaymodule {
 
 RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
     IRelayManager* relay_manager,
-    const std::string& channel,
+    const std::string& channel_name,
     bool state)
 {
     SetChannelResult ret = SetChannelResult::kNoRequestedModule;
     std::string req_module;
     size_t req_channel;
 
-    SplitChannelName(channel, req_module, req_channel);
+    SplitChannelName(channel_name, req_module, req_channel);
 
     auto modules = relay_manager->GetModules();
 
@@ -38,7 +38,8 @@ RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
         {
             if (req_channel > 0 && req_channel <= channels.size())
             {
-                if (!m->SetChannel(req_channel, state)) ret = SetChannelResult::kSetChannelError;
+                if (!m->SetChannel(req_channel - 1, state))
+                    ret = SetChannelResult::kSetChannelError;
             }
             else
                 ret = SetChannelResult::kNoRequestedChannel;
@@ -49,21 +50,21 @@ RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
     return ret;
 }
 
-void RelayManagerHelper::SplitChannelName(const std::string& channel, std::string& module, size_t& channel_idx)
+void RelayManagerHelper::SplitChannelName(const std::string& channel_name, std::string& module, size_t& channel)
 {
     const char* kModuleChannelDelimiter = "_";
 
-    size_t delimiter_pos = channel.find_first_of(kModuleChannelDelimiter);
+    size_t delimiter_pos = channel_name.find_first_of(kModuleChannelDelimiter);
 
     if (delimiter_pos != std::string::npos)
     {
-        module = channel.substr(0, delimiter_pos);
-        channel_idx = std::stoi(channel.substr(delimiter_pos + 1));
+        module = channel_name.substr(0, delimiter_pos);
+        channel = std::stoi(channel_name.substr(delimiter_pos + 1));
     }
     else
     {
-        module = channel;
-        channel_idx = 0;
+        module = channel_name;
+        channel = 0;
     }
 }
 

@@ -250,7 +250,7 @@ TEST_F(SetRelayWorkerTest, SetExistingChannelToValidValue)
         .Times(1)
         .WillOnce(DoAll(
             SetArgReferee<0>(module2_name), SetArgReferee<1>(module2_channels), Return(true)));
-    EXPECT_CALL(*module2_, SetChannel(1, false)).Times(1).WillOnce(Return(true));
+    EXPECT_CALL(*module2_, SetChannel(0, false)).Times(1).WillOnce(Return(true));
     //========
 
     SetRelayWorker worker(std::move(relay_manager_));
