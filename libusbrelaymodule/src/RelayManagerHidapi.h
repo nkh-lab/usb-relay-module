@@ -45,7 +45,8 @@ public:
         {
             size_t channels_size = 0;
             if (next->product_string)
-                static_cast<size_t>(atoi(&StringHelper::WstrToStr(next->product_string).back()));
+                channels_size =
+                    static_cast<size_t>(atoi(&StringHelper::WstrToStr(next->product_string).back()));
 
             modules.emplace_back(std::make_shared<RelayModuleDcttech>(
                 HidDeviceInfoToStr(next), next->path, channels_size));
