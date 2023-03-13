@@ -12,6 +12,7 @@
 #pragma once
 
 #include <list>
+#include <map>
 #include <memory>
 
 #include "IRelayManager.h"
@@ -56,9 +57,18 @@ public:
         bool state);
 
     //
-    // channel_name - <module>_<channel(from 1)>, e.g. "R2_1"
+    // channel_name - <module>_<channel(from 1)>, for example:
+    //      "R2_1"   --> module = "R2", channel = 1
+    //      "R2"     --> module = "R2", channel = 0
     //
     static void SplitChannelName(const std::string& channel_name, std::string& module, size_t& channel);
+
+    //
+    // returned pair:
+    //      std::string - channel_name, e.g. "R2_1"
+    //      bool        - state
+    //
+    static std::map<std::string, bool> GetAllChannels(IRelayManager* relay_manager);
 };
 
 } // namespace usbrelaymodule

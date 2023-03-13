@@ -11,10 +11,16 @@
 
 find_package(GTest REQUIRED)
 
+add_library(${PROJECT_NAME}-mock INTERFACE)
+
+target_include_directories(${PROJECT_NAME}-mock  INTERFACE
+    mock
+    )
+
 file(GLOB SRC_FILES
     "*.cpp"
     "../../src/simu/SimuJsonHelper.cpp"
-    libusbrelaymodule/src/simu/SimuJsonHelper.cpp
+    "../../src/RelayManagerHelper.cpp"
     )
 
 add_executable(${PROJECT_NAME}-unit-tests
@@ -26,14 +32,10 @@ target_link_libraries(${PROJECT_NAME}-unit-tests
     gmock
     libcpputils
     jsoncpp_lib
+    ${PROJECT_NAME}-mock
     )
 
 target_include_directories(${PROJECT_NAME}-unit-tests
     PRIVATE "../../src"
-    )
-
-add_library(${PROJECT_NAME}-mock INTERFACE)
-
-target_include_directories(${PROJECT_NAME}-mock  INTERFACE
-    mock
+    PRIVATE "../../include"
     )

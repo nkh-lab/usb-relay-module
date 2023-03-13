@@ -11,6 +11,10 @@
 
 #include "RelayManagerHelper.h"
 
+#include "cpp-utils/StringHelper.h"
+
+using namespace nkhlab::cpputils;
+
 namespace nkhlab {
 namespace usbrelaymodule {
 
@@ -38,7 +42,9 @@ RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
         {
             if (req_channel > 0 && req_channel <= channels.size())
             {
-                if (!m->SetChannel(req_channel - 1, state))
+                if (m->SetChannel(req_channel - 1, state))
+                    ret = SetChannelResult::kOk;
+                else
                     ret = SetChannelResult::kSetChannelError;
             }
             else
@@ -66,6 +72,28 @@ void RelayManagerHelper::SplitChannelName(const std::string& channel_name, std::
         module = channel_name;
         channel = 0;
     }
+}
+
+std::map<std::string, bool> RelayManagerHelper::GetAllChannels(IRelayManager* relay_manager)
+{
+    std::map<std::string, bool> all_cannels;
+    auto modules = relay_manager->GetModules();
+
+    for (const auto& m : modules)
+    {
+        std::string module_name;
+        std::vector<bool> channels;
+
+        m->GetNameAndChannels(module_name, channels);
+
+        for (size_t c = 0; c < channels.size(); ++c)
+        {
+            all_cannels.emplace(
+                StringHelper::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+        }
+    }
+
+    return all_cannels;
 }
 
 } // namespace usbrelaymodule
