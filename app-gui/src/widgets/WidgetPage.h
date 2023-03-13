@@ -12,8 +12,8 @@
 #pragma once
 
 #include <functional>
-#include <map>
 #include <mutex>
+#include <vector>
 
 #include <wx/wx.h>
 #include "WidgetChannel.h"
@@ -31,13 +31,13 @@ public:
     bool SetChannelState(const std::string& name, bool state);
     WidgetChannel* DoesChannelExist(const std::string& name);
     bool AddChannel(const std::string& name, bool state, AliasChannel* alias_channel = nullptr);
-    bool RemoveChannel(const std::string& name);
-
+    void RemoveAllChannels();
+    const std::vector<WidgetChannel*>& GetAllChannels() const;
     const std::string& GetName();
 
 private:
     std::string name_;
-    std::map<std::string, WidgetChannel*> channels_;
+    std::vector<WidgetChannel*> widget_channels_;
     ToggleChannelCb toggle_cb_;
     wxBoxSizer* sizer_;
 };

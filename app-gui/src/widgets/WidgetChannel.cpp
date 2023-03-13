@@ -11,6 +11,11 @@
 
 #include "WidgetChannel.h"
 
+#include "cpp-utils/StringHelper.h"
+#include "nkh-lab/logger.hpp"
+
+using namespace nkhlab::cpputils;
+
 namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
@@ -22,7 +27,10 @@ WidgetChannel::WidgetChannel(
     ToggleChannelCb toggle_cb,
     AliasChannel* alias)
     : wxPanel(parent, wxID_ANY)
+    , channel_name_{name}
 {
+    LOG_DBG << StringHelper::Sprintf("channel_name_: %s", channel_name_.c_str());
+
     label_ = new wxStaticText(this, wxID_ANY, alias ? alias->text : name);
     label_->SetMinSize(wxSize(100, -1)); // set width to 200 pixels
     button_ = new WidgetToggleButton(
@@ -52,6 +60,11 @@ void WidgetChannel::SetChannelState(bool state)
     {
         button_->SetState(state);
     }
+}
+
+const std::string& WidgetChannel::GetChannelName() const
+{
+    return channel_name_;
 }
 
 } // namespace appgui

@@ -33,9 +33,13 @@ public:
         bool state,
         ToggleChannelCb toggle_cb,
         AliasChannel* alias = nullptr);
+
     void SetChannelState(bool state);
 
+    const std::string& GetChannelName() const;
+
 private:
+    const std::string channel_name_;
     wxStaticText* label_;
     WidgetToggleButton* button_;
     ToggleChannelCb toggle_cb_;

@@ -44,8 +44,14 @@ private:
     void OnChannelToggled(const std::string& channel_name, bool state);
     void OnUpdateTimeout(wxTimerEvent& event);
     void OnMainWindowClose(wxCloseEvent& event);
-    WidgetPage* CreateAllChannelsPage(wxWindow* parent);
-    WidgetPage* CreateAliasPage(wxWindow* parent, const AliasPage& alias_page);
+    WidgetPage* CreateAllChannelsPage(wxWindow* parent, const std::map<std::string, bool>& channels);
+    WidgetPage* CreateAliasPage(
+        wxWindow* parent,
+        const AliasPage& alias_page,
+        const std::map<std::string, bool>& channels);
+    void AddChannelsToAllChannelsPage(WidgetPage* page, const std::map<std::string, bool>& channels);
+    bool UpdateAllChannelsPage(WidgetPage* page, const std::map<std::string, bool>& channels);
+    void UpdateAliasPage(WidgetPage* page, const std::map<std::string, bool>& channels);
 
     std::mutex mutex_;
     IRelayManagerPtr relay_manager_;

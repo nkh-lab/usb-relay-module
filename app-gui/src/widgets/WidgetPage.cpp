@@ -11,7 +11,12 @@
 
 #include "WidgetPage.h"
 
+#include <algorithm>
+
+#include "cpp-utils/StringHelper.h"
 #include "nkh-lab/logger.hpp"
+
+using namespace nkhlab::cpputils;
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -24,6 +29,7 @@ WidgetPage::WidgetPage(wxWindow* parent, const std::string& name, ToggleChannelC
     , sizer_{new wxBoxSizer(wxVERTICAL)}
 {
     LOG_FNC;
+
     this->SetSizer(sizer_);
 }
 
@@ -34,10 +40,9 @@ const std::string& WidgetPage::GetName()
 
 bool WidgetPage::SetChannelState(const std::string& name, bool state)
 {
-    bool ret = false;
-
     // LOG_FNC;
 
+    bool ret = false;
     WidgetChannel* channel = DoesChannelExist(name);
 
     if (channel)
@@ -51,17 +56,23 @@ bool WidgetPage::SetChannelState(const std::string& name, bool state)
 
 WidgetChannel* WidgetPage::DoesChannelExist(const std::string& name)
 {
-    auto search = channels_.find(name);
+    WidgetChannel* ret = nullptr;
 
-    if (search != channels_.end()) return search->second;
-    return nullptr;
+    auto it =
+        std::find_if(widget_channels_.begin(), widget_channels_.end(), [&](const WidgetChannel* wc) {
+            return wc->GetChannelName() == name;
+        });
+
+    if (it != widget_channels_.end()) ret = *it;
+
+    return ret;
 }
 
 bool WidgetPage::AddChannel(const std::string& name, bool state, AliasChannel* alias_channel)
 {
-    bool ret = false;
-
     LOG_FNC;
+
+    bool ret = false;
 
     if (!DoesChannelExist(name))
     {
@@ -78,7 +89,7 @@ bool WidgetPage::AddChannel(const std::string& name, bool state, AliasChannel* a
         sizer_->AddSpacer(10);
         sizer_->Add(widget);
 
-        channels_[name] = widget;
+        widget_channels_.push_back(widget);
         ret = true;
 
         this->SetSizerAndFit(sizer_);
@@ -87,11 +98,18 @@ bool WidgetPage::AddChannel(const std::string& name, bool state, AliasChannel* a
     return ret;
 }
 
-bool WidgetPage::RemoveChannel(const std::string& /*name*/)
+void WidgetPage::RemoveAllChannels()
 {
     LOG_FNC;
 
-    return true;
+    DestroyChildren();
+    sizer_->Clear();
+    widget_channels_.clear();
+}
+
+const std::vector<WidgetChannel*>& WidgetPage::GetAllChannels() const
+{
+    return widget_channels_;
 }
 
 } // namespace appgui

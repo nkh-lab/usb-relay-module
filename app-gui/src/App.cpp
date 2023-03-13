@@ -69,12 +69,14 @@ bool App::OnInit()
         auto page_parent = main_window_->GetPageParent();
         main_window_->Bind(wxEVT_CLOSE_WINDOW, &App::OnMainWindowClose, this);
 
+        auto channels = RelayManagerHelper::GetAllChannels(relay_manager_.get());
+
         if (!config_->IsHideAllChannelsPage())
-            main_window_->AddPage(CreateAllChannelsPage(page_parent));
+            main_window_->AddPage(CreateAllChannelsPage(page_parent, channels));
 
         for (auto p : config_->GetAliasPages())
         {
-            main_window_->AddPage(CreateAliasPage(page_parent, p));
+            main_window_->AddPage(CreateAliasPage(page_parent, p, channels));
         }
 
         main_window_->Show();
@@ -140,51 +142,52 @@ void App::OnUpdateTimeout(wxTimerEvent& event)
 
     std::lock_guard<std::mutex> lock(mutex_);
 
-    auto modules = relay_manager_->GetModules();
+    auto channels = RelayManagerHelper::GetAllChannels(relay_manager_.get());
 
-    for (auto m : modules)
+    for (const auto& p : main_window_->GetPages())
     {
-        std::string module_name;
-        std::vector<bool> channels;
-
-        m->GetNameAndChannels(module_name, channels);
-
-        for (size_t c = 0; c < channels.size(); ++c)
+        if (p == *main_window_->GetPages().cbegin() && !config_->IsHideAllChannelsPage())
         {
-            for (auto p : main_window_->GetPages())
+            if (!UpdateAllChannelsPage(p, channels))
             {
-                p->SetChannelState(
-                    StringHelper::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
+                p->RemoveAllChannels();
+                AddChannelsToAllChannelsPage(p, channels);
             }
         }
+        else
+            UpdateAliasPage(p, channels);
     }
 }
 
-WidgetPage* App::CreateAllChannelsPage(wxWindow* parent)
+WidgetPage* App::CreateAllChannelsPage(wxWindow* parent, const std::map<std::string, bool>& channels)
 {
+    LOG_FNC;
+
     WidgetPage* page =
         new WidgetPage(parent, "All channels", std::bind(&App::OnChannelToggled, this, _1, _2));
 
-    auto modules = relay_manager_->GetModules();
-
-    for (auto m : modules)
-    {
-        std::string module_name;
-        std::vector<bool> channels;
-
-        m->GetNameAndChannels(module_name, channels);
-
-        for (size_t c = 0; c < channels.size(); ++c)
-        {
-            page->AddChannel(StringHelper::Sprintf("%s_%d", module_name.c_str(), c + 1), channels[c]);
-        }
-    }
+    AddChannelsToAllChannelsPage(page, channels);
 
     return page;
 }
 
-WidgetPage* App::CreateAliasPage(wxWindow* parent, const AliasPage& alias_page)
+void App::AddChannelsToAllChannelsPage(WidgetPage* page, const std::map<std::string, bool>& channels)
 {
+    LOG_FNC;
+
+    for (const auto& c : channels)
+    {
+        page->AddChannel(c.first, c.second);
+    }
+}
+
+WidgetPage* App::CreateAliasPage(
+    wxWindow* parent,
+    const AliasPage& alias_page,
+    const std::map<std::string, bool>& channels)
+{
+    LOG_FNC;
+
     WidgetPage* page =
         new WidgetPage(parent, alias_page.page_name, std::bind(&App::OnChannelToggled, this, _1, _2));
 
@@ -193,7 +196,58 @@ WidgetPage* App::CreateAliasPage(wxWindow* parent, const AliasPage& alias_page)
         page->AddChannel(c.first, false, &c.second);
     }
 
+    UpdateAliasPage(page, channels);
+
     return page;
+}
+
+void App::UpdateAliasPage(WidgetPage* page, const std::map<std::string, bool>& channels)
+{
+    for (const auto& wc : page->GetAllChannels())
+    {
+        const auto& name = wc->GetChannelName();
+
+        if (channels.count(name))
+        {
+            wc->SetChannelState(channels.at(name));
+            wc->Enable(true);
+        }
+        else
+        {
+            wc->SetChannelState(false);
+            wc->Enable(false);
+        }
+    }
+}
+
+bool App::UpdateAllChannelsPage(WidgetPage* page, const std::map<std::string, bool>& channels)
+{
+    auto page_channel_size = page->GetAllChannels().size();
+    auto manager_channel_size = channels.size();
+
+    if (page_channel_size != manager_channel_size)
+    {
+        LOG_WRN << StringHelper::Sprintf(
+            "page_channel_size: %d != manager_channel_size: %d", page_channel_size, manager_channel_size);
+        return false;
+    }
+
+    for (const auto& wc : page->GetAllChannels())
+    {
+        const auto& name = wc->GetChannelName();
+
+        if (channels.count(name))
+        {
+            wc->SetChannelState(channels.at(name));
+        }
+        else
+        {
+            LOG_WRN << StringHelper::Sprintf("No '%s' found", name.c_str());
+            return false;
+        }
+    }
+
+    return true;
 }
 
 int App::OnExit()
