@@ -32,6 +32,7 @@ MainWindow::MainWindow(
     SetMinSize(min_size);
 
     BuildMenuBar();
+    BuildStatusBar();
 
     notebook_ = new wxNotebook(this, wxID_ANY);
 }
@@ -54,6 +55,29 @@ void MainWindow::BuildMenuBar()
     menu_bar->Append(help_menu, "Help");
 
     SetMenuBar(menu_bar);
+}
+
+void MainWindow::BuildStatusBar()
+{
+    wxStatusBar* status_bar = CreateStatusBar();
+    on_top_check_box_ = new wxCheckBox(status_bar, wxID_ANY, "Always on top");
+
+    on_top_check_box_->Bind(wxEVT_CHECKBOX, [&](wxCommandEvent& event) {
+        UNUSED(event);
+
+        long style = GetWindowStyleFlag();
+
+        if (on_top_check_box_->IsChecked())
+        {
+            SetWindowStyleFlag(style | wxSTAY_ON_TOP);
+        }
+        else
+        {
+            SetWindowStyleFlag(style & ~wxSTAY_ON_TOP);
+        }
+    });
+
+    SetStatusBar(status_bar);
 }
 
 wxWindow* MainWindow::GetPageParent()

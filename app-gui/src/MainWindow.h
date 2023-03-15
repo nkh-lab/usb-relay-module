@@ -38,9 +38,11 @@ public:
 
 private:
     void BuildMenuBar();
+    void BuildStatusBar();
 
     wxNotebook* notebook_;
     std::vector<WidgetPage*> pages_;
+    wxCheckBox* on_top_check_box_;
 };
 
 } // namespace appgui
