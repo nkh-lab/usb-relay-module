@@ -65,7 +65,8 @@ bool App::OnInit()
             "Relay Box",
             config_->GetAppStartPosition(),
             config_->GetAppStartSize(),
-            config_->GetAppMinSize());
+            config_->GetAppMinSize(),
+            config_->IsAppStayOnTop());
         auto page_parent = main_window_->GetPageParent();
         main_window_->Bind(wxEVT_CLOSE_WINDOW, &App::OnMainWindowClose, this);
 
@@ -120,6 +121,7 @@ void App::OnMainWindowClose(wxCloseEvent& event)
     auto rect = main_window_->GetRect();
     config_->SetAppStartPosition(rect.GetPosition());
     config_->SetAppStartSize(rect.GetSize());
+    config_->SetAppStayOnTop(main_window_->IsStayOnTopChecked());
 
     event.Skip(); // Allow the frame to close normally
 }

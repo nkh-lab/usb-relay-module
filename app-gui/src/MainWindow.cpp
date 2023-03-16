@@ -24,7 +24,8 @@ MainWindow::MainWindow(
     const wxString& title,
     const wxPoint& start_pos,
     const wxSize& start_size,
-    const wxSize& min_size)
+    const wxSize& min_size,
+    bool stay_on_top)
     : wxFrame(parent, id, title, start_pos, start_size, wxDEFAULT_FRAME_STYLE, wxFrameNameStr)
 {
     LOG_FNC;
@@ -32,9 +33,14 @@ MainWindow::MainWindow(
     SetMinSize(min_size);
 
     BuildMenuBar();
-    BuildStatusBar();
+    BuildStatusBar(stay_on_top);
 
     notebook_ = new wxNotebook(this, wxID_ANY);
+}
+
+MainWindow::~MainWindow()
+{
+    LOG_FNC;
 }
 
 void MainWindow::BuildMenuBar()
@@ -57,24 +63,18 @@ void MainWindow::BuildMenuBar()
     SetMenuBar(menu_bar);
 }
 
-void MainWindow::BuildStatusBar()
+void MainWindow::BuildStatusBar(bool stay_on_top)
 {
     wxStatusBar* status_bar = new wxStatusBar(this);
     on_top_check_box_ = new wxCheckBox(status_bar, wxID_ANY, "Stay on top");
 
+    on_top_check_box_->SetValue(stay_on_top);
+    StayOnTop(stay_on_top);
+
     on_top_check_box_->Bind(wxEVT_CHECKBOX, [&](wxCommandEvent& event) {
         UNUSED(event);
 
-        long style = GetWindowStyleFlag();
-
-        if (on_top_check_box_->IsChecked())
-        {
-            SetWindowStyleFlag(style | wxSTAY_ON_TOP);
-        }
-        else
-        {
-            SetWindowStyleFlag(style & ~wxSTAY_ON_TOP);
-        }
+        StayOnTop(on_top_check_box_->IsChecked());
     });
 
     wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -105,9 +105,23 @@ const std::vector<WidgetPage*>& MainWindow::GetPages()
     return pages_;
 }
 
-MainWindow::~MainWindow()
+void MainWindow::StayOnTop(bool stay)
 {
-    LOG_FNC;
+    long style = GetWindowStyleFlag();
+
+    if (stay)
+    {
+        SetWindowStyleFlag(style | wxSTAY_ON_TOP);
+    }
+    else
+    {
+        SetWindowStyleFlag(style & ~wxSTAY_ON_TOP);
+    }
+}
+
+bool MainWindow::IsStayOnTopChecked()
+{
+    return on_top_check_box_->IsChecked();
 }
 
 } // namespace appgui

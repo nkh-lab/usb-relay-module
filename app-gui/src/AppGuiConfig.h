@@ -30,6 +30,7 @@ constexpr int kAppMinSizeH = 300;
 constexpr char kJsonKeyAppStartPos[] = "appStartPosition";
 constexpr char kJsonKeyAppStartSize[] = "appStartSize";
 constexpr char kJsonKeyAppMinSize[] = "appMinSize";
+constexpr char kJsonKeyAppStayOnTop[] = "appStayOnTop";
 constexpr char kJsonKeyHideAllChannelsPage[] = "hideAllChannelsPage";
 constexpr char kJsonKeyAliasColors[] = "aliasColors";
 constexpr char kJsonKeyAliasPages[] = "aliasPages";
@@ -52,7 +53,8 @@ public:
 
     void SetAppStartSize(const wxSize& size);
     void SetAppStartPosition(const wxPoint& pos);
-
+    void SetAppStayOnTop(bool stay);
+    bool IsAppStayOnTop();
     bool IsHideAllChannelsPage();
     const std::vector<AliasPage>& GetAliasPages();
 
@@ -69,7 +71,8 @@ private:
     wxPoint app_start_pos_;
     wxSize app_start_size_;
     wxSize app_min_size_;
-    bool is_hide_all_channels_page_;
+    bool app_stay_on_top_;
+    bool hide_all_channels_page_;
     std::map<std::string, wxColor> alias_colors_;
     std::vector<AliasPage> alias_pages_;
 };

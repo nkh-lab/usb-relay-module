@@ -26,7 +26,7 @@ AppGuiConfig::AppGuiConfig()
     , app_start_pos_{wxDefaultPosition}
     , app_start_size_{wxDefaultSize}
     , app_min_size_{kAppMinSizeW, kAppMinSizeH}
-    , is_hide_all_channels_page_{false}
+    , hide_all_channels_page_{false}
 {
     LOG_FNC;
 
@@ -38,7 +38,8 @@ AppGuiConfig::AppGuiConfig(const std::string& config_file)
     , app_start_pos_{wxDefaultPosition}
     , app_start_size_{wxDefaultSize}
     , app_min_size_{kAppMinSizeW, kAppMinSizeH}
-    , is_hide_all_channels_page_{false}
+    , app_stay_on_top_{false}
+    , hide_all_channels_page_{false}
 {
     LOG_FNC;
 
@@ -121,9 +122,19 @@ void AppGuiConfig::SetAppStartPosition(const wxPoint& pos)
     app_start_pos_ = pos;
 }
 
+bool AppGuiConfig::IsAppStayOnTop()
+{
+    return app_stay_on_top_;
+}
+
+void AppGuiConfig::SetAppStayOnTop(bool stay)
+{
+    app_stay_on_top_ = stay;
+}
+
 bool AppGuiConfig::IsHideAllChannelsPage()
 {
-    return is_hide_all_channels_page_;
+    return hide_all_channels_page_;
 }
 
 const std::vector<AliasPage>& AppGuiConfig::GetAliasPages()
@@ -159,7 +170,8 @@ void AppGuiConfig::GeneralSettingsToJson(Json::Value& jroot)
     jvalue.append(app_min_size_.GetHeight());
     jroot[kJsonKeyAppMinSize] = jvalue;
 
-    jroot[kJsonKeyHideAllChannelsPage] = is_hide_all_channels_page_;
+    jroot[kJsonKeyAppStayOnTop] = app_stay_on_top_;
+    jroot[kJsonKeyHideAllChannelsPage] = hide_all_channels_page_;
 }
 
 void AppGuiConfig::AliasSettingsToJson(Json::Value& jroot)
@@ -251,11 +263,23 @@ void AppGuiConfig::JsonToGeneralSettings(const Json::Value& jroot)
         }
     }
 
+    if (jroot.isMember(kJsonKeyAppStayOnTop))
+    {
+        try
+        {
+            app_stay_on_top_ = jroot[kJsonKeyAppStayOnTop].asBool();
+        }
+        catch (const std::exception& e)
+        {
+            LOG_ERR << e.what() << '\n';
+        }
+    }
+
     if (jroot.isMember(kJsonKeyHideAllChannelsPage))
     {
         try
         {
-            is_hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
+            hide_all_channels_page_ = jroot[kJsonKeyHideAllChannelsPage].asBool();
         }
         catch (const std::exception& e)
         {

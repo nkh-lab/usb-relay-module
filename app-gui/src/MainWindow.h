@@ -29,16 +29,19 @@ public:
         const wxString& title,
         const wxPoint& start_pos,
         const wxSize& start_size,
-        const wxSize& min_size);
+        const wxSize& min_size,
+        bool stay_on_top);
     ~MainWindow();
 
     wxWindow* GetPageParent();
     void AddPage(WidgetPage* page);
     const std::vector<WidgetPage*>& GetPages();
+    bool IsStayOnTopChecked();
 
 private:
     void BuildMenuBar();
-    void BuildStatusBar();
+    void BuildStatusBar(bool stay_on_top);
+    void StayOnTop(bool stay);
 
     wxNotebook* notebook_;
     std::vector<WidgetPage*> pages_;

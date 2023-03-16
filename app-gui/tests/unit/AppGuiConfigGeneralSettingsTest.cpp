@@ -206,3 +206,29 @@ TEST(AppGuiConfigTest, AppStartPositionException)
     EXPECT_EQ(wxDefaultPosition.x, cfg.GetAppStartPosition().x);
     EXPECT_EQ(wxDefaultPosition.y, cfg.GetAppStartPosition().y);
 }
+
+TEST(AppGuiConfigTest, AppStayOnTopEmpty)
+{
+    AppGuiConfig cfg;
+
+    EXPECT_TRUE(cfg.ReadConfigFromJsonStr("{}"));
+    EXPECT_FALSE(cfg.IsAppStayOnTop());
+}
+
+TEST(AppGuiConfigTest, AppStayOnTopFalse)
+{
+    AppGuiConfig cfg;
+    std::string js = StringHelper::Sprintf(R"({"%s" : false})", kJsonKeyAppStayOnTop);
+
+    EXPECT_TRUE(cfg.ReadConfigFromJsonStr(js));
+    EXPECT_FALSE(cfg.IsAppStayOnTop());
+}
+
+TEST(AppGuiConfigTest, AppStayOnTopTrue)
+{
+    AppGuiConfig cfg;
+    std::string js = StringHelper::Sprintf(R"({"%s" : true})", kJsonKeyAppStayOnTop);
+
+    EXPECT_TRUE(cfg.ReadConfigFromJsonStr(js));
+    EXPECT_TRUE(cfg.IsAppStayOnTop());
+}
