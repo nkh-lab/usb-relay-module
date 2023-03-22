@@ -39,6 +39,7 @@ public:
     bool IsStayOnTopChecked();
 
 private:
+    void AddIcon();
     void BuildMenuBar();
     void BuildStatusBar(bool stay_on_top);
     void StayOnTop(bool stay);

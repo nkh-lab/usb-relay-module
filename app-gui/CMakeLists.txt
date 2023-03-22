@@ -11,6 +11,8 @@
 
 project(app-gui)
 
+add_subdirectory(res)
+
 if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     ### wxWidgets ###
     # Defines
@@ -62,6 +64,7 @@ target_include_directories(${APP_GUI_NAME}
     )
 
 target_link_libraries(${APP_GUI_NAME}
+    PRIVATE ${PROJECT_NAME}-res
     PRIVATE libcpputils
     PRIVATE ${wxWidgets_LIBRARIES}
     PRIVATE libusbrelaymodule

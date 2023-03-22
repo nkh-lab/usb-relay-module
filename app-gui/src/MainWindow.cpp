@@ -10,9 +10,18 @@
  */
 
 #include "MainWindow.h"
+
+#include <wx/mstream.h>
+
 #include "cpp-utils/Macros.h"
 #include "nkh-lab/logger.hpp"
 #include "widgets/WidgetAboutDialog.h"
+
+#ifdef __linux__
+// Load the icon data from the object file
+extern const char _binary_icon_png_start[];
+extern const char _binary_icon_png_end[];
+#endif
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -30,6 +39,8 @@ MainWindow::MainWindow(
 {
     LOG_FNC;
 
+    AddIcon();
+
     SetMinSize(min_size);
 
     BuildMenuBar();
@@ -41,6 +52,22 @@ MainWindow::MainWindow(
 MainWindow::~MainWindow()
 {
     LOG_FNC;
+}
+
+void MainWindow::AddIcon()
+{
+#ifdef __linux__
+    wxImage::AddHandler(new wxPNGHandler());
+
+    wxMemoryInputStream stream(_binary_icon_png_start, _binary_icon_png_end - _binary_icon_png_start);
+    wxImage png(stream, wxBITMAP_TYPE_PNG);
+    wxIcon icon;
+    icon.CopyFromBitmap(wxBitmap(png));
+#else
+    wxIcon icon = wxICON(IDI_APPLICATION);
+#endif
+
+    SetIcon(icon);
 }
 
 void MainWindow::BuildMenuBar()
