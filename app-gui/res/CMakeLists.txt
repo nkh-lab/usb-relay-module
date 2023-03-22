@@ -32,5 +32,5 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     target_link_libraries(${PROJECT_NAME}-res ${CMAKE_CURRENT_BINARY_DIR}/${ICON_OUTPUT_NAME})
 
 elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    add_library(${PROJECT_NAME}-res OBJECT resource.rc)
+    add_library(${PROJECT_NAME}-res OBJECT windows.rc)
 endif()
