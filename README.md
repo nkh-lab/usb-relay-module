@@ -1,7 +1,7 @@
 ## Intro
 Project to control USB relay modules based on HID technology.
 
-![](doc/pictures/usb-relay-module-example-view.jpg)
+![](doc/pictures/intro.png)
 
 ## CI Status
 [![CI](https://github.com/nkh-lab/usb-relay-module/actions/workflows/ci.yml/badge.svg)](https://github.com/nkh-lab/usb-relay-module/actions/workflows/ci.yml)
@@ -18,8 +18,12 @@ Clone submodule projects:
 git submodule update --init
 ```
 ## How to build
-### Linux
 
+The following describes how to build and use CLI applications: `getrelay` and `setrelay`.
+
+If you also want to use GUI application - `relaybox`, follow the [GUI Application](doc/GUI.md) guide.
+
+### Linux
 Install depedencies, e.g. for Ubuntu:
 ```
 sudo apt-get install libudev-dev
