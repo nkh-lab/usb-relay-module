@@ -17,9 +17,9 @@ namespace appcli {
 
 // clang-format off
 
-const char* TextUserInterface::kVersion = 
+const char* TextUserInterface::kVersion =
     "v%d.%d.%d\n"
-    "Copyright (C) 2022 https://github.com/nkh-lab\n"
+    "Copyright (C) 2023 https://github.com/nkh-lab\n"
     "This is free software under GPL-3.0 license.\n";
 
 const char* TextUserInterface::kGetRelayHelp =
