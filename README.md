@@ -84,7 +84,7 @@ channel_2:        0
 
 ## Troubleshooting and other documentation
 Troubleshooting documentation is available at:
-- [doc/Troubleshooting.md](doc/Troubleshooting.md)
+- [Troubleshooting](doc/Troubleshooting.md)
 
-And here is the start page of all available documentation:
-- [doc/README.md](doc/README.md).
+And here is the contents page of all available documentation:
+- [Contents](doc/Contents.md)

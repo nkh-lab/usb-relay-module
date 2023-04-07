@@ -4,7 +4,7 @@
 
 [GUI Application](GUI.md)
 
-[Troubleshooting](Troubleshooting)
+[Troubleshooting](Troubleshooting.md)
 
 [Tests](Tests.md)
 
