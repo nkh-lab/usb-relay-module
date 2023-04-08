@@ -9,7 +9,7 @@ make
 
 ## Using VSCode for debugging
 
-The project contains the appropriate configuration file [launch.json](.vscode/launch.json) to launch the debugger from VSCode.
+The project contains the appropriate configuration file [launch.json](../.vscode/launch.json) to launch the debugger from VSCode.
 
 ---
 Go to [Contents](Contents.md)
