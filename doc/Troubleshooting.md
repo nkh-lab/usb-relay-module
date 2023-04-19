@@ -53,5 +53,18 @@ sudo udevadm control --reload-rules
 
 In the [examples](examples) folder you can find an example of udev rules file [91-usbrelay.rules](examples/linux/udev/91-usbrelay.rules).
 
+## Corrupted module name
+**Issue:**
+
+The module name is corrupted and cannot be used for renaming.
+
+**Fix:**
+
+Leave only this module connected and use an empty name for renaming, for example:
+```
+./setrelay =R8
+```
+In this example, the first detetected module (in our case, only the one with the corrupted name) is renamed to "R8".
+
 ---
 Go to [Contents](Contents.md)

@@ -131,7 +131,7 @@ bool SetRelayWorker::RenameModule(const std::string& module, const std::string& 
 
         m->GetNameAndChannels(module_name, channels);
 
-        if (module_name == module)
+        if (module_name == module || module.empty())
         {
             ret = m->SetName(new_module);
             out.clear();

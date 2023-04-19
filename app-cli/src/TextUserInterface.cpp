@@ -37,7 +37,7 @@ const char* TextUserInterface::kGetRelayHelp =
 const char* TextUserInterface::kSetRelayHelp =
     "Usage:\n"
     "    <ModuleName>_<ChannelNumber>=<StateToSet>    Set the state 0 or 1 of the specified channel (numbering starts from 1)\n"
-    "    <ModuleName>=<NewModuleName>                 Rename module\n"
+    "    <ModuleName>=<NewModuleName>                 Rename module. If <ModuleName> is empty, will rename the first detected\n"
     "\n"
     "Service commands:\n"
     "    -h | --help                                  Display this help text\n"

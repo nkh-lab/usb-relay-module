@@ -408,3 +408,37 @@ TEST_F(SetRelayWorkerTest, RenameModule)
     EXPECT_TRUE(out.empty());
     EXPECT_TRUE(ret);
 }
+//
+// Should be renamed first detected
+//
+TEST_F(SetRelayWorkerTest, RenameModuleEmptyName)
+{
+    const char* argv[] = {"", "=module1_new"};
+    int argc = ARRAY_SIZE(argv);
+    std::string module1_name{"module1"};
+    std::vector<bool> module1_channels{0, 1};
+    std::string module2_name{"module2"};
+    std::vector<bool> module2_channels{0, 1, 0, 1, 0, 1, 0, 1};
+
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size2_));
+    EXPECT_CALL(*module1_, GetNameAndChannels(_, _))
+        .Times(1)
+        .WillOnce(DoAll(
+            SetArgReferee<0>(module1_name), SetArgReferee<1>(module1_channels), Return(true)));
+    EXPECT_CALL(*module1_, SetName("module1_new")).Times(1).WillOnce(Return(true));
+
+    SetRelayWorker worker(std::move(relay_manager_));
+
+    std::string out;
+
+    bool ret = worker.Run(argc, argv, out);
+
+    /* Debug
+    std::cout << "=================================================\n";
+    std::cout << out;
+    std::cout << "=================================================\n";
+    */
+
+    EXPECT_TRUE(out.empty());
+    EXPECT_TRUE(ret);
+}
