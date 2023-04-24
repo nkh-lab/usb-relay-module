@@ -1,0 +1,75 @@
+@startuml
+
+package "USB Relay Module" as package_usb_relay_module {
+
+    package "CLI Apps" as package_cli_apps {
+        component getrelay #LightGreen
+        component setrelay #LightGreen
+    }
+
+    package "GUI App" as package_gui_app {
+        component relaybox #LightGreen
+    }
+
+    component libusbrelaymodule #LightGreen
+}
+
+package "Utils" as package_utils {
+    component libcpputils #LightGreen
+    component liblightargparser #LightGreen
+    component logger #LightGreen
+    component jsoncpp
+
+    libcpputils -[hidden]d-> liblightargparser
+    liblightargparser -[hidden]d-> logger
+    logger -[hidden]d-> jsoncpp
+}
+
+package "hidapi" as package_hidapi {
+    component "libhidapi-hidraw" as libhidapi_hidraw
+    component hidapi
+}
+
+
+package "Windows OS" {
+    component hid
+}
+
+package "Linux OS" {
+    component libudev
+}
+
+node "USB Relay" as relay {
+    port channel1
+    port channel2
+    port channelN
+}
+
+interface USB
+
+package_usb_relay_module --> package_utils : uses
+
+getrelay -d-> libusbrelaymodule : uses
+
+setrelay -d-> libusbrelaymodule : uses
+relaybox -d-> libusbrelaymodule : uses
+
+libusbrelaymodule -d-> libhidapi_hidraw : uses\n if Linux OS
+libusbrelaymodule -d-> hidapi : uses\n if Windows OS
+
+hidapi -d-> hid : uses
+
+libhidapi_hidraw -d-> libudev : uses
+
+hid -d-( USB
+libudev -d-( USB
+
+relay -u-( USB
+
+legend left
+    Legend
+    | Symbol  |       Meaning       |
+    |<#LightGreen>| nkh-lab components |
+endlegend
+
+@enduml

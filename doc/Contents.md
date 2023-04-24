@@ -2,6 +2,8 @@
 
 [Intro page](../README.md)
 
+[Design](Design.md)
+
 [GUI Application](GUI.md)
 
 [Troubleshooting](Troubleshooting.md)
