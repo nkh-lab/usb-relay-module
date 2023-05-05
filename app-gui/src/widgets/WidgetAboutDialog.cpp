@@ -29,6 +29,7 @@ constexpr char kProjectUrl[] = "https://github.com/nkh-lab/usb-relay-module";
 
 constexpr char kAboutText[] =
     "Version: %d.%d.%d\n"
+    "Commit: %s\n"
     "\n"
     "Copyright (C) 2023 https://github.com/nkh-lab\n"
     "This is free software under GPL-3.0 license.\n";
@@ -45,7 +46,11 @@ WidgetAboutDialog::WidgetAboutDialog(wxWindow* parent)
         this,
         wxID_ANY,
         StringHelper::Sprintf(
-            kAboutText, config::kProjectVerMajor, config::kProjectVerMinor, config::kProjectVerPatch));
+            kAboutText,
+            config::kProjectVerMajor,
+            config::kProjectVerMinor,
+            config::kProjectVerPatch,
+            config::kGitCommitHash));
 
     wxButton* ok_btn = new wxButton(this, wxID_OK, "OK");
 

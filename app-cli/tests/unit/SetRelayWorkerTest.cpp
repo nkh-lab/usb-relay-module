@@ -71,7 +71,7 @@ TEST_F(SetRelayWorkerTest, VersionShortArg)
     EXPECT_EQ(
         out,
         StringHelper::Sprintf(
-            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
+            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch, kGitCommitHash));
     EXPECT_TRUE(ret);
 }
 
@@ -93,7 +93,7 @@ TEST_F(SetRelayWorkerTest, VersionLongArg)
     EXPECT_EQ(
         out,
         StringHelper::Sprintf(
-            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch));
+            TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch, kGitCommitHash));
     EXPECT_TRUE(ret);
 }
 

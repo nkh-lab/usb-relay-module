@@ -19,6 +19,7 @@ namespace config {
 constexpr int kProjectVerMajor = @PROJECT_VERSION_MAJOR@;
 constexpr int kProjectVerMinor = @PROJECT_VERSION_MINOR@;
 constexpr int kProjectVerPatch = @PROJECT_VERSION_PATCH@;
+constexpr char kGitCommitHash[] = "@GIT_COMMIT_HASH@";
 // clang-format on
 
 } // namespace config

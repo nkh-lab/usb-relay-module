@@ -98,7 +98,8 @@ std::string SetRelayWorker::DoVersionText()
         TextUserInterface::kVersion,
         config::kProjectVerMajor,
         config::kProjectVerMinor,
-        config::kProjectVerPatch);
+        config::kProjectVerPatch,
+        config::kGitCommitHash);
 }
 
 std::string SetRelayWorker::DoHelpText()

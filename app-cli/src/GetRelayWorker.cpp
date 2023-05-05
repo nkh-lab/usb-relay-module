@@ -19,7 +19,6 @@
 
 using namespace nkhlab::lightargparser;
 using namespace nkhlab::cpputils;
-using namespace nkhlab::usbrelaymodule::config;
 
 namespace {
 const char* kAllRelays = "";
@@ -97,7 +96,11 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
 std::string GetRelayWorker::DoVersionText()
 {
     return StringHelper::Sprintf(
-        TextUserInterface::kVersion, kProjectVerMajor, kProjectVerMinor, kProjectVerPatch);
+        TextUserInterface::kVersion,
+        config::kProjectVerMajor,
+        config::kProjectVerMinor,
+        config::kProjectVerPatch,
+        config::kGitCommitHash);
 }
 
 std::string GetRelayWorker::DoHelpText()

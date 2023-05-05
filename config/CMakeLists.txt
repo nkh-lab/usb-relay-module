@@ -11,6 +11,13 @@
 
 set(CONFIG_LIB "libusbrelaymodule-config")
 
+execute_process(
+    COMMAND git rev-parse HEAD
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
 file(GLOB CFG_FILES "include/*.h.in")
 
 foreach(CFG_FILE IN LISTS CFG_FILES)
