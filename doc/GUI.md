@@ -1,3 +1,16 @@
+## Intro
+The GUI part of the project is based on the wxWidgets cross-platform library and now supports Linux and Windows platforms.
+
+Examples of an application view
+
+Linux (Ubuntu):
+
+![](screenshots/relaybox-ubuntu.png)
+
+Windows 10:
+
+![](screenshots/relaybox-windows.png)
+
 ## How to build GUI application
 Run `cmake` with `-Dusbrelaymodule_BUILD_GUI=on` option.
 
@@ -37,6 +50,31 @@ cmake --build . --config Release
 Run the appropriate script according to your OS from the [tools](../tools) folder with the `gui` flag, for example:
 ```
 ./tools/build-portable-linux.sh gui
+```
+
+## GUI view customizing
+
+After launching the GUI application `relaybox` and when the application is closed, you can find its configuration file `relaybox-cfg.json` in the same folder, which can be modified to suit the user's needs.
+
+Below is an example of how the configuration file can be modified:
+![](screenshots/relaybox-cfg_json.png)
+
+1) `aliasColor` - section for defining colors in RGB format for button (channel) states aliasing
+2) `aliasPages` - set of pages for grouping channels and aliasing them names, state names and colors
+
+Channel aliasing format:
+
+`"<channel>" : [ "<channel_name>", "<state0_name>", "<state0_color>", "<state1_name>", "<state1_color>" ]`
+
+3) Customizing general parameters. The following can be modified:
+
+`hideAllChannelsPage` - hide/show page with all channels of all detected USB relays
+
+ **Notes:**
+* The configuration file is only applied during application startup.
+* You can also pass the configuration file to the application from another location using the `-c` input argument:
+```
+relaybox -c=<Path to configuration file>
 ```
 
 ---

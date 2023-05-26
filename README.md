@@ -1,5 +1,5 @@
 ## Intro
-Project to control USB relay modules based on HID technology.
+Cross-platform project for controlling USB relay modules based on HID technology.
 
 ![](doc/pictures/intro.png)
 
