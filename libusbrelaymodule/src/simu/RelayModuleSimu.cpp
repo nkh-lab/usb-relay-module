@@ -77,8 +77,9 @@ bool RelayModuleSimu::SetName(const std::string& name)
 
     if (parsed)
     {
-        if (simu::SimuJsonHelper::ChangeModuleNameInJson(jroot, name, name_))
+        if (simu::SimuJsonHelper::ChangeModuleNameInJson(jroot, name_, name))
         {
+            FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
             name_ = name;
             ret = true;
         }
@@ -100,9 +101,11 @@ bool RelayModuleSimu::SetChannel(size_t channel_idx, bool state)
 
     if (parsed)
     {
-        ret = simu::SimuJsonHelper::SetChannelStateInJson(jroot, name_, channel_idx, state);
-
-        FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
+        if (simu::SimuJsonHelper::SetChannelStateInJson(jroot, name_, channel_idx, state))
+        {
+            FileHelper::WriteFile(file_path, Json::StyledWriter().write(jroot));
+            ret = true;
+        }
     }
 
     return ret;

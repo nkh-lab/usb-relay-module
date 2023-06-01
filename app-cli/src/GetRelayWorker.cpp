@@ -22,7 +22,7 @@ using namespace nkhlab::cpputils;
 
 namespace {
 const char* kAllRelays = "";
-const size_t kAllChannels = 0;
+const int kAllChannels = -1;
 } // namespace
 
 namespace nkhlab {
@@ -68,7 +68,7 @@ bool GetRelayWorker::Run(int argc, char const** argv, std::string& out)
         else if (conf_args.size() == 0)
         {
             std::string req_relay{kAllRelays};
-            size_t req_channel{kAllChannels};
+            int req_channel{kAllChannels};
 
             if (data_args.size() == 0)
             {
@@ -118,7 +118,7 @@ std::string GetRelayWorker::DoBadArgumentText(const std::string& bad_arg)
     return StringHelper::Sprintf(TextUserInterface::kErrorBadArgument, bad_arg.c_str());
 }
 
-bool GetRelayWorker::GetState(const std::string& module, size_t channel, std::string& out)
+bool GetRelayWorker::GetState(const std::string& module, int channel, std::string& out)
 {
     bool ret = true;
     out = TextUserInterface::kNoModules;
@@ -132,7 +132,7 @@ bool GetRelayWorker::GetState(const std::string& module, size_t channel, std::st
             ret = GetStatesAllModules(modules, out);
         else
         {
-            if (channel == 0)
+            if (channel == kAllChannels)
                 ret = GetStatesRequestedModule(modules, module, out);
             else
                 ret = GetStateRequestedChannel(modules, module, channel, out);

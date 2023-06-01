@@ -59,9 +59,9 @@ public:
     //
     // channel_name - <module>_<channel(from 1)>, for example:
     //      "R2_1"   --> module = "R2", channel = 1
-    //      "R2"     --> module = "R2", channel = 0
+    //      "R2"     --> module = "R2", channel = -1
     //
-    static void SplitChannelName(const std::string& channel_name, std::string& module, size_t& channel);
+    static void SplitChannelName(const std::string& channel_name, std::string& module, int& channel);
 
     //
     // returned pair:

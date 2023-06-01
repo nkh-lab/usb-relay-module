@@ -65,20 +65,21 @@ bool SetRelayWorker::Run(int argc, char const** argv, std::string& out)
         else if (conf_args.size() == 0 && data_args.size() == 1)
         {
             std::string req_module{};
-            size_t req_channel = 0; // 0 = no, begins from 1, eg REL_1=1
+            int req_channel;
 
             RelayManagerHelper::SplitChannelName(data_args.begin()->first, req_module, req_channel);
 
-            if (req_channel == 0 && !data_args.begin()->second.empty() &&
-                data_args.begin()->second[0] != '1' && data_args.begin()->second[0] != '0')
-            {
-                std::string new_name{data_args.begin()->second};
-                ret = RenameModule(req_module, new_name, out);
-            }
-            else if (req_channel > 0 && (data_args.begin()->second[0] == '1' || data_args.begin()->second[0] == '0'))
+            if (req_channel > 0 &&
+                (data_args.begin()->second[0] == '1' || data_args.begin()->second[0] == '0'))
             {
                 bool state = data_args.begin()->second[0] == '1' ? true : false;
                 ret = SetChannel(req_module, req_channel, state, out);
+            }
+            else if (req_channel == -1)
+            {
+                std::string new_name{data_args.begin()->second};
+                req_module = data_args.begin()->first;
+                ret = RenameModule(req_module, new_name, out);
             }
         }
 

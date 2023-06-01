@@ -82,7 +82,7 @@ TEST_F(RelayManagerHelperTest, SetChannel)
 TEST_F(RelayManagerHelperTest, SplitChannelName)
 {
     std::string module;
-    size_t channel;
+    int channel;
 
     RelayManagerHelper::SplitChannelName("R2_1", module, channel);
     EXPECT_STREQ(module.c_str(), "R2");
@@ -90,7 +90,21 @@ TEST_F(RelayManagerHelperTest, SplitChannelName)
 
     RelayManagerHelper::SplitChannelName("R2", module, channel);
     EXPECT_STREQ(module.c_str(), "R2");
-    EXPECT_EQ(channel, 0);
+    EXPECT_EQ(channel, -1);
+}
+
+TEST_F(RelayManagerHelperTest, SplitChannelName_UnderscoreInName)
+{
+    std::string module;
+    int channel;
+
+    RelayManagerHelper::SplitChannelName("R_T_1", module, channel);
+    EXPECT_STREQ(module.c_str(), "R_T");
+    EXPECT_EQ(channel, 1);
+
+    RelayManagerHelper::SplitChannelName("R_T", module, channel);
+    EXPECT_STREQ(module.c_str(), "R_T");
+    EXPECT_EQ(channel, -1);
 }
 
 TEST_F(RelayManagerHelperTest, GetAllChannels)

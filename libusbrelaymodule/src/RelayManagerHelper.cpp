@@ -25,7 +25,7 @@ RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
 {
     SetChannelResult ret = SetChannelResult::kNoRequestedModule;
     std::string req_module;
-    size_t req_channel;
+    int req_channel;
 
     SplitChannelName(channel_name, req_module, req_channel);
 
@@ -40,7 +40,7 @@ RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
 
         if (module == req_module)
         {
-            if (req_channel > 0 && req_channel <= channels.size())
+            if (req_channel > 0 && req_channel <= static_cast<int>(channels.size()))
             {
                 if (m->SetChannel(req_channel - 1, state))
                     ret = SetChannelResult::kOk;
@@ -56,21 +56,29 @@ RelayManagerHelper::SetChannelResult RelayManagerHelper::SetChannel(
     return ret;
 }
 
-void RelayManagerHelper::SplitChannelName(const std::string& channel_name, std::string& module, size_t& channel)
+void RelayManagerHelper::SplitChannelName(const std::string& channel_name, std::string& module, int& channel)
 {
     const char* kModuleChannelDelimiter = "_";
 
-    size_t delimiter_pos = channel_name.find_first_of(kModuleChannelDelimiter);
+    size_t delimiter_pos = channel_name.find_last_of(kModuleChannelDelimiter);
 
     if (delimiter_pos != std::string::npos)
     {
-        module = channel_name.substr(0, delimiter_pos);
-        channel = std::stoi(channel_name.substr(delimiter_pos + 1));
+        try
+        {
+            module = channel_name.substr(0, delimiter_pos);
+            channel = std::stoi(channel_name.substr(delimiter_pos + 1));
+        }
+        catch (...)
+        {
+            module = channel_name;
+            channel = -1;
+        }
     }
     else
     {
         module = channel_name;
-        channel = 0;
+        channel = -1;
     }
 }
 

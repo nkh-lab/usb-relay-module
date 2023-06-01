@@ -34,7 +34,7 @@ private:
     std::string DoWrongArgumentUsageText();
     std::string DoBadArgumentText(const std::string& bad_arg);
 
-    bool GetState(const std::string& module, size_t channel, std::string& out);
+    bool GetState(const std::string& module, int channel, std::string& out);
     bool GetStatesAllModules(const IRelayModulePtrs& modules, std::string& out);
     bool GetStatesRequestedModule(
         const IRelayModulePtrs& modules,
