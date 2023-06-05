@@ -12,7 +12,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 # USB Relay Module
-project(usbrelaymodule VERSION 2.1.0)
+project(usbrelaymodule VERSION 2.2.0)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
