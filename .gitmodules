@@ -9,7 +9,7 @@
 	url = https://github.com/nkh-lab/logger.git
 [submodule "external/jsoncpp"]
 	path = external/jsoncpp
-	url = https://github.com/nkh-lab/jsoncpp.git
+	url = https://github.com/open-source-parsers/jsoncpp.git
 [submodule "external/cpp-utils"]
 	path = external/cpp-utils
 	url = https://github.com/nkh-lab/cpp-utils.git
