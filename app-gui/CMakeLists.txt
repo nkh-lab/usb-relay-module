@@ -20,6 +20,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     # Suppress warnings
     add_compile_options(-Wno-deprecated-copy)
     add_compile_options(-Wno-ignored-qualifiers)
+    add_compile_options(-Wno-overloaded-virtual)
     #################
 elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
     add_definitions(-D__PRETTY_FUNCTION__=__FUNCSIG__)

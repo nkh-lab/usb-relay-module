@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include <IRelayModule.h>
 
 namespace nkhlab {

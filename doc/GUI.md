@@ -14,13 +14,15 @@ Windows 10:
 ## How to build GUI application
 Run `cmake` with `-Dusbrelaymodule_BUILD_GUI=on` option.
 
-### Linux
+### Linux (Ubuntu)
 1. Install dependencies
 ```
 $ sudo apt-get install libudev-dev libwxgtk3.0-gtk3-dev
 ```
+or `libwxgtk3.2-dev` for Ubuntu >= 23.04 or find a proper dev package [here](https://packages.ubuntu.com/search?suite=default&section=all&arch=any&keywords=libwxgtk&searchon=names)
 2. Build
 ```
+mkdir build && cd build
 cmake -Dusbrelaymodule_BUILD_GUI=ON ..
 make
 ```
@@ -42,6 +44,7 @@ mklink /D include d:\Downloads\wxWidgets-3.2.1-headers\include
 ```
 3. Build
 ```
+mkdir build && cd build
 cmake -G "Visual Studio 17 2022" -Dusbrelaymodule_BUILD_GUI=ON ..
 cmake --build . --config Release
 ```
