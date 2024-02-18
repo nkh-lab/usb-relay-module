@@ -120,7 +120,7 @@ std::string GetRelayWorker::DoBadArgumentText(const std::string& bad_arg)
 
 bool GetRelayWorker::GetState(const std::string& module, int channel, std::string& out)
 {
-    bool ret = true;
+    bool ret = false;
     out = TextUserInterface::kNoModules;
     auto modules = relay_manager_->GetModules();
 

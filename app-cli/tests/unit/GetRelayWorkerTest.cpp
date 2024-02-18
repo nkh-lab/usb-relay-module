@@ -247,7 +247,26 @@ TEST_F(GetRelayWorkerTest, NoArgsNoModules)
     bool ret = worker.Run(argc, argv, out);
 
     EXPECT_EQ(out, std::string{TextUserInterface::kNoModules});
-    EXPECT_TRUE(ret);
+    EXPECT_FALSE(ret);
+}
+
+TEST_F(GetRelayWorkerTest, RequestChannelNoModules)
+{
+    const char* argv[] = {"", "module2_2"};
+    int argc = ARRAY_SIZE(argv);
+
+    // Mocking
+    EXPECT_CALL(*relay_manager_, GetModules()).Times(1).WillOnce(Return(relay_modules_size0_));
+    //========
+
+    GetRelayWorker worker(std::move(relay_manager_));
+
+    std::string out;
+
+    bool ret = worker.Run(argc, argv, out);
+
+    EXPECT_EQ(out, std::string{TextUserInterface::kNoModules});
+    EXPECT_FALSE(ret);
 }
 
 TEST_F(GetRelayWorkerTest, NoArgsOneModule)

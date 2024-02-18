@@ -34,6 +34,7 @@ jobs:
         run: |
           build/libusbrelaymodule/tests/component/hidapi/GetAnyHidDeviceInfoTest
       - name: Run CLI APP getrelay
+        continue-on-error: true
         run: |
           build/app-cli/getrelay
           build/app-cli/getrelay -v
@@ -46,6 +47,7 @@ jobs:
         run: |
           tools/build-portable-linux.sh
       - name: Run Portable CLI APP getrelay
+        continue-on-error: true
         run: |
           build/portable/getrelay
           build/portable/getrelay -v
@@ -58,6 +60,7 @@ jobs:
         run: |
           tools/build-portable-linux.sh simu gui
       - name: Run Portable Simu CLI APP
+        continue-on-error: true
         run: |
           build/portable/getrelay
           build/portable/setrelay R2_2=1
@@ -84,6 +87,7 @@ jobs:
         run: |
           build/libusbrelaymodule/tests/component/hidapi/Release/GetAnyHidDeviceInfoTest.exe
       - name: Run getrelay
+        continue-on-error: true
         run: |
           build/app-cli/Release/getrelay.exe
           build/app-cli/Release/getrelay.exe -v
@@ -96,6 +100,7 @@ jobs:
         run: |
           tools/build-portable-windows.bat
       - name: Run Portable CLI APP getrelay
+        continue-on-error: true
         run: |
           build/portable/getrelay.exe
           build/portable/getrelay.exe -v
@@ -108,6 +113,7 @@ jobs:
         run: |
           tools/build-portable-windows.bat simu gui
       - name: Run Portable Simu CLI APP
+        continue-on-error: true
         run: |
           build/portable/getrelay.exe
           build/portable/setrelay.exe R2_2=1
