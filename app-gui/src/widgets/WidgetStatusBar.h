@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include <wx/wx.h>
 
 namespace nkhlab {
