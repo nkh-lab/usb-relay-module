@@ -31,7 +31,7 @@ constexpr char kAboutText[] =
     "Version: %d.%d.%d\n"
     "Commit: %s\n"
     "\n"
-    "Copyright (C) 2023 https://github.com/nkh-lab\n"
+    "Copyright (C) 2024 https://github.com/nkh-lab\n"
     "This is free software under GPL-3.0 license.\n";
 
 WidgetAboutDialog::WidgetAboutDialog(wxWindow* parent)

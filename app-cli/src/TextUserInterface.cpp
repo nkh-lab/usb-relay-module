@@ -20,7 +20,7 @@ namespace appcli {
 const char* TextUserInterface::kVersion =
     "Version: %d.%d.%d\n"
     "Commit: %s\n"
-    "Copyright (C) 2023 https://github.com/nkh-lab\n"
+    "Copyright (C) 2024 https://github.com/nkh-lab\n"
     "This is free software under GPL-3.0 license.\n";
 
 const char* TextUserInterface::kGetRelayHelp =
