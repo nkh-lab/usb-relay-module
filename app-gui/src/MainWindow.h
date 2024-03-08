@@ -15,6 +15,7 @@
 #include <wx/wx.h>
 
 #include "widgets/WidgetPage.h"
+#include "widgets/WidgetStatusBar.h"
 
 namespace nkhlab {
 namespace usbrelaymodule {
@@ -46,7 +47,7 @@ private:
 
     wxNotebook* notebook_;
     std::vector<WidgetPage*> pages_;
-    wxCheckBox* on_top_check_box_;
+    WidgetStatusBar* status_bar_;
 };
 
 } // namespace appgui

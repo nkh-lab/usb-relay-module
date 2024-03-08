@@ -92,27 +92,9 @@ void MainWindow::BuildMenuBar()
 
 void MainWindow::BuildStatusBar(bool stay_on_top)
 {
-    wxStatusBar* status_bar = new wxStatusBar(this);
-    on_top_check_box_ = new wxCheckBox(status_bar, wxID_ANY, "Stay on top");
+    status_bar_ = new WidgetStatusBar(this, stay_on_top, [&](bool state) { StayOnTop(state); });
 
-    on_top_check_box_->SetValue(stay_on_top);
-    StayOnTop(stay_on_top);
-
-    on_top_check_box_->Bind(wxEVT_CHECKBOX, [&](wxCommandEvent& event) {
-        UNUSED(event);
-
-        StayOnTop(on_top_check_box_->IsChecked());
-    });
-
-    wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-
-    sizer->AddSpacer(5);
-
-    sizer->Add(on_top_check_box_, 0, wxALIGN_CENTER_VERTICAL);
-
-    status_bar->SetSizer(sizer);
-
-    SetStatusBar(status_bar);
+    SetStatusBar(status_bar_);
 }
 
 wxWindow* MainWindow::GetPageParent()
@@ -148,7 +130,7 @@ void MainWindow::StayOnTop(bool stay)
 
 bool MainWindow::IsStayOnTopChecked()
 {
-    return on_top_check_box_->IsChecked();
+    return status_bar_->IsStayOnTopChecked();
 }
 
 } // namespace appgui
