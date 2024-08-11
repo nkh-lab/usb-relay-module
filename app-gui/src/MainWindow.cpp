@@ -47,6 +47,8 @@ MainWindow::MainWindow(
     BuildStatusBar(stay_on_top);
 
     notebook_ = new wxNotebook(this, wxID_ANY);
+
+    StayOnTop(stay_on_top);
 }
 
 MainWindow::~MainWindow()
