@@ -24,6 +24,10 @@ using namespace nkhlab::cpputils;
 
 std::mutex nlab::logger::gCoutMutex;
 
+namespace {
+constexpr int kUpdateTime_ms = 1000;
+}
+
 namespace nkhlab {
 namespace usbrelaymodule {
 namespace appgui {
@@ -83,7 +87,7 @@ bool App::OnInit()
         main_window_->Show();
 
         update_timer_.Bind(wxEVT_TIMER, &App::OnUpdateTimeout, this);
-        update_timer_.Start(100);
+        update_timer_.Start(kUpdateTime_ms, true);
 
         ret = true;
     }
@@ -159,6 +163,8 @@ void App::OnUpdateTimeout(wxTimerEvent& event)
         else
             UpdateAliasPage(p, channels);
     }
+
+    update_timer_.Start(kUpdateTime_ms, true);
 }
 
 WidgetPage* App::CreateAllChannelsPage(wxWindow* parent, const std::map<std::string, bool>& channels)
